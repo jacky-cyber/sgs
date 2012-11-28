@@ -1,2 +1,5 @@
 #config_files
 lib/connect_db.inc.php
+
+#cache files
+cache/tmp/*
