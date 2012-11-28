@@ -1,0 +1,15 @@
+<html><head><title>MooTools DatePicker Ejemplo</title>
+<link rel="stylesheet" href="DatePicker.css" type="text/css" />
+<script type="text/javascript" src="mootools[1].v1.11.js"></script>
+<script type="text/javascript" src="DatePicker.js"></script>
+<script type="text/javascript">
+window.addEvent('domready', function(){	$$('input.DatePicker').each( function(el){		new DatePicker(el);	});});</script></head>
+<body><div>	<h1>MooTools Date Picker</h1>
+	<p>	
+		
+		<label for="birthday">default calendar</label>
+		<input readonly="readonly" id="birthday" name="birthday" class="DatePicker" tabindex="1" value="10/24/2016" type="text">
+			</p>	<p>		<label for="new_day">calendar with all options</label>
+					<input readonly="readonly" id="new_day" name="new_day" class="DatePicker" 
+					alt="{dayChars:3,dayNames:['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],			daysInMonth:[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],			format:'dd-mm-yyyy',			monthNames:['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Deciembre'],			startDay:1,			yearOrder:'desc',			yearRange:70,			yearStart:2007		}" tabindex="1" value="02-08-2007" type="text">
+						</p></div></body></html>

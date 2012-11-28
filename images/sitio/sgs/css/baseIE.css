@@ -1,0 +1,194 @@
+/* Css de Base3 */
+
+/*AQUÍ VAMOS A DEFINIR LAS PROPIEDADES DE LA PÁGINA EN GENERAL, MÁS ADELANTE DEFINIREMOS LAS DE LAS CAJAS PRINCIPALES*/
+/*formatos de párrafo, linea de separacion, encabezados 1 al 6, tablas, vínculos (en sus 4 estados) y body respectivamente*/
+	p  {
+		font:11px Verdana, Arial, Helvetica, sans-serif;
+		color: #586885;
+		line-height: 120%;
+		
+	}
+	hr	{
+		display:none;
+	}
+	h1  {
+		font:25px Verdana, Arial, Helvetica, sans-serif;
+		text-align : left;
+		color : #666666;
+		margin:0px;
+		
+	}
+	
+	h2  {
+		font:bold 20px Verdana, Arial, Helvetica, sans-serif;
+		text-align : left;
+		color:#486895;
+		text-transform: capitalize;
+		
+	}
+	h3  {
+		font:18px Verdana, Arial, Helvetica, sans-serif;
+		text-align : left;
+		color : #666666;
+		
+	}
+	h4  {
+		font:bold 15px Verdana, Arial, Helvetica, sans-serif;
+		text-align : left;
+		color : #666666;
+		
+	}
+	h5  {
+		font: 13px Verdana, Arial, Helvetica, sans-serif;
+		text-align : left;
+		color : #666666;
+		
+	}
+	h6  {
+		font:bold  12px Verdana, Arial, Helvetica, sans-serif;
+		text-align : left;
+		color : #666666;
+		
+	}
+	td  {
+		font: 12px Verdana, Arial, Helvetica, sans-serif;
+		text-align : center;
+		color : #586885;
+		
+	}
+	a	{
+		font-size:12px;
+		color:#325FA0;
+		
+	}
+	a:link {
+		text-decoration: none;
+		
+	}
+	a:visited {
+		text-decoration: none;
+		color:#325FA0;
+		
+	}
+	a:hover {
+		text-decoration: none;
+		color:#000066;
+		
+	}
+	a:active {
+		text-decoration: none;
+		color:#0099CC;
+		
+	}
+	BODY  {
+		background-color:#FFF;
+		text-align : justify;
+		line-height: 10px; 
+	}
+	/*AHORA VAMOS A PASAR A DEFINIR LOS VALORES
+	PARA ORDENAR LAS CAJAS QUE HEMOS CREADO EN XHTML,
+	 RECORDAD QUE SI NO ESTÁN BIEN ESTRUCTURADAS DENTRO
+	 DEL DOCUMENTO TENDRÉIS COMPLICACIONES AL QUERER SITUARLAS EN CSS*/
+	 
+	 /*PRIMERO HACEMOS UN CONTENEDOR PARA QUE ALBERGUE A 
+	 LOS DEMÁS ELEMENTOS, ADEMÁS QUEREMOS QUE QUEDE CENTRADO,
+	  POR LO QUE PONDREMOS ATENCIÓN A LOS VALORES DE MARGIN*/
+	#CONTAINER	{
+		background-color:#DDE6AC;
+		border-style:solid;
+		border-color:#000000;
+		margin: 0 auto; /*con este valor quedará centrado,
+						 no hace falta repetir otra vez 0 
+						 auto porque ahora mismo el 0 se refire
+						 a arriba y abajo, y el auto a los lados*/
+		width:700px;
+		height:auto;
+	}
+	/*en header le damos el mismo ancho que el contenedor
+	(si queremos podemos darle menos),
+	 la altura que queramos, colores etc...
+	 Lo que más nos interesa es que debe estar centrado con 
+	 el contenedor, por eso mirad las propiedades de margin,
+	 tiene cero arriba, a la derecha también, abajo tiene 10 px,
+	 y a la izquierda de nuevo cero píxeles, por el mismo orden 
+	 que los he mencionado.
+	 Sólo he definido el borde de abajo porque los demás tocan a
+	 los del contenedor y resulta feo.*/
+	.header{
+		width:700px;
+		height:140px;
+		background-color:#CC9933;
+		border-bottom-style:solid;
+		border-bottom-color:#000000;
+		margin:0 0 10px 0;
+	}
+	/*En la div "izquierda" vamos a ajustar los valores para
+	que tenga una anchura de 100píxeles, una altura que 
+	dependa del contenido que tenga dentro, y le vamos a dar 
+	un margen de 5px a la izquierda, además de hacer que se sitúe a la izquierda
+	mediante "float"*/
+	.izquierda{
+		width:100px;
+		height:auto;
+		background-color:#EFEFEF;
+		border-style:solid;
+		border-width:1px;
+		border-color:#000000;
+		margin:0 0 0 5px;
+		float:left;
+		padding:3px;
+	}
+	.izquierda ul	{
+		font:bold 11px Verdana, Arial, Helvetica, sans-serif;
+		color:#586885;
+		line-height: 140%;
+		text-transform:capitalize;
+	}
+	/*El la div "derecha" vamos a ajustar los valores para
+	que tenga una anchura de 150píxeles, una altura que también
+	dependa del contenido que tenga dentro, y le vamos a dar 
+	un margen de 5px, además de hacer que se sitúe a la derecha*/
+	.derecha{
+		width:150px;
+		height:auto;
+		background-color:#FFFFDD;
+		border-style:solid;
+		border-width:1px;
+		border-color:#000000;
+		margin:0 5px 0 0;
+		float:right;
+		padding:5px;
+	}
+	/*Ahora le toca a la caja que contendrá la información 
+	principal de nuestra página (la div "principal")
+	en este caso queremos que se ajuste al espacio
+	que sobra a lo ancho del contenedor, por que calculamos, 700px(anchura del mismo)-100px(anchura de la div "izquierda")-150px(anchura de la div "derecha")-20px(total de los margins)-34px(total de los paddings)-6px (total de los borders)=390px.
+	Además de esto, también queremos que quede situado entre las cajas que la rodean,
+	por lo que calcularemos el espacio que debería quedar a su izquierda y después poner el mismo valor en su "margin-left"
+	(Hay que prestar especial atención a contar TODOS los valores que se utilizarán, incluidos, márgenes, padding, bordes...)*/
+	.principal{
+		width:380px;
+		height:auto;
+		background-color:#FFF;
+		border-style:solid;
+		border-width:1px;
+		border-color:#000000;
+		margin:0 5px 0 117px;
+		padding:10px;
+	}
+	.footer{
+		width:auto;
+		height:30px;
+		background-color:#FFF;
+		border-style:solid;
+		border-width:1px;
+		border-color:#000000;
+		margin:5px;
+	}
+	.footer h6{
+	text-align:center;
+	text-transform:uppercase;
+	margin:5px auto;
+	color:#666666;
+	font:bold 10px Verdana, Arial, Helvetica, sans-serif;
+	}		

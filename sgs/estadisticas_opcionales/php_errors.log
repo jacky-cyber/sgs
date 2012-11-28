@@ -1,0 +1,19 @@
+[05-Oct-2010 11:54:56] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 11:54:58] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 11:55:36] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 11:55:38] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 11:56:49] PHP Warning:  mysql_fetch_row() expects parameter 1 to be resource, boolean given in /var/www/sgs/sgs/estadisticas_opcionales/graf_def.php on line 28
+[05-Oct-2010 11:57:07] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 12:05:07] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 12:05:26] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 12:05:27] PHP Fatal error:  Call to undefined function id_usuario() in /var/www/sgs/lib/connect_db.inc.php on line 84
+[05-Oct-2010 12:09:15] PHP Fatal error:  Call to undefined function cms_mail() in /var/www/sgs/lib/connect_db.inc.php on line 120
+[05-Oct-2010 12:19:08] PHP Fatal error:  Call to undefined function cms_mail() in /var/www/sgs/lib/connect_db.inc.php on line 120
+[05-Oct-2010 12:20:45] PHP Fatal error:  Call to undefined function cms_mail() in /var/www/sgs/lib/connect_db.inc.php on line 120
+[06-Oct-2010 11:23:49] PHP Fatal error:  Call to undefined function session_register_cms() in /var/www/sgs/sgs/estadisticas_opcionales/agrega_criterios_ajax.php on line 3
+[06-Oct-2010 11:24:00] PHP Deprecated:  Function session_register() is deprecated in /var/www/sgs/sgs/estadisticas_opcionales/agrega_criterios_ajax.php on line 3
+[06-Oct-2010 11:24:00] PHP Fatal error:  Call to undefined function elimina_ultimo_caracter() in /var/www/sgs/sgs/estadisticas_opcionales/agrega_criterios_ajax.php on line 18
+[06-Oct-2010 11:24:32] PHP Deprecated:  Function session_register() is deprecated in /var/www/sgs/sgs/estadisticas_opcionales/agrega_criterios_ajax.php on line 5
+[06-Oct-2010 11:24:34] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 133431261 bytes) in /var/www/sgs/sgs/estadisticas_opcionales/agrega_criterios_ajax.php on line 30
+[07-Oct-2010 18:33:47] PHP Fatal error:  Call to undefined function cms_mail() in /var/www/sgs/lib/connect_db.inc.php on line 120
+[07-Oct-2010 18:33:49] PHP Fatal error:  Call to undefined function cms_mail() in /var/www/sgs/lib/connect_db.inc.php on line 120

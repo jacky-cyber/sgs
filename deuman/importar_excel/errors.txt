@@ -1,0 +1,11 @@
+[01-Dec-2010 10:57:41] PHP Warning:  Unable to load dynamic library 'c:/windows/ext/php_curl.dll' - No se puede encontrar el módulo especificado.
+ in Unknown on line 0
+[01-Dec-2010 10:57:42] PHP Warning:  Unable to load dynamic library 'c:/windows/ext/php_dbase.dll' - No se puede encontrar el módulo especificado.
+ in Unknown on line 0
+[01-Dec-2010 10:57:43] PHP Warning:  Unable to load dynamic library 'c:/windows/ext/php_gd2.dll' - No se puede encontrar el módulo especificado.
+ in Unknown on line 0
+[01-Dec-2010 10:57:44] PHP Warning:  Unable to load dynamic library 'c:/windows/ext/php_sockets.dll' - No se puede encontrar el módulo especificado.
+ in Unknown on line 0
+[01-Dec-2010 10:57:44] PHP Warning:  Unable to load dynamic library 'c:/windows/ext/php_mysql.dll' - No se puede encontrar el módulo especificado.
+ in Unknown on line 0
+[01-Dec-2010 10:57:44] PHP Warning:  Failed opening 'deuman/importar_excel/formulario_excel.php' for inclusion (include_path='.;d:/phpdev/php/includes;d:/phpdev/php/class') in X:\sgs\deuman\IZHSLK~J\IZHSLK~J.PHP on line 55

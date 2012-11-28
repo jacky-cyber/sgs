@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" ><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" ><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
+<head>
+<title>Sistema de Gesti&oacute;n de Solicitudes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="images/sitio/sgs/css/606006.css" rel="stylesheet" type="text/css" />
+<link href="css/sitio.css" rel="stylesheet" type="text/css" />
+
+<script src="js/jquery/jquery.js" type="text/javascript"></script>
+<script src="js/jquery/jquery.metadata.js" type="text/javascript"></script>
+<script src="js/jquery/jquery.validate.js" type="text/javascript"></script>
+<script src="js/jquery/cmxforms.js" type="text/javascript"></script>
+
+
+<style type="text/css">
+<!--
+body {
+	background-color: #3D587A;
+	margin-top: 10px;
+}
+-->
+</style>
+
+
+
+<script type="text/javascript" src="tienda/js/highslide/highslide-with-html.js"></script>
+
+
+<script type="text/javascript">
+    hs.graphicsDir = 'tienda/js/highslide/graphics/';
+    hs.outlineType = 'rounded-white';
+    hs.outlineWhileAnimating = true;
+</script>
+
+
+<script type="text/javascript">
+
+
+function clearText(thefield){
+	if (thefield.defaultValue==thefield.value)
+		thefield.value = ""
+}
+
+
+</script> 
+
+<script type="text/javascript">    
+    hs.graphicsDir = 'tienda/js/highslide/graphics/';
+  //  hs.outlineType = 'rounded-white';
+  //  hs.outlineWhileAnimating = true;
+    
+    
+hs.Expander.prototype.printHtml = function ()
+{
+    var pw = window.open("about:blank", "_new");
+    pw.document.open();
+    pw.document.write(this.getHtmlPrintPage());
+    pw.document.close();
+    return false;
+};
+
+hs.Expander.prototype.getHtmlPrintPage = function()
+{
+    // We break the closing script tag in half to prevent
+    // the HTML parser from seeing it as a part of
+    // the *main* page.
+    var body = hs.getElementByClass(this.innerContent, 'DIV', 'highslide-body') 
+        || this.innerContent;
+
+     return "<html> " +
+        "<head> " +
+        "<title>Temporary Printing Window</title> " +
+        "<script> " +"function step1() { " +
+        "  setTimeout('step2()', 10); " +
+        "} " +
+        "function step2() { " +
+        "  window.print(); " +
+        "  window.close(); " +
+        "} " +
+        "</scr" + "ipt> " +
+        "</head> " +
+        "<body onLoad='step1()'> " +
+        body.innerHTML +
+        "</body> " +
+        "</html> ";
+};
+</script>
+
+
+
+
+
+
+<style type="text/css">
+
+ {
+    font-family: Verdana, Helvetica;
+    font-size: 10pt;
+}
+.highslide-html {
+    background-color: white;
+
+}
+.highslide-html-blur {
+}
+.highslide-html-content {
+	position: absolute;
+    display: none;
+}
+.highslide-loading {
+    display: block;
+	color: black;
+	font-size: 8pt;
+	font-family: sans-serif;
+	font-weight: bold;
+    text-decoration: none;
+	padding: 2px;
+	border: 1px solid black;
+    background-color: white;
+    
+    padding-left: 22px;
+    background-image: url(tienda/js/highslide/graphics/loader.white.gif);
+    background-repeat: no-repeat;
+    background-position: 3px 1px;
+}
+a.highslide-credits,
+a.highslide-credits i {
+    padding: 2px;
+    color: silver;
+    text-decoration: none;
+	font-size: 10px;
+}
+a.highslide-credits:hover,
+a.highslide-credits:hover i {
+    color: white;
+    background-color: grey;
+}
+
+.highslide-wrapper {
+	background-color: white;
+}
+.highslide-wrapper .highslide-html-content {
+    width: 558px;
+    padding: 5px;
+}
+.highslide-wrapper .highslide-header div {
+}
+.highslide-wrapper .highslide-header ul {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+.highslide-wrapper .highslide-header ul li {
+	display: inline;
+	padding-left: 1em;
+}
+.highslide-wrapper .highslide-header ul li.highslide-previous, .highslide-wrapper .highslide-header ul li.highslide-next {
+	display: none;
+}
+.highslide-wrapper .highslide-header a {
+	font-weight: bold;
+	color: gray;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.highslide-wrapper .highslide-header a:hover {
+	color: blue;
+}
+.highslide-wrapper .highslide-header .highslide-move a {
+	cursor: move;
+}
+.highslide-wrapper .highslide-footer {
+	height: 11px;
+}
+.highslide-wrapper .highslide-footer .highslide-resize {
+	float: right;
+	height: 11px;
+	width: 11px;
+	background: url(js/highslide/graphics/resize.gif);
+}
+.highslide-wrapper .highslide-body {
+}
+.highslide-move {
+    cursor: move;
+}
+.highslide-resize {
+    cursor: nw-resize;
+}
+.highslide-display-block {
+    display: block;
+}
+.highslide-display-none {
+    display: none;
+}
+
+</style>
+
+</head>
+
+<script language = "javascript">
+var peticion = false; 
+if (window.XMLHttpRequest) {
+      peticion = new XMLHttpRequest();
+      } else if (window.ActiveXObject) {
+            peticion = new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+
+function ObtenerDatos(datos,divID) { 
+if(peticion) {
+     var obj = document.getElementById(divID); 
+     peticion.open("GET", datos); 
+     peticion.onreadystatechange = function()  { 
+          if (peticion.readyState == 4) { 
+               obj.innerHTML = peticion.responseText; 
+          }
+		   if (peticion.readyState == 1) { 
+               obj.innerHTML = " <img src=images/ajax-loader.gif  border=0>";
+          } 
+     } 
+peticion.send(null); 
+	}
+}
+
+
+
+
+</script>
+<SCRIPT language=JavaScript type=text/JavaScript>
+<!--
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+
+//-->
+</SCRIPT>
+ 
+
+
+<script type="text/javascript" src="tienda/js/highslide/highslide-with-html.js"></script>
+
+
+<script type="text/javascript">
+    hs.graphicsDir = 'tienda/js/highslide/graphics/';
+    hs.outlineType = 'rounded-white';
+    hs.outlineWhileAnimating = true;
+</script>
+
+
+<script type="text/javascript">
+
+
+function clearText(thefield){
+	if (thefield.defaultValue==thefield.value)
+		thefield.value = ""
+}
+
+
+</script> 
+
+<script type="text/javascript">    
+    hs.graphicsDir = 'tienda/js/highslide/graphics/';
+  //  hs.outlineType = 'rounded-white';
+  //  hs.outlineWhileAnimating = true;
+    
+    
+hs.Expander.prototype.printHtml = function ()
+{
+    var pw = window.open("about:blank", "_new");
+    pw.document.open();
+    pw.document.write(this.getHtmlPrintPage());
+    pw.document.close();
+    return false;
+};
+
+hs.Expander.prototype.getHtmlPrintPage = function()
+{
+    // We break the closing script tag in half to prevent
+    // the HTML parser from seeing it as a part of
+    // the *main* page.
+    var body = hs.getElementByClass(this.innerContent, 'DIV', 'highslide-body') 
+        || this.innerContent;
+
+     return "<html> " +
+        "<head> " +
+        "<title>Temporary Printing Window</title> " +
+        "<script> " +"function step1() { " +
+        "  setTimeout('step2()', 10); " +
+        "} " +
+        "function step2() { " +
+        "  window.print(); " +
+        "  window.close(); " +
+        "} " +
+        "</scr" + "ipt> " +
+        "</head> " +
+        "<body onLoad='step1()'> " +
+        body.innerHTML +
+        "</body> " +
+        "</html> ";
+};
+</script>
+
+
+
+
+
+
+<style type="text/css">
+
+ {
+    font-family: Verdana, Helvetica;
+    font-size: 10pt;
+}
+.highslide-html {
+    background-color: white;
+
+}
+.highslide-html-blur {
+}
+.highslide-html-content {
+	position: absolute;
+    display: none;
+}
+.highslide-loading {
+    display: block;
+	color: black;
+	font-size: 8pt;
+	font-family: sans-serif;
+	font-weight: bold;
+    text-decoration: none;
+	padding: 2px;
+	border: 1px solid black;
+    background-color: white;
+    
+    padding-left: 22px;
+    background-image: url(tienda/js/highslide/graphics/loader.white.gif);
+    background-repeat: no-repeat;
+    background-position: 3px 1px;
+}
+a.highslide-credits,
+a.highslide-credits i {
+    padding: 2px;
+    color: silver;
+    text-decoration: none;
+	font-size: 10px;
+}
+a.highslide-credits:hover,
+a.highslide-credits:hover i {
+    color: white;
+    background-color: grey;
+}
+
+.highslide-wrapper {
+	background-color: white;
+}
+.highslide-wrapper .highslide-html-content {
+    width: 558px;
+    padding: 5px;
+}
+.highslide-wrapper .highslide-header div {
+}
+.highslide-wrapper .highslide-header ul {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+.highslide-wrapper .highslide-header ul li {
+	display: inline;
+	padding-left: 1em;
+}
+.highslide-wrapper .highslide-header ul li.highslide-previous, .highslide-wrapper .highslide-header ul li.highslide-next {
+	display: none;
+}
+.highslide-wrapper .highslide-header a {
+	font-weight: bold;
+	color: gray;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.highslide-wrapper .highslide-header a:hover {
+	color: blue;
+}
+.highslide-wrapper .highslide-header .highslide-move a {
+	cursor: move;
+}
+.highslide-wrapper .highslide-footer {
+	height: 11px;
+}
+.highslide-wrapper .highslide-footer .highslide-resize {
+	float: right;
+	height: 11px;
+	width: 11px;
+	background: url(js/highslide/graphics/resize.gif);
+}
+.highslide-wrapper .highslide-body {
+}
+.highslide-move {
+    cursor: move;
+}
+.highslide-resize {
+    cursor: nw-resize;
+}
+.highslide-display-block {
+    display: block;
+}
+.highslide-display-none {
+    display: none;
+}
+
+</style> 
+<body>
+<form id="form1" name="form1" method="post" action="">
+  <table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+    <tbody>
+      <tr>
+        <td width="2%">&nbsp;</td>
+        <td width="14%">&nbsp;</td>
+        <td width="82%">&nbsp;</td>
+        <td width="2%">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="4"><div align="center"><strong>#TITULO_INFORME#</strong></div></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td colspan="2">&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td colspan="2">#ENCABEZADO#</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td colspan="2">#INFORMACION#</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+</body>
+</html>

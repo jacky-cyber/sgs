@@ -1,0 +1,21 @@
+TRUNCATE TABLE sgs_flujo_estados_solicitud
+TRUNCATE TABLE sgs_folio_tramo_estadistica 
+TRUNCATE TABLE sgs_rectificacion_solicitud
+TRUNCATE TABLE sgs_solicitud_acceso
+TRUNCATE TABLE sgs_solicitud_acceso_temp
+TRUNCATE TABLE sgs_solicitud_asignacion
+TRUNCATE TABLE sgs_visitas_solicitudes 
+TRUNCATE TABLE estadisticas_acciones
+TRUNCATE TABLE error
+TRUNCATE TABLE deuman_mails
+TRUNCATE TABLE usuario
+INSERT INTO usuario (id_usuario,login,password,id_perfil,establecimiento,nombre,apellido,paterno,materno,razon_social,apoderado,email,session,rut,fecha_nac,edad,estado_civil,direccion,numero,depto,fono,hijos,ocupacion,escolaridad,estado,celular,orden,equipo,id_region,ciudad,id_comuna,comuna,empresa,direccion_empresa,comuna_empresa,codigo,telefono,id_ocupacion,id_rango_edad,id_sexo,id_nacionalidad,id_nivel_educacional,id_organizacion,id_frecuencia_organizacion,fecha_crea,fecha_ingreso,id_tipo_persona,id_entidad_padre,id_entidad,id_sucursal_ips,id_departamento,id_pais,id_materia,id_canales,id_procesos,id_subprocesos,etapa_session,id_submateria,puede_llamar) VALUES 
+(150, 'ricardo', '0df9febf5ed1983c6e1a6ec04132c2ec', '999', 11, 'Ricardo', 'Rosende', '', '', '', '', '', '', '', '0000-00-00', 0, '', '', '', '', '', 0, '', '', 1, '', 0, '', 4, '', 29, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 1, 0, 0, 0, 0, 51, '', '', NULL, NULL, 0, '', 0),
+(253, 'cvega', '0df9febf5ed1983c6e1a6ec04132c2ec', '999', 11, 'Claudio', 'Vega', '', '', '', '', 'cvega@minsegpres.cl', '', '', '0000-00-00', 0, '', '', '', '', '111', 0, '', '', 1, '111', 0, '', 4, '', 29, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 0, 0, 0, 0, 0, 0, '', '', NULL, NULL, 0, '', 0),
+(259, 'responsable@servicio.gov.cl', 'e10adc3949ba59abbe56e057f20f883e', '5', 0, 'Fernando', '', 'Molina', 'F', '', '', 'responsable@servicio.gov.cl', '7061bad14663a2f534a52e88edf4c09f', '', '0000-00-00', 0, '', '', '', '', '2112', 0, '', '', 1, '', 0, '', 0, '', 0, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 0, 6, 128, 0, 1, 0, '', '', NULL, NULL, 0, '', 0),
+(278, 'asignador@servicio.gov.cl', 'e10adc3949ba59abbe56e057f20f883e', '1003', 0, 'Claudio', '', 'Par̩des', 'R', '', '', 'asignador@servicio.gov.cl', '', '', '0000-00-00', 0, '', '', '', '', '22', 0, '', '', 1, '', 0, '', 2, '', 8, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 0, 6, 128, 0, 0, 0, '', '', '', '', 0, '', 0),
+(320, 'admin@servicio.gov.cl', 'e10adc3949ba59abbe56e057f20f883e', '1004', 11, 'Carlos', '', 'Paredes', 'Rosas', '', '', 'admin@servicio.gov.cl', '', '', '0000-00-00', 0, '', '', '', '', '111', 0, '', '', 1, '', 0, '', 0, '', 0, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 0, 6, 128, 0, 1, 51, '', '', NULL, NULL, 0, '', 0),
+(323, 'solicitante@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '1', 0, 'Gonzalo', '', 'Rosas', 'Soto', '', '', 'solicitante@gmail.com', '', '155555555', '1969-08-08', 0, '', 'Alameda2', '1255', '12 b', '', 0, '', '', 1, '', 64, '', 13, 'santiago', 326, '', '', '', '', '02', '2222222', 5, 3, 1, 1, 9, 4, 4, '2009-03-03', '0000-00-00', 1, 0, 0, 0, 0, 51, '', '', '', '', 0, '', 0),
+(368, 'digitador@servicio.gov.cl', 'e10adc3949ba59abbe56e057f20f883e', '1005', 0, 'Claudio', '', 'Prado', 'Digt', '', '', 'digitador@servicio.gov.cl', '', '', '0000-00-00', 0, '', '', '', '', '444444444', 0, '', '', 1, '', 76, '', 0, '', 0, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 1, 6, 128, 0, 0, 0, '', '', NULL, NULL, 0, '', 0),
+(389, 'jefatura@servicio.gov.cl', 'e10adc3949ba59abbe56e057f20f883e', '1001', 0, 'Vicente', '', 'Paredes', 'R', '', '', 'jefatura@servicio.gov.cl', '', '', '0000-00-00', 0, '', '', '', '', '6359865', 0, '', '', 1, '', 0, '', 0, '', 0, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 0, 6, 128, 0, 1, 51, '', '', NULL, NULL, 0, '', 0),
+(390, 'asignador2@servicio.gov.cl', 'e10adc3949ba59abbe56e057f20f883e', '1003', 0, 'asignador2', '', 'paterno', 'materno', '', '', 'asignador2@servicio.gov.cl', '', '', '0000-00-00', 0, '', '', '', '', '', 0, '', '', 1, '', 0, '', 1, '', 1, '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, '0000-00-00', '0000-00-00', 0, 6, 355, 0, 0, 0, '', '', '', '', 0, '', 0);

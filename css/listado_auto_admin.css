@@ -1,0 +1,281 @@
+
+
+/* ---------->>> tinytable <<<---------------------------------------------------------------*/
+
+//.details {
+float:right;
+padding-top:12px
+}
+//.details div {
+float:left;
+margin-left:15px;
+font-size:12px
+}
+.tinytable {
+	font-style: normal;
+	font-variant: normal;
+	text-decoration: none;
+}
+.tinytable th {
+	line-height: normal;
+	font-size-adjust: none;
+	font-stretch: normal;
+	-x-system-font: none;
+	color: #fff;
+	padding-top: 3px;
+	padding-bottom: 0px;
+	padding-right: 5px;
+	padding-left: 5px;
+	background-image: url("../images/header-tabla-bg.png");
+	background-position: left bottom;
+	background-repeat: repeat-x;
+	text-align:center;
+	height:20px;
+}
+.tinytable th h3 {
+	color: #000;
+}
+.tinytable td {
+	padding-top: 4px;
+	padding-right: 6px;
+	padding-bottom: 4px;
+	padding-left: 6px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #cdcdcd;
+	text-decoration: none;
+}
+.tinytable td a {
+	font-family: Arial;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	font-size: 9px;
+	line-height: normal;
+	font-size-adjust: none;
+	font-stretch: normal;
+	-x-system-font: none;
+	color: #0099ff;
+	text-decoration: none;
+	padding-top: 0px;
+	padding-right: 2px;
+	padding-bottom: 0px;
+	padding-left: 2px;
+	text-transform: uppercase;
+}
+.tinytable tr:hover {
+	background-color: #ffffd4;
+}
+.tinytable th h3 {
+	
+	font-weight: normal;
+}
+//.tinytable td {
+padding:4px 6px 6px;
+border-bottom:1px solid #c6d5e1;
+border-right:1px solid #c6d5e1
+}
+.tinytable .head h3 {
+	background:url(../images/sort.gif) right center no-repeat;
+	cursor:pointer;
+	text-align: left;
+	padding-left: 0;
+	padding-right: 15px;
+}
+ //.tinytable .desc, .sortable .asc {
+background:url(images/header-selected-bg.gif)
+}
+.tinytable .desc h3 {
+	background:url(../images/desc.gif) 7px center no-repeat;
+	cursor:pointer;
+	text-align: left;
+	padding-left: 0;
+	padding-right: 15px;
+}
+.tinytable .asc h3 {
+	background:url(../images/asc.gif) 7px center no-repeat;
+	cursor:pointer;
+	text-align: left;
+	padding-left: 0;
+	padding-right: 15px;
+}
+ //.tinytable .head:hover, .tinytable .desc:hover, .tinytable .asc:hover {
+color:#fff
+}
+//.tinytable .evenrow td {
+background:#fff
+}
+//.tinytable .oddrow td {
+background:#ecf2f6
+}
+//cebra //.tinytable td.evenselected {
+background:#ecf2f6
+}
+//marca la columna seleccionada en orden //.tinytable td.oddselected {
+background:#dce6ee
+}
+.tinytable tfoot {
+	background:#fff;
+	font-weight:bold
+}
+.tinytable tfoot td {
+	padding:6px 8px 8px
+}
+
+
+
+/**listados_auto**/
+
+#listado_wrapper {
+	/* border: solid 1px; 
+	  width: 748px;*/
+}
+#listado_filter {
+	float: right;
+	
+	height: 22px;
+	
+	padding: 5px;
+}
+#listado_filter input {
+	margin-left: 70px;
+}
+#listado_length {
+	float: left;
+	text-align: left;
+	
+	height: 22px;
+	
+	padding: 5px;
+	margin-bottom: 20px;
+}
+#listado_length select {
+	margin-left: 63px;
+}
+#listado {
+	border: 1px solid #d9d9d9;
+	border-right: none;
+}
+#listado th {
+	border-bottom: 1px solid #d9d9d9;
+	border-right: 1px solid #d9d9d9;
+	color: #000;
+	cursor: pointer;
+	
+	font-weight: normal;
+	padding: 5px;
+	background-image: url(../images/header-tabla-bg.png);
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	text-align: left;
+}
+#listado tfoot th {
+	border-right: 1px solid #d9d9d9;
+	color: #000;
+	cursor: pointer;
+	
+	font-weight: normal;
+	padding: 5px;
+	background-image: url(../images/header-tabla-bg.png);
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	text-align: left;
+}
+#listado td {
+	border-bottom: 1px solid #d9d9d9;
+	border-right: 1px solid #d9d9d9;
+	padding: 7px;
+	text-align: left;
+	text-decoration: none;
+	
+}
+#listado a {
+	color: #0099FF;
+	font: bold 11px Arial, Tahoma, sans-serif;
+	
+	text-decoration: none;
+	text-transform: uppercase;
+}
+td a.ver_detalle {
+	text-indent:-9999px;
+	display: block;
+	height: 16px;
+	width: 16px;
+	background-image: url(../images/ver.png);
+	background-repeat: no-repeat;
+}
+/*
+			#listado tr.odd {
+			  background-color: #EBEBEB;
+			}
+		#listado tr.even {
+ 			 background-color: white;
+			}
+			*/
+			
+			
+			#listado_info {
+	color: #999999;
+	font-size: 10px;
+	font-style: italic;
+	text-align: left;
+}
+.dataTables_paginate {
+	float: right;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	text-align: right;
+}
+.paging_full_numbers span.paginate_button, .paging_full_numbers span.paginate_active {
+	-moz-border-radius: 3px 3px 3px 3px;
+	border: 1px solid #AAAAAA;
+	cursor: pointer;
+	margin: 0 3px;
+	padding: 2px 5px;
+}
+.paging_full_numbers span.paginate_active {
+	background: url("../images/admin/fondo_tabla.jpg") repeat scroll 0 0 transparent;
+	color: #fff;
+}
+.dataTables_processing {
+	background-color: #FFFFFF;
+	color: #000000;
+	font-size: 0.7em;
+	height: 40px;
+	left: 12px;
+	position: relative;
+	text-align: center;
+	top: 60%;
+	vertical-align: middle;
+	width: 150px;
+}
+.sorting_asc {
+	background: url("../deuman/listados_auto/images/sort_asc.png") no-repeat scroll right center transparent;
+}
+.sorting_desc {
+	background: url("../deuman/listados_auto/images/sort_desc.png") no-repeat scroll right center transparent;
+}
+.sorting {
+	background: url("../deuman/listados_auto/images/sort_both.png") no-repeat scroll right center transparent;
+}
+.tinytable td {
+	border-bottom: 1px solid #CDCDCD;
+	padding: 4px 6px;
+	text-decoration: none;
+}
+.jver{
+	
+	width :30px;
+	
+	text-align:center;
+}
+
+.ancho_auto_admin{
+	
+	width : 400px;
+	
+}
+
+.row{
+	margin-left:0px;
+}

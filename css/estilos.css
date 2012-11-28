@@ -1,0 +1,86 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #ffffff;
+	background-image:url(../img/bg_sitio.jpg);
+	background-repeat:repeat-x;
+}
+bg_productos {
+	background-image: url(../img/productos/bg_fichas.jpg);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-color: #FFFFFF;
+}
+.bg_productos {
+	background-color: #FFFFFF;
+	background-image: url(../img/productos/bg_fichas.jpg);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+}
+.ficha_prod {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #336699;
+	font-size: 12px;
+	font-weight: bold;
+	text-indent: 10px;
+
+}
+.ficha_categoria {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #336699;
+	font-size: 10px;
+	font-weight: bold;
+	text-indent: 10px;
+
+}
+.ficha_subcategoria {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #333333;
+	font-size: 10px;
+	text-indent: 50px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: solid;
+	border-left-width: 20px;
+	border-left-color: #EAF7FF;
+}
+.ficha_contenido {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #004c92;
+	font-size: 10px;
+	font-weight: bold;
+	text-indent: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 10px solid #FFFFFF;
+
+}
+
+a.info {
+    position:relative; 
+    color:#000;
+    text-decoration:none;
+}
+a.info:hover {
+	
+}
+a.info span {
+	display: none;
+}
+a.info:hover span { 
+	display:block;
+	position:absolute;
+	top:1em;
+	left:5em;
+	width:200px;
+	border:1px solid #0cf;
+	background-color:#EEEEEE;
+	color:#000000;
+	text-align: left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	padding: 5px;
+}

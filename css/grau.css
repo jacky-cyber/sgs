@@ -1,0 +1,374 @@
+@charset "utf-8";
+dl { width: 150px; 
+margin-left: 15px;
+margin-top: 10px;
+}
+	dl,dd { margin: 0; }
+	dt { 
+	
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 12px; 
+	 
+	
+	
+	}
+	dt a { color: #000; }
+	dd a { padding: 11px; color: #000; }
+	ul {
+		list-style: none; 
+		
+	}
+
+.menuFamilia{
+background-repeat: no-repeat;
+background-position: left;
+list-style: none;
+padding-left: 1px;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 12px;
+color: #1A4A88;
+padding-top: 1px;
+width: 150px;
+margin-bottom: 2px;
+margin-top: 1px;
+margin-left: 8px;
+margin-right: 0px;
+text-decoration:none;
+}
+.okccc{
+margin-left: -4px;
+_margin-left: 0px;
+#margin-left: 0px;
+}
+
+.menu_sitio{
+
+background-repeat: no-repeat;
+background-position: left;
+list-style: none;
+padding-left: 10px;
+padding-bottom: 1px;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 12px;
+color: #1A4A88;
+padding-top: 0px;
+width: 150px;
+margin-bottom: 3px;
+margin-top: 3px;
+text-decoration:none;
+}
+
+.menuSub {
+list-style: none;
+padding-bottom: 1px;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 11px;
+color: #1A4A88;
+padding-left: 2px;
+text-align: left;
+margin-left: 20px;
+padding:1px;
+
+}
+
+.footer {
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #333333;
+}
+a.footer {
+font-family: Tahoma;
+font-size: 9px;
+color:#333333;
+}
+a.footer:link {
+text-decoration: underline;
+}
+a.footer:visited {
+text-decoration: underline;
+color:#CC0000;
+}
+a.footer:hover {
+text-decoration: underline;
+color:#CC0000;
+}
+a.footer:active {
+text-decoration: underline;
+} 
+
+a.servicios {
+font-family: Tahoma;
+font-size: 9px;
+color:#FFFFFF;
+}
+a.servicios:link {
+text-decoration: underline;
+}
+a.servicios:visited {
+text-decoration: underline;
+color:#FFFFFF;
+}
+a.servicios:hover {
+text-decoration: underline;
+color:#FFFFFF;
+}
+.nombre_producto {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+	text-align: center;
+}
+.precio_producto {
+	font-family: Tahoma;
+	font-size: 20px;
+	font-weight: bold;
+	color: #FF0000;
+	text-align: center;
+}
+.texto12 {
+	font-family: Tahoma;
+	font-size: 12px;
+	color: #999999;
+	text-align: center;
+}
+
+
+a.servicios:active {
+text-decoration: underline;
+} 
+
+a.meyer {
+font-family: Tahoma;
+font-size: 11px;
+color:#333333;
+}
+a.meyer:link {
+text-decoration: none;
+}
+a.meyer:visited {
+text-decoration: none;
+color:#333333;
+}
+a.meyer:hover {
+text-decoration: underline;
+color:#C00000;
+}
+a.meyer:active {
+text-decoration: underline;
+} 
+
+a.plasgraf {
+font-family: Tahoma;
+font-size: 11px;
+color:#333333;
+}
+a.plasgraf:link {
+text-decoration: none;
+}
+a.plasgraf:visited {
+text-decoration: none;
+color:#333333;
+}
+a.plasgraf:hover {
+text-decoration: underline;
+color:#001D5A;
+}
+a.plasgraf:active {
+text-decoration: underline;
+} 
+
+a.bibelon {
+font-family: Tahoma;
+font-size: 11px;
+color:#333333;
+}
+a.bibelon:link {
+text-decoration: none;
+}
+a.bibelon:visited {
+text-decoration: none;
+color:#333333;
+}
+a.bibelon:hover {
+text-decoration: underline;
+color:#CC66CC;
+}
+a.bibelon:active {
+text-decoration: underline;
+} 
+.textos_miga {
+font-family: Tahoma;
+font-size: 9px;
+color: #333333;
+text-decoration: none;
+}
+a.miga {
+font-family: Tahoma;
+font-size: 9px;
+color: #333333;
+}
+a.miga:link {
+text-decoration: underline;
+}
+a.miga:visited {
+text-decoration: underline;
+color:#333333;
+}
+a.miga:hover {
+text-decoration: underline;
+color: #CC0000;
+}
+a.miga:active {
+text-decoration: underline;
+} 
+
+a.historia {
+font-family: Tahoma;
+font-size: 12px;
+color: #999999;
+}
+a.historia:link {
+text-decoration: underline;
+}
+a.historia:visited {
+text-decoration: underline;
+color:#999999;
+}
+a.historia:hover {
+text-decoration: underline;
+color: #CC0000;
+}
+a.historia:active {
+text-decoration: underline;
+} 
+
+.texto9 {
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #333333;
+}
+.texto{
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #333333;
+	text-decoration: none;
+}
+
+
+.texto18 {
+	font-family: Tahoma;
+	font-size: 24px;
+	color: #333333;
+}
+
+.campos {
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #333333;
+	border: 1px solid #666666;
+	background-color: #FFFFFF;
+}
+.submenu_meyer {
+  	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+
+}
+.uso_servicios {
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #FFFFFF;
+	padding-left: 10px;
+
+	
+}
+
+.registro {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+}
+
+
+.campos2 {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+	border: 1px solid #333333;
+}
+
+
+
+.texto9 {
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #333333;
+}
+.texto18 {
+	font-family: Tahoma;
+	font-size: 24px;
+	color: #333333;
+}
+
+.campos {
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #333333;
+	border: 1px solid #666666;
+	background-color: #FFFFFF;
+}
+.submenu_meyer {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+}
+.uso_servicios {
+	font-family: Tahoma;
+	font-size: 9px;
+	color: #FFFFFF;
+}
+.tabla_informativa {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+}
+.tabla_informativa2 {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+	text-align: center;
+}
+
+.registro {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+}
+.campos2 {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #333333;
+	border: 1px solid #333333;
+}
+.semilla{
+font: bold 10px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+}
+
+.semilla a{
+background: transparent url(../images/admin/breadcrumb.gif) no-repeat center right;
+text-decoration: none;
+padding-right: 18px; /*adjust bullet image padding*/
+color: navy;
+}
+
+.semilla a:visited, .breadcrumb a:active{
+color: navy;
+}
+
+.semilla a:hover{
+text-decoration: underline;
+}
+
+a:hover{text-decoration:none;}
+a{text-decoration:none; color:#000000} 
+a:visited{text-decoration:none; color:#000000} 

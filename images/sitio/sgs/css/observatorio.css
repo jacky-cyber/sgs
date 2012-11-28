@@ -1,0 +1,26 @@
+a:link{
+font-family:Arial;
+font-size:13px;
+color:#0033FF;
+font-weight:bold;
+
+
+}
+a:hover{
+font-family:Arial;
+font-size:13px;
+color:#999999;
+font-weight:bold;
+
+}
+a:visited{
+font-family:Arial;
+font-size:13px;
+color:#0033FF;
+font-weight:bold;
+
+
+}
+.style5 {font-size: 12px; font-weight: bold;  font-family: Arial, Helvetica, sans-serif;}
+.style8 {font-size: 12px; font-family: Arial, Helvetica, sans-serif; }
+

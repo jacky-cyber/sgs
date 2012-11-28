@@ -1,0 +1,13 @@
+.sortable-list {
+    list-style-type : none;
+    margin : 0;
+}
+.sortable-list li {
+    border : 0px solid #000;
+    cursor : move;
+    margin : 0px 0 0px 0;
+    padding : 0px;
+    background : #ffffff;
+    border : #ccc;
+    
+}

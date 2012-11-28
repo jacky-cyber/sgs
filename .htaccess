@@ -1,0 +1,30 @@
+ErrorDocument 404 /index.php?accion=not_found
+
+Options All -Indexes
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteBase /bkp_101/sgs1.3/
+
+
+
+RewriteRule ^licencia.htm index.php?accion=licencia [L]
+RewriteRule ^equipo-desarrollo.htm index.php?accion=ver [L]
+RewriteRule ^registro.htm index.php?accion=registro [L]
+
+RewriteRule ^salir.htm index.php?accion=salir [L]
+
+RewriteRule ^desarrolladores.htm index.php?accion=desarrollador [L]
+
+
+RewriteRule ^acc/(.+).htm$ index.php?accion=$1 [L]
+
+RewriteRule ^token/(.+)$ index.php?accion=desarrollador&act=2&token=$1 [L]
+
+RewriteRule ^acc/index.php$ index.php [L]
+
+
+
+
+</IfModule>
+
+

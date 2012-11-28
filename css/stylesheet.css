@@ -1,0 +1,124 @@
+/**=============================================================================
+ *
+ *	Filename: stylesheet.css
+ *	
+ *	(c)Autor: Arkos Noem Arenom
+ *	
+ *	Description: Estilos del documento
+ *	
+ *	Licence: GPL|LGPL
+ *	
+ *===========================================================================**/
+
+
+
+
+#allContent{
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+}
+
+.inner{
+	display: block;
+	padding: 10px;
+}
+#alertBoxes {
+  display: block;
+  float: left;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  text-align: left;
+  
+}
+
+.loginBlock{
+	display: block;
+	padding: 3px;
+    width: 252px;
+	border: 1px solid #eaeaea;
+	background-color: #fafafa;
+	/*text-align: left;*/
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+.loginBlock  input[type=text], .loginBlock  input[type=password]{
+	display: inline-block;
+	margin: 5px;
+	border: 1px solid #dadada;
+	/*background-color: #eaeaea;*/
+	background-color: #fff;
+	padding: 3px;
+	color: #404040;
+	width: 150px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+.loginBlock  #Ingresar{
+	display: inline-block;
+	margin: 5px;
+	border: 1px solid #dadada;
+	/*background-color: #eaeaea;*/
+	background-color: #fff;
+	padding: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #404040;
+	cursor:pointer;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+.timer{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-image: url('js/images/loader.gif');
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+
+.box-info, .box-success, .box-alert, .box-error{
+	/*clear: both;
+	border-width: 1px;
+	border-style: solid;
+	margin: 0px;
+	padding: 5px;
+	background-repeat: no-repeat;
+	background-position: 0px 50%;
+	text-align: left;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;*/	
+}
+.box-info {
+	color: #00529b;
+	background-color: #bde5f8;
+	border-color: #00529b;
+}
+.box-success {
+	/*
+	background-color: #dff2bf;
+	border-color: #4f8a10;
+*/
+	font-weight:normal;
+	color: #00CC00;
+}
+.box-alert {
+	color: #9f6000;
+	background-color: #feefb3;
+	border-color: #9f6000;
+}
+.box-error {
+	
+	font-weight:normal;
+	color : #FF3333;
+}
+
+.session_on{
+	display: block;
+	text-align: left;
+}

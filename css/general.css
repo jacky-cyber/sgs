@@ -1,0 +1,57 @@
+
+.breadcrumb{
+font: bold 12px "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+}
+
+.breadcrumb a{
+background: transparent url(../images/admin/breadcrumb.gif) no-repeat center right;
+text-decoration: none;
+padding-right: 18px; /*adjust bullet image padding*/
+color: navy;
+}
+
+.breadcrumb a:visited, .breadcrumb a:active{
+color: navy;
+}
+
+.breadcrumb a:hover{
+text-decoration: underline;
+}
+
+
+.textos {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #003366;
+	text-decoration: none;
+}
+.textos_plomo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: bold;
+	color: #ccc;
+	text-decoration: none;
+}
+
+.textos_simple {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #003366;
+	text-decoration: none;
+}
+.textos_simple a{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #003366;
+	text-decoration: none;
+}
+
+
+.textos_rojo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #D62916	;
+	text-decoration: none;
+}

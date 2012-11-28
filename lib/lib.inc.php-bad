@@ -1,0 +1,7851 @@
+<?php
+
+function tabla_existe($tabla){
+$check = mysql_query ("SELECT * FROM $tabla LIMIT 0,1"); /* >>limit<< is just to make it faster in case the db is huge */
+
+	if ($check){
+
+		return true;
+
+	}else{
+		return false;
+
+	}
+}
+
+function ip_del_usuario(){
+    if( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )) $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if( isset( $_SERVER ['HTTP_VIA'] ))  $ip = $_SERVER['HTTP_VIA'];
+    else if( isset( $_SERVER ['REMOTE_ADDR'] ))  $ip = $_SERVER['REMOTE_ADDR'];
+    else $ip = null ;
+    return $ip;
+}
+
+
+function asigna_etiquetas($template){
+$html =  html_template($template);
+  $query= "SELECT id_templates 
+           FROM  templates_acciones
+           WHERE templates='$template'";
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+     list($id_template) = mysql_fetch_row($result);
+	 
+	   $query= "SELECT etiqueta,variable   
+                FROM  templates_acciones_etiquetas 
+                WHERE id_templates='$id_template'";
+          $result= mysql_query($query)or die ("ERROR $php <br>$query");
+           while (list($etiqueta,$variable) = mysql_fetch_row($result)){
+     			
+				if($variable==""){
+				$variable = strtolower($etiqueta);
+				
+				}
+				
+				global  $$variable;
+				//$var = $$variable;
+				
+				$html = str_replace("#$etiqueta#",$$variable,$html);
+							   
+     		 }
+	 
+	 
+	 $html= acentos($html);
+	 
+	 return $html;
+	 
+
+}
+
+function dias_no_habiles($fecha1, $fecha2){
+
+		$fecha1 = fechas_bd($fecha1);
+		$fecha2 = fechas_bd($fecha2);
+		
+  $query= "SELECT count(*)   
+           FROM  no_habil 
+           WHERE no_habil >='$fecha1' and no_habil<='$fecha2'";
+    
+	 $result= mysql_query($query)or die ("ERROR $php <br>$query");
+     list($cant_dias) = mysql_fetch_row($result);
+	
+	
+	 return $cant_dias;
+
+}
+	
+function rectifica_fechas($fecha1, $fecha2,$dias_de_plazo){
+		
+if($dias_de_plazo==""){
+ $dias_de_plazo=  configuracion_cms('dias_de_plazo');
+}
+	
+   
+    $cant_dias= dias_no_habiles($fecha1, $fecha2);
+
+     $cant_dias = $cant_dias+$dias_de_plazo;
+	
+	 $fecha_mas = suma_fechas($fecha1,$cant_dias);
+	 $fecha1 = fechas_html($fecha1);
+	
+	 $volver=0;
+	 while($volver ==1){
+	     
+	     $dif = rectifica_fechas($fecha1, $fecha_mas);
+		
+		if($dif !=$fecha_mas){
+		  $volver =1;
+		}else{
+		  $volver =0;
+		
+		$fecha_mas = $dif;
+		}
+	 }
+	
+	
+return $fecha_mas;
+
+}
+
+
+
+
+function suma_fechas($fecha,$ndias){
+
+ 
+      if (preg_match("/[0-9]{1,2}\/[0-9]{1,2}\/([0-9][0-9]){1,2}/",$fecha))
+
+              list($dia,$mes,$año)=split("/", $fecha);
+
+      if (preg_match("/[0-9]{1,2}-[0-9]{1,2}-([0-9][0-9]){1,2}/",$fecha))
+
+    
+              list($dia,$mes,$año)=split("-",$fecha);
+        $nueva = mktime(0,0,0, $mes,$dia,$año) + $ndias * 24 * 60 * 60;
+        $nuevafecha=date("d-m-Y",$nueva);
+            
+ 	  
+      return ($nuevafecha);  
+            
+ 
+}
+
+
+
+ 
+
+
+
+
+
+function diferencia_entre_fechas($fecha1,$fecha2){
+$fecha = fechas_bd($fecha1);
+
+$dias = calculaDiasHabiles($fecha);
+return $dias;
+//defino fecha 1 
+/*
+$aux=explode("-", $fecha1);
+
+     $dia1    = trim($aux[0]);
+      $mes1    = trim($aux[1]);
+      $ano1    = trim($aux[2]);
+ 
+//defino fecha 2 
+
+ $aux=explode("-", $fecha2);
+
+     $dia2    = trim($aux[0]);
+      $mes2    = trim($aux[1]);
+      $ano2    = trim($aux[2]);
+
+	
+//calculo timestam de las dos fechas 
+$timestamp1 = mktime(0,0,0,$mes1,$dia1,$ano1); 
+$timestamp2 = mktime(4,12,0,$mes2,$dia2,$ano2); 
+
+//resto a una fecha la otra 
+
+$segundos_diferencia = $timestamp1 - $timestamp2; 
+
+//echo $segundos_diferencia; 
+
+
+
+//convierto segundos en días 
+
+$dias_diferencia = $segundos_diferencia / (60 * 60 * 24); 
+
+
+//obtengo el valor absoulto de los días (quito el posible signo negativo) 
+
+//$dias_diferencia = abs($dias_diferencia); 
+
+
+
+//quito los decimales a los días de diferencia 
+
+$dias_diferencia = floor($dias_diferencia); 
+
+$cant_dias= dias_no_habiles($fecha2,$fecha1);
+
+return  $dias_diferencia + 1-$cant_dias; 
+
+
+
+*/
+
+}
+
+
+
+
+
+function grupo_galeria_nombre($id_grupo_galeria){
+
+	
+
+  $query= "SELECT grupo_galeria 
+
+         FROM  grupo_galeria
+
+         WHERE id_grupo_galeria='$id_grupo_galeria'";
+
+           $result= @mysql_query($query) or die("$MSG_DIE -1 QR-$query");
+
+          list($grupo_galeria) = mysql_fetch_row($result);
+
+          
+
+            return $grupo_galeria;	
+
+
+
+}
+
+
+
+
+
+function titulo_url($titulo){
+
+$titulo = str_replace("á","a",$titulo);
+
+$titulo = str_replace("é","e",$titulo);
+
+$titulo = str_replace("í","i",$titulo);
+
+$titulo = str_replace("ó","o",$titulo);
+
+$titulo = str_replace("ú","u",$titulo);
+
+$titulo = str_replace("ñ","n",$titulo);
+
+$titulo = str_replace("%20","-",$titulo);
+
+$titulo = str_replace(",","",$titulo);
+
+$titulo = str_replace("\"","",$titulo);
+
+$titulo = str_replace(":","",$titulo);
+
+$titulo = str_replace("?","",$titulo);
+
+$titulo = str_replace("¿","",$titulo);
+
+$titulo = str_replace("¡","",$titulo);
+
+$titulo = str_replace("!","",$titulo);
+
+$titulo = str_replace("&","",$titulo);
+
+$titulo = str_replace("(","",$titulo);
+
+$titulo = str_replace(")","",$titulo);
+
+$titulo = str_replace("“","",$titulo);
+
+$titulo = str_replace("”","",$titulo);
+
+$titulo = str_replace("_"," ",$titulo);
+
+
+
+
+
+$titulo = str_replace(" ","-",$titulo);
+
+$titulo = str_replace("--","-",$titulo);
+
+return $titulo;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function rescata_valor($tabla,$valor_id_registro,$campo_consulta){
+
+//echo "$tabla,$valor_id_registro,$campo_consulta";
+
+if(!is_numeric($tabla)){
+
+
+
+  $query= "SELECT id_auto_admin   
+
+           FROM  auto_admin
+
+           WHERE tabla='$tabla'";
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+     if(list($id_auto_admin) = mysql_fetch_row($result)){
+
+	    $tabla_consulta=$tabla;
+
+	 }
+
+	 
+
+	
+
+}else{
+
+$id_auto_admin= $tabla;
+
+
+
+  $query= "SELECT tabla   
+
+           FROM  auto_admin
+
+           WHERE id_auto_admin='$tabla'";
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+     if(list($tabla) = mysql_fetch_row($result)){
+
+	    $tabla_consulta=$tabla;
+
+		
+
+	 }
+
+	
+
+}
+
+
+
+$campo_pk = campo_pk_tabla($id_auto_admin);
+
+
+
+	if($tabla_consulta!=""){
+
+		
+
+			
+
+		
+
+		  $query= "SELECT $campo_consulta   
+
+                   FROM  $tabla_consulta
+
+                   WHERE $campo_pk=$valor_id_registro";
+
+				 //  echo $query."<br>";
+
+             $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+              list($valor_consulta) = mysql_fetch_row($result);
+
+		
+
+		return $valor_consulta;
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function campo_txt_combolist($id_auto_admin,$id_registro,$campo){
+
+
+
+                      $campo_pk_combolist=$campo;
+
+						
+
+					  $valor_id_combolist=rescata_valor($id_auto_admin,$id_registro,$campo);
+
+						
+
+					  $query= "SELECT id_auto_admin   
+
+                  				 FROM  auto_admin_campo
+
+                   				WHERE campo='$campo' and pk=1";
+
+             			$result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+              			list($id_auto_admin_combolist) = mysql_fetch_row($result);
+
+              				
+
+              							 
+
+				 	  $campo_txt_combolist= campo_txt($id_auto_admin_combolist);
+
+				
+
+				      $valor = rescata_valor($id_auto_admin_combolist, $valor_id_combolist,$campo_txt_combolist);
+
+					
+
+			return $valor;
+
+
+
+
+
+}
+
+
+
+
+
+function verfica_permiso($id_auto_admin,$id_perfil,$campo_permiso){
+
+		
+
+	if($id_perfil!="" and $id_auto_admin!="" and $campo_permiso!=""){
+
+	
+
+		$query= "SELECT $campo_permiso
+
+               FROM  auto_admin_permisos
+
+               WHERE id_perfil= $id_perfil
+
+               AND id_auto_admin=$id_auto_admin";
+
+     
+
+         $result22= mysql_query($query)or die ("ERROR 44a $php <br>$query");
+
+      list($respuesta_campo_permiso) = mysql_fetch_row($result22);
+
+	
+
+	}
+
+	
+
+  return $respuesta_campo_permiso;
+
+	
+
+}
+
+
+
+
+
+
+
+
+
+function html_template($nombre_template){
+
+	
+
+	$tp = $_GET['tp'];
+
+	if($tp==1){
+
+	echo $nombre_template ."<br>" ;
+
+	}
+
+	
+
+	
+
+	$query= "SELECT html 
+
+           FROM  templates_acciones
+
+           WHERE templates='$nombre_template'";
+
+	
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+      if(list($html) = mysql_fetch_row($result)){
+
+	  
+
+	  return $html;
+
+	  }else{
+
+	  return "$nombre_template no existe";
+
+	  
+
+	  }
+
+	  
+
+	  
+
+	}
+
+
+
+function total_tabla($tabla,$condicion){
+
+
+
+$query= "SELECT count(*)
+
+           FROM  $tabla
+
+		   WHERE 1 
+
+		   $condicion";
+
+	
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+     list($valor) = mysql_fetch_row($result);
+
+	  
+
+	  return $valor;
+
+	 
+
+	  
+
+
+
+}
+
+function configuracion_cms($configuracion){
+
+   $tp = $_GET['tp'];
+
+	if($tp==1){
+
+	echo $configuracion ."<br>" ;
+
+	}
+
+	
+
+ 
+
+	$query= "SELECT valor
+
+           FROM  cms_configuracion
+
+           WHERE configuracion='$configuracion'";
+
+	
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+      if(list($valor) = mysql_fetch_row($result)){
+
+	  
+
+	  return $valor;
+
+	  }else{
+
+	  return "$configuracion no existe";
+
+	  
+
+	  }
+
+	  
+
+ 
+
+ 
+
+
+
+
+
+}
+
+
+
+function ficha_ver($id_registro,$id_auto_admin,$template){
+
+//echo "$id_registro,$id_auto_admin,$template<br>";
+
+if(!is_numeric($id_auto_admin)){
+
+
+
+  $query= "SELECT id_auto_admin ,tabla  
+
+           FROM  auto_admin
+
+           WHERE tabla='$id_auto_admin'";
+
+  //echo $query;
+
+     $result_0= mysql_query($query)or die ("ERROR $php <br>$query");
+
+     list($id_auto_admin,$tabla_template) = mysql_fetch_row($result_0);
+
+	 
+
+	
+
+}else{
+
+	
+
+ $query= "SELECT tabla  
+
+           FROM  auto_admin
+
+           WHERE id_auto_admin,='$id_auto_admin,'";
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+     list($tabla_template) = mysql_fetch_row($result);
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+if($template!=false){
+
+
+
+		$query= "SELECT campo,id_tipo_campo 
+
+           FROM  auto_admin_campo
+
+           WHERE id_auto_admin='$id_auto_admin'";
+
+		//echo  $query."<br>";
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+      while (list($campo,$id_tipo_campo) = mysql_fetch_row($result)){
+
+			
+
+				
+
+				switch ($id_tipo_campo) {
+
+				
+
+                     case 6:
+
+                     	
+
+                        $valor = campo_txt_combolist($id_auto_admin,$id_registro,$campo);
+
+				       break;                  
+
+				
+
+                  
+
+                     case 11:
+
+                   
+
+                           $valor= rescata_valor($id_auto_admin,$id_registro,$campo);
+
+     					$valor = number_format($valor,0,",", ".");
+
+	 					     
+
+                        
+
+				       break;
+
+                	default:
+
+						
+
+                	   $valor=rescata_valor($id_auto_admin,$id_registro,$campo);
+
+                	
+
+                  }
+
+				$valor =acentos($valor);
+
+				//echo "$tabla_template.dd  $campo dd";
+
+			//	echo $template;
+
+				$template = str_replace("#$tabla_template.$campo#",$valor,$template);
+
+				
+
+
+
+				
+
+				
+
+				
+
+		 }
+
+
+
+
+
+
+
+}else{
+
+
+
+	$query= "SELECT count(*) 
+
+           FROM  auto_admin_campo
+
+           WHERE id_auto_admin='$id_auto_admin' and campo<>'orden'";
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+      list($filas) = mysql_fetch_row($result);
+
+
+
+
+
+$template = genera_tabla(2, $filas);
+
+
+
+
+
+$query= "SELECT campo,id_tipo_campo 
+
+           FROM  auto_admin_campo
+
+           WHERE id_auto_admin='$id_auto_admin' and campo<>'orden'";
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+      while (list($campo,$id_tipo_campo) = mysql_fetch_row($result)){
+
+				
+
+				$dos=0;
+
+				
+
+				$cont_celdas++;
+
+				$var= "celda_$cont_celdas";
+
+				$dos++;
+
+				
+
+				$template = str_replace($var,$campo,$template);
+
+				while($dos<2){
+
+					$dos++;
+
+					$cont_celdas++;
+
+				$var= "celda_$cont_celdas";
+
+					 switch ($id_tipo_campo) {
+
+                     case 6:
+
+                        $valor = campo_txt_combolist($id_auto_admin,$id_registro,$campo);
+
+				       break;
+
+                	default:
+
+                	    $valor=rescata_valor($id_auto_admin,$id_registro,$campo);
+
+                	 
+
+                  }
+
+				
+
+				$template = str_replace($var,$valor,$template);
+
+		
+
+				}
+
+					
+
+				
+
+		 }
+
+
+
+ }
+
+
+
+				$template = str_replace("apos;","",$template);
+
+		        $template = str_replace("&amp;","&",$template);
+
+				$template = str_replace("amp;","&",$template);
+
+
+
+return $template;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function template($nombre_template, $etiqueta,$dato){
+
+
+
+$nombre_template = str_replace("$etiqueta","$dato",$nombre_template);
+
+
+
+return $nombre_template;
+
+}
+
+
+
+function busca_cms_mail($texto){
+
+
+
+$caracteres = strlen($texto);
+
+	//$mail="";
+
+	
+
+	//$texto = str_replace(" ","#",$texto);
+
+	while($a < $caracteres){
+
+		
+
+		if($texto[$a]!=" "){
+
+			$palabra .= $texto[$a];
+
+		}else{
+
+			$palabra = str_replace("#","",$palabra);
+
+			$ocurre = substr_count($palabra,"@");
+
+			$largo_palabra= strlen($palabra);
+
+			
+
+			if($ocurre==1 and $largo_palabra>5){
+
+			//echo $palabra;
+
+				$con_mail++;
+
+				$mail = $palabra;
+
+				//$nombre = $palabra;
+
+				$mail = str_replace("'","",$mail);
+
+				$mail = str_replace(")","",$mail);
+
+				$mail = str_replace("(","",$mail);
+
+				$mail = str_replace("#","",$mail);
+
+				
+
+				
+
+					$ocurre =0;
+
+				$nombre ="";
+
+			}
+
+			//echo $palabra."<br>";
+
+			$palabra="";
+
+		}
+
+		
+
+		$a++;
+
+	}
+
+	
+
+	return $mail;
+
+}
+
+
+
+
+
+function genera_tabla($columnas, $filas){
+
+	
+
+	$class_celda=$_POST['css_celda'];
+
+	if($class_celda==""){
+
+	$css_celda= "textos";
+
+	}
+
+	
+
+	while($filas_tabla < $filas){
+
+		$filas_tabla++;
+
+		
+
+		
+
+		while ($columnas_tabla<$columnas){
+
+			$columnas_tabla++;
+
+			$cont_texto++;
+
+			 
+
+			$td_tabla .="<td align=\"center\"  class=\"$class_celda\" valign=\"top\">#celda"."_$cont_texto# </td>";
+
+		}
+
+		
+
+		$tr_tabla .= "<tr>$td_tabla</tr>";
+
+		$columnas_tabla=0;
+
+		$td_tabla="";
+
+		
+
+	}
+
+	
+
+	$tabla_final= "<table width=\"100%\" border=\"0\" align=\"left\" cellpadding=\"2\" cellspacing=\"2\">
+
+	   					 $tr_tabla
+
+						 <tr><td align=\"center\" class=\"textos\"> </td></tr> 
+
+				   </table>";
+
+	
+
+	return $tabla_final;
+
+	
+
+}
+
+
+
+
+
+
+
+
+
+function email($id_sesion){
+
+
+
+
+
+
+
+
+
+	$query= "SELECT email 
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($email) = mysql_fetch_row($result);
+
+	      $nombre = $nombre ." ".$apellido;
+
+	      return $email;
+
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function borrar($tabla,$id_valorpk){
+
+	//echo "$tabla,$id_valorpk";
+
+	
+
+ $sql = "SELECT * FROM $tabla";
+
+  
+
+  $qry = mysql_query($sql)or die ("ERROR $php  1 <br>$sql");
+
+   $num_filas = mysql_num_fields($qry);
+
+   
+
+   
+
+     
+
+ for ($i = 0; $i < $num_filas; $i++){	
+
+
+
+ 
+
+ 
+
+ 		//el num_filas cuenta la cantidad de campos que tiene una tabla 
+
+    $nom_campo = mysql_field_name($qry,$i);		//y luego va sacando los datos que hay en cada campo
+
+	
+
+	$flag      = mysql_field_flags($qry,$i);
+
+	
+
+	
+
+	
+
+	  $campo_pk = substr_count ($flag, "primary_key");
+
+		
+
+				
+
+		
+
+		if($campo_pk!=""){
+
+		$condicion_pk="$nom_campo='$id_valorpk'";
+
+		}
+
+	
+
+		}
+
+   
+
+	
+
+	 $Sql ="DELETE FROM $tabla
+
+	 		WHERE $condicion_pk";
+
+	//echo "$Sql"; 
+
+	  mysql_query($Sql) or die ("ERROR $php $Sql");
+
+	
+
+	
+
+	
+
+	return true;
+
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function update($tabla,$id_valorpk){
+
+
+
+//
+
+	   
+
+	//si el nom_tabla es distinto a vacio selecciona todas las tablas
+
+ $sql = "SELECT * FROM $tabla";
+
+ 
+
+ 
+
+  $qry = mysql_query($sql)or die ("ERROR $php  1 <br>$sql");
+
+   $num_filas = mysql_num_fields($qry);
+
+   
+
+   
+
+
+
+  $query= "SELECT id_auto_admin  
+
+           FROM  auto_admin
+
+           WHERE tabla='$nom_tabla'";
+
+
+
+     $result= mysql_query($query)or die ("ERROR $php  1 <br>$query");
+
+      list($id_auto_admin) = mysql_fetch_row($result);
+
+						   
+
+		 		
+
+   
+
+ for ($i = 0; $i < $num_filas; $i++){	
+
+
+
+ $campo_fecha ="";
+
+ 
+
+ 		//el num_filas cuenta la cantidad de campos que tiene una tabla 
+
+    $nom_campo = mysql_field_name($qry,$i);		//y luego va sacando los datos que hay en cada campo
+
+	
+
+	$flag      = mysql_field_flags($qry,$i);
+
+	$largo     = mysql_field_len($qry,$i);
+
+	$tipo      = mysql_field_type($qry,$i);
+
+
+
+	  $not_null     = substr_count ($flag, "not_null");
+
+
+
+	  $auto_inc     = substr_count ($flag, "auto_increment");
+
+	  $campo_pk     = substr_count ($flag, "primary_key");
+
+	  $campo_fecha =  substr_count ($tipo, "date");
+
+	  
+
+			
+		
+		
+
+		$valor = $_POST[$nom_campo];
+
+		$valor = sql_quote($valor);
+
+		if($campo_fecha!=""){
+
+		$valor = fechas_bd($valor);
+
+		}
+
+		
+
+		
+
+		if($campo_pk!=""){
+
+		$condicion_pk="$nom_campo='$id_valorpk'";
+
+		}else{
+
+		$lista_campos .="$nom_campo ='$valor',";	
+
+			
+
+		}
+
+		
+
+		$lista_valores .= "'$valor',";					   
+
+   	
+
+	   
+
+	
+
+		}
+
+		  $largo_campos = strlen($lista_campos);
+
+      	 $lista_campos = substr($lista_campos,0,$largo_campos-1);
+
+		
+
+		 
+		 $lista_valores= $lista_valores;
+      	 $lista_valores = substr($lista_valores,0,$largo_valores-1);
+
+		 
+			$lista_campos = acentos($lista_campos);
+
+
+      	 
+
+ 
+
+			$Sql ="UPDATE $tabla 
+
+	   			   SET $lista_campos 
+
+	   			   WHERE $condicion_pk";
+
+			//echo "$Sql";	  
+
+	   			mysql_query($Sql)or die ("ERROR $php <br>$Sql");
+
+	        	 
+
+		 
+
+		 	return true;
+
+		         
+
+       
+
+		
+
+}
+
+
+
+
+
+
+
+function inserta($tabla){
+
+
+
+	 $query="select max(orden)
+         from $tabla"; 
+
+		//echo $query;
+
+$result1= mysql_query($query)or die ("ERROR $php  1a <br>$query");
+ list($max_orden) = mysql_fetch_row($result1);
+
+$max_orden++;
+
+$_POST['orden']=$max_orden;
+
+$sql = "SELECT * FROM $tabla";  
+
+  $qry = mysql_query($sql)or die ("ERROR $php  1 <br>$sql");
+   $num_filas = mysql_num_fields($qry);
+   //echo $num_filas;
+
+  $query= "SELECT id_auto_admin  
+           FROM  auto_admin
+           WHERE tabla='$tabla'";
+ // echo $query."<br>";
+
+
+
+     $result= mysql_query($query)or die ("ERROR $php  1 <br>$query");
+      list($id_auto_admin) = mysql_fetch_row($result);
+						   
+				   	 		
+   
+ for ($i = 0; $i < $num_filas; $i++){	
+
+ $campo_fecha ="";
+ 
+ 		//el num_filas cuenta la cantidad de campos que tiene una tabla 
+
+   $nom_campo = mysql_field_name($qry,$i);		//y luego va sacando los datos que hay en cada campo   
+//	echo $nom_campo;	//muestra los campos de la tabla
+	$flag      = mysql_field_flags($qry,$i);
+    $largo     = mysql_field_len($qry,$i);
+	$tipo      = mysql_field_type($qry,$i);
+//echo $qry,$i;
+	  $not_null     = substr_count ($flag, "not_null");
+
+	  $auto_inc     = substr_count ($flag, "auto_increment");
+	  $campo_pk     = substr_count ($flag, "primary_key");
+	  $campo_fecha =  substr_count ($tipo, "date");
+	  $campo_fecha2 =  substr_count ($tipo, "datetime");
+	
+		$lista_campos .="$nom_campo,";	
+		
+		$valor = $_POST[$nom_campo];
+		
+		
+		if($campo_fecha!=""){
+		$valor = fechas_bd($valor);
+		}
+		if($campo_fecha2!=""){
+		//echo "$nom_campo min $valor <br>";
+		
+		$valor = fechas_min_bd($valor);
+		}
+		
+		
+		if($campo_pk!=""){
+		$valor="null";
+		$lista_valores .= "null,";				
+		}else{
+		//mysql_real_escape_string($nombre_usuario) 
+		$lista_valores .= "'".sql_quote($valor)."',";					   
+  // 	echo $lista_valores;
+	    }
+		
+	
+		}
+		  $largo_campos = strlen($lista_campos);
+      	 $lista_campos = substr($lista_campos,0,$largo_campos-1);
+		
+		 $largo_valores = strlen($lista_valores);
+		// echo $largo_valores."<br>";
+      	 $lista_valores = substr($lista_valores,0,$largo_valores-1);
+      	 
+		$lista_valores = acentos($lista_valores);
+        $qry_insert="INSERT INTO $tabla($lista_campos) values ($lista_valores)";
+        
+	
+		
+				//echo $qry_insert;
+		    
+		//echo $qry_insert."<br>";
+		 if(mysql_query($qry_insert)){		 
+		
+		 	return "ok";
+			
+			
+		 } else{
+		 
+		    return  "fallo insert <br>$qry_insert<br>";
+		 }         
+       
+		
+}
+
+
+
+
+//$home ="http://www.epsi.cl/proyectos/intranet_sip/index.php";
+
+
+
+function tabla_mandatoria($id_tabla){
+
+	
+
+	
+
+	  $query= "SELECT tabla_relacion 
+
+	           FROM  auto_admin
+
+	           WHERE id_auto_admin='$id_tabla'";
+
+	     $result= mysql_query($query)or die ("ERROR $php  tabla_mandatoria <br>$query");
+
+	     list($tabla_relacion) = mysql_fetch_row($result);
+
+							   
+
+			return $tabla_relacion;
+
+}
+
+
+
+function campo_txt($id_auto_admin){
+
+	
+
+	
+
+	  $query= "SELECT campo
+
+	           FROM  auto_admin_campo
+
+	           WHERE id_auto_admin='$id_auto_admin' and txt=1";
+
+	  
+
+	//echo "$query";
+
+	     $result= mysql_query($query)or die ("ERROR $php campo_txt <br>$query");
+
+	    list($campo_txt) = mysql_fetch_row($result);
+
+							   
+
+			
+
+	return $campo_txt;	
+
+}
+
+
+
+function campo_pk_tabla($id_auto_admin){
+
+	
+
+	if(!is_numeric($id_auto_admin)){
+
+		$id_auto_admin= id_tabla($id_auto_admin);
+
+	}
+
+	
+
+	 $query= "SELECT campo
+
+	           FROM  auto_admin_campo
+
+	           WHERE id_auto_admin='$id_auto_admin' and pk=1";
+
+
+
+	
+
+	 $result= mysql_query($query)or die ("ERROR $php  campo_pk_tabla <br>$query");
+
+	    list($campo_pk) = mysql_fetch_row($result);
+
+							   
+
+			
+
+	return $campo_pk;	
+
+}
+
+
+
+
+
+function valor_campo_tabla ($tabla, $campo, $id_campo_pk){
+
+	//echo "$campo";
+
+	$id_tabla_mandatoria =id_tabla($tabla);	
+
+	$campo_pk=campo_pk_tabla($id_tabla_mandatoria);
+
+	
+
+	
+
+	  $query= "SELECT  $campo
+
+	           FROM  $tabla
+
+	           WHERE $campo_pk='$id_campo_pk'";
+
+	  
+
+	//echo $query;
+
+	  
+
+
+
+	     $result= mysql_query($query)or die ("ERROR $php  valor_campo_tabla <br>$query");
+
+	     list($valor_campo) = mysql_fetch_row($result);
+
+
+
+	      	return $valor_campo;	   
+
+			
+
+	
+
+}
+
+
+
+function formato_rut_bd($rut){
+
+
+
+
+
+
+
+$rut = str_replace(".","",$rut);
+
+$rut = str_replace(",","",$rut);
+
+$rut = str_replace(" ","",$rut);
+
+
+
+$caract = strlen($rut);
+
+$caract = $caract-1;
+
+
+
+
+
+
+
+
+
+
+
+$dig = substr($rut,$caract);
+
+
+
+$rut = substr($rut,0,$caract);
+
+
+
+$rut =  number_format($rut, 0, ',', '.');
+
+
+
+$rut= $rut ."-".$dig;
+
+
+
+return $rut;
+
+}
+
+
+
+function formato_rut_bd2($rut){
+
+
+
+
+
+
+
+$rut = str_replace(".","",$rut);
+
+$rut = str_replace(",","",$rut);
+
+$rut = str_replace(" ","",$rut);
+
+$rut = str_replace("-","",$rut);
+
+
+
+$caract = strlen($rut);
+
+$caract = $caract-1;
+
+
+
+
+
+
+
+
+
+
+
+$dig = substr($rut,$caract);
+
+
+
+$rut = substr($rut,0,$caract);
+
+return $rut;
+
+}
+
+
+
+
+
+function id_tabla($tabla){
+
+//id de la tabla en el auto_admin
+
+
+
+  $query= "SELECT id_auto_admin  
+
+           FROM  auto_admin
+
+           WHERE tabla='$tabla'";
+
+//echo "$query<br>";
+
+     $result99= mysql_query($query)or die ("ERROR function id_tabla  <br>$query");
+
+     list($id_tabla) = mysql_fetch_row($result99);
+
+     
+
+return $id_tabla;
+
+}
+
+function tabla($id_tabla){
+
+//id de la tabla en el auto_admin
+
+
+
+  $query= "SELECT   tabla
+
+           FROM  auto_admin
+
+           WHERE id_auto_admin='$id_tabla'";
+
+     $result= mysql_query($query)or die ("ERROR function id_tabla  <br>$query");
+
+     list($tabla) = mysql_fetch_row($result);
+
+return $tabla;
+
+}
+
+
+
+function pk_tabla($tabla){
+
+//echo "$tabla es el nombre de la tabla texto<br>";
+
+
+
+
+
+if(!is_numeric($tabla)){
+
+
+
+$id_tabla = id_tabla($tabla);
+
+}else{
+
+$id_tabla = $tabla;
+
+}
+
+
+
+
+
+	  $query= "SELECT campo   
+
+               FROM  auto_admin_campo 
+
+               WHERE id_auto_admin=$id_tabla and pk=1";
+
+			   
+
+			   
+
+	//echo "$query<br>"; 
+
+         $result= mysql_query($query)or die ("ERROR function pk_tabla($tabla) 44  lib.inc  rrpk_tabla $tabla<br>$query");
+
+       list($campo) = mysql_fetch_row($result);
+
+	   
+
+	  // echo $campo."<br>";
+
+return $campo;
+
+
+
+}
+
+
+
+function campo_pk($campo,$DATABASE){
+
+	
+
+		
+
+	  $query= "SELECT relacion   
+
+	           FROM  auto_admin_campo
+
+	           WHERE campo= '$campo' and pk=0 and txt=0";  
+
+//echo "$query<br>";
+
+	 
+
+	     $result= @mysql_query($query) or die ("ERROR 1 function campo_pk <br>$query");
+
+	     list($relacion) = @mysql_fetch_row($result);
+
+	
+
+	if($relacion==""){
+
+		
+
+	
+
+	
+
+	
+
+//echo "$campo,$DATABASE<br>";
+
+$tables = @mysql_list_tables( $DATABASE ); //listas de tablas de la base
+
+
+
+while( $fin!="ok" ){
+
+	$line = mysql_fetch_row($tables);
+
+	$nom_tabla = $line[0];
+
+
+
+
+
+$sql = "SELECT * FROM $nom_tabla";
+
+  $qry = mysql_query($sql);
+
+   $num_columnas = @mysql_num_fields($qry)or die ("ERROR 1 function campo_pk no se encontro un nombre de tabla para campo  $campo<br>$sql");
+
+   
+
+
+
+ for ($i = 0; $i < $num_columnas; $i++){	
+
+ 	//echo $i ."$nom_tabla <br>";		//el num_filas cuenta la cantidad de campos que tiene una tabla 
+
+    $nom_campo = mysql_field_name($qry,$i)or die ("ERROR 2 function campo_pk <br>$sql");		//y luego va sacando los datos que hay en cada campo
+
+    
+
+    if($nom_campo==$campo){
+
+    	
+
+    	$flag      = mysql_field_flags($qry,$i)or die ("ERROR 3 function campo_pk $nom_campo<br>$sql");
+
+	
+
+	
+
+    if(substr_count ($flag, "primary_key")){
+
+    	
+
+    	$nom_tabla_ok=$nom_tabla;
+
+    	$i=$num_columnas;
+
+    	$fin="ok";
+
+    	
+
+    	
+
+    	}
+
+    }
+
+        
+
+ }
+
+
+
+}
+
+
+
+return $nom_tabla_ok;
+
+
+
+}else{
+
+	
+
+	
+
+	
+
+	return $relacion;
+
+}
+
+	
+
+}
+
+
+
+
+
+function tipo_campo($campo,$id_tabla){
+
+  $query= "SELECT id_tipo_campo  
+
+           FROM  auto_admin_campo
+
+           WHERE campo='$campo' and id_auto_admin=$id_tabla";
+
+     $result= mysql_query($query)or die ("ERROR $php <br>$query");
+
+      list($tipo_campo) = mysql_fetch_row($result);
+
+	  
+
+	  return $tipo_campo;
+
+
+
+}
+
+
+
+function select_tabla($tabla,$id_campo_selecionado,$nombre_campo_id,$nombre_campo_texto,$js_sel,$clase){
+
+crear_campo_orden($tabla);
+
+$query= "SELECT  $nombre_campo_id ,$nombre_campo_texto     
+
+	           FROM  $tabla
+
+	           ORDER BY orden";
+
+
+
+	     $result= mysql_query($query)or die ("ERROR function select_tabla <br>$query");
+
+	      while (list($id_campo_bd,$contenido_campo_txt_bd) = mysql_fetch_row($result)){
+
+	
+
+				
+
+	      	
+
+	      	if($id_campo_selecionado==$id_campo_bd){
+
+	      		
+
+	      		$lista_select .="<option value=\"$id_campo_bd\" selected>$contenido_campo_txt_bd</option>\n";
+
+	      	}else{
+
+	      		$lista_select .="<option value=\"$id_campo_bd\">$contenido_campo_txt_bd</option>\n";
+
+	      	}
+
+							   
+
+		 }
+
+
+
+
+
+	 
+
+		 	   $lista_select ="<select class=\"$clase\" name=\"$nombre_campo_id\" $js_sel>
+
+	  							   <option value=\"\">--Seleccione--</option>\";
+
+               							$lista_select
+
+				   				   </select>";
+
+		
+
+		return $lista_select; 
+
+		 
+
+}
+
+
+
+
+
+function select_admin_campo_simple($tabla,$id_campo_selecionado, $js_sel, $clase,$id_opcional){
+
+	
+
+	
+
+
+
+			crear_campo_orden($tabla);
+
+
+
+			$id_auto_admin= id_tabla($tabla);				   
+
+			$campo_pk = pk_tabla($tabla);	
+
+			$campo_txt=campo_txt($id_auto_admin);		   
+
+	
+
+
+
+	
+
+$query= "SELECT  $campo_pk,  $campo_txt
+
+	           FROM  $tabla
+
+	           ORDER BY orden";
+
+		//echo $query."<br>";	 
+
+	     $result= mysql_query($query)or die ("ERROR 1d Tabla \"$tabla\" no configurada en el auto_admin function select_admin_campo<br>$query");
+
+	      while (list($id_campo_pk,$contenido_campo_txt_bd) = mysql_fetch_row($result)){
+
+	
+
+				$contenido_campo_txt_bd = cambio_texto(acentos_inverso($contenido_campo_txt_bd));
+
+	      	
+
+	    	if($id_campo_selecionado==$id_campo_pk){
+
+	      		
+
+	      		$lista_select.="<option value=\"$id_campo_pk\" selected>$contenido_campo_txt_bd</option>\n";
+
+	      	}else{
+
+	      		$lista_select.="<option value=\"$id_campo_pk\">$contenido_campo_txt_bd</option>\n";
+
+	      	}
+
+							   
+
+		 }
+
+
+
+	if($id_opcional==""){
+
+	
+
+		
+
+	 $lista_select ="<select class=\"$clase\" name=\"$campo_pk\" id=\"$campo_pk\" $js_sel>
+
+	  							   <option value=\"\">--Seleccione--></option>\";
+
+               							$lista_select
+
+				   				   </select>";
+
+	}else{
+
+	
+
+	 $lista_select ="<select class=\"$clase\" name=\"$id_opcional\" $js_sel>
+
+	  							   <option value=\"\">--Seleccione--></option>\";
+
+               							$lista_select
+
+				   				   </select>";
+
+	
+
+	}
+
+	 
+
+		 	  
+
+		
+
+		return $lista_select; 
+
+		 
+
+}
+
+
+
+function select_admin_campo($tabla,$id_campo_selecionado, $js_sel, $clase,$id_opcional){
+
+	
+
+	
+
+
+
+			crear_campo_orden($tabla);
+
+
+
+			$id_auto_admin= id_tabla($tabla);				   
+
+			$campo_pk = pk_tabla($tabla);	
+
+			$campo_txt=campo_txt($id_auto_admin);		   
+
+	
+
+
+
+	
+
+$query= "SELECT  $campo_pk,  $campo_txt
+
+	           FROM  $tabla
+
+	           ORDER BY orden";
+
+		//echo $query."<br>";	 
+
+	     $result= mysql_query($query)or die ("ERROR 1d Tabla \"$tabla\" no configurada en el auto_admin function select_admin_campo<br>$query");
+
+	      while (list($id_campo_pk,$contenido_campo_txt_bd) = mysql_fetch_row($result)){
+
+	
+
+				$contenido_campo_txt_bd =acentos_inverso($contenido_campo_txt_bd);
+
+	      	
+
+	    	if($id_campo_selecionado==$id_campo_pk){
+
+	      		
+
+	      		$lista_select.="<option value=\"$id_campo_pk\" selected>$contenido_campo_txt_bd</option>\n";
+
+	      	}else{
+
+	      		$lista_select.="<option value=\"$id_campo_pk\">$contenido_campo_txt_bd</option>\n";
+
+	      	}
+
+							   
+
+		 }
+
+
+
+	if($id_opcional==""){
+
+	
+
+		
+
+	 $lista_select ="<div id='div_$campo_pk'><select class=\"$clase\" name=\"$campo_pk\" $js_sel>
+
+	  							   <option value=\"\">--Seleccione--></option>\";
+
+               							$lista_select
+
+				   				   </select></div><div id='mensaje_$campo_pk'></div>";
+
+	}else{
+
+	
+
+	 $lista_select ="<div id='div_$campo_pk'><select class=\"$clase\" name=\"$id_opcional\" $js_sel>
+
+	  							   <option value=\"\">--Seleccione--></option>\";
+
+               							$lista_select
+
+				   				   </select></div><div id='mensaje_$campo_pk'></div>";
+
+	
+
+	}
+
+	 
+
+		 	  
+
+		
+
+		return $lista_select; 
+
+		 
+
+}
+
+
+
+function select_admin_campo_tienda($tabla,$id_campo_selecionado, $js_sel, $clase,$id_opciona,$id_auto_admin_combo){
+
+	
+
+	
+
+
+
+			crear_campo_orden($tabla);
+
+
+
+			$id_auto_admin= id_tabla($tabla);				   
+
+			$campo_pk = pk_tabla($tabla);	
+
+			$campo_txt=campo_txt($id_auto_admin);		   
+
+	
+
+
+
+	
+
+$query= "SELECT  $campo_pk,  $campo_txt
+
+	           FROM  $tabla
+
+	           ORDER BY orden";
+
+	
+
+	     $result= mysql_query($query)or die ("ERROR 1d Tabla \"$tabla\" no configurada en el auto_admin function select_admin_campo<br>$query");
+
+	      while (list($id_campo_pk,$contenido_campo_txt_bd) = mysql_fetch_row($result)){
+
+	
+
+				
+
+	      	
+
+	    	if($id_campo_selecionado==$id_campo_pk){
+
+	    		
+
+	    	
+
+	      		
+
+	      		$lista_select.="<option value=\"$id_campo_pk\" selected>$contenido_campo_txt_bd</option>\n";
+
+	      	}else{
+
+	      		$lista_select.="<option value=\"$id_campo_pk\">$contenido_campo_txt_bd</option>\n";
+
+	      	}
+
+							   
+
+		 }
+
+
+
+	if($id_opcional==""){
+
+	
+
+		
+
+	 $lista_select ="<div id='div_$campo_pk'><select class=\"$clase\" name=\"$campo_pk\" $js_sel>
+
+	  							   <option value=\"\">--Seleccione--></option>\";
+
+               							$lista_select
+
+				   				   </select></div><div id='mensaje_$campo_pk'></div>";
+
+	}else{
+
+	
+
+	 $lista_select ="<div id='div_$campo_pk'><select class=\"$clase\" name=\"$id_opcional\" $js_sel>
+
+	  							   <option value=\"\">--Seleccione--></option>\";
+
+               							$lista_select
+
+				   				   </select></div><div id='mensaje_$campo_pk'></div>";
+
+	
+
+	}
+
+	 
+
+		 	  
+
+		
+
+		return $lista_select; 
+
+		 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function valor_admin_campo($tabla,$id_campo_selecionado,$campo){
+
+	if($id_campo_selecionado!=""){
+
+		
+
+		
+
+		
+
+	
+
+	
+
+//echo "$tabla,$id_campo_selecionado,$campo<br>";
+
+			crear_campo_orden($tabla);
+
+
+
+			$id_auto_admin= id_tabla($tabla);
+
+			//$campo_pk = pk_tabla($tabla);	
+
+			$campo_txt =campo_txt($id_auto_admin);		   
+
+	
+
+	
+
+$query= "SELECT $campo_txt
+
+	           FROM  $tabla
+
+				WHERE $campo= $id_campo_selecionado";
+
+		//echo $query."<br>";	 
+
+	     $result= mysql_query($query)or die ("ERROR 1d Tabla \"$tabla\" no configurada en el auto_admin function select_admin_campo<br>$query");
+
+	     list($campo_txt) = mysql_fetch_row($result);
+
+	     
+
+			 	  
+
+		if($campo_txt==""){
+
+			return $id_campo_selecionado;
+
+		}else{
+
+			return  $campo_txt; 
+
+			
+
+		}
+
+		
+
+}
+
+}
+
+
+
+
+
+function crear_campo_orden($tabla){
+
+
+
+if($tabla!=""){
+
+
+
+	$existe_orden=0;
+
+ $sql_master = "SELECT  * FROM $tabla";
+
+ 
+
+  $qry = mysql_query($sql_master)or die ("ERROR 1a function crear_campo_orden <br>$sql_master");
+
+  $num_campos = mysql_num_fields($qry)or die ("ERROR 2 function crear_campo_orden <br>$sql_master");
+
+  
+
+  
+
+  if($num_campos!=0){
+
+   while($a<$num_campos){
+
+  
+
+    $nom_campo = mysql_field_name($qry,$a);
+
+   
+
+  	if($nom_campo=="orden"){
+
+			$existe_orden=1;
+
+	}
+
+	
+
+  $a++;
+
+  }
+
+			   
+
+  		 
+
+ }
+
+if($existe_orden==0){
+
+  
+
+  	  	 $query= "ALTER TABLE $tabla ADD orden INT NOT NULL";
+
+         $result= mysql_query($query)or die ("ERROR 3 function crear_campo_orden<br>$query");
+
+    	  
+
+  
+
+  }
+
+
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+function cuadro($conte){
+
+	
+
+	 $cuadro= "<table width=\"530\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"  align=\"center\">
+
+              <tr>
+
+                <td>
+
+				 <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+
+  						<tr>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/superior_izq.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/superior_izq.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+				
+
+				
+
+				</td>
+
+   						 <td height=\"10\" width=\"100%\"  class=\"fondo_blanco\"></td>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/superior_der.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/superior_der.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+			  		</td>
+
+  						</tr>
+
+						</table>
+
+						 
+
+				</td>
+
+              </tr>
+
+              <tr>
+
+                <td class=\"fondo_blanco\" align=\"center\" >$conte</td>
+
+              </tr>
+
+              <tr>
+
+                <td><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+
+  						<tr>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/inferior_izq.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/inferior_izq.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+				
+
+				
+
+				</td>
+
+   						 <td height=\"10\" width=\"100%\" class=\"fondo_blanco\"></td>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/inferior_der.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/inferior_der.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+			  		</td>
+
+  						</tr>
+
+						</table>
+
+						
+
+				</td>
+
+              </tr>
+
+            </table>";
+
+	
+
+	
+
+	return $cuadro;
+
+}
+
+
+
+
+
+
+
+function cuadro_gris($conte){
+
+	
+
+	 $cuadro= "<table width=\"530\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"  align=\"center\" >
+
+              <tr>
+
+                <td>
+
+				 <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+
+  						<tr>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/grisClaro/superior_izq.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/grisClaro/superior_izq.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+				
+
+				
+
+				</td>
+
+   						 <td height=\"10\" width=\"100%\" class=\"fondo_celeste\"></td>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/grisClaro/superior_der.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/grisClaro/superior_der.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+			  		</td>
+
+  						</tr>
+
+						</table>
+
+						 
+
+				</td>
+
+              </tr>
+
+              <tr>
+
+                <td class=\"fondo_celeste\" align=\"center\" width=\"100%\">$conte</td>
+
+              </tr>
+
+              <tr>
+
+                <td><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+
+  						<tr>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/grisClaro/inferior_izq.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/grisClaro/inferior_izq.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+				
+
+				
+
+				</td>
+
+   						 <td height=\"10\" width=\"100%\" class=\"fondo_celeste\"></td>
+
+   						 <td width=\"10\" height=\"10\">
+
+						 <object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0\" width=\"10\" height=\"10\">
+
+                    <param name=movie value=\"fla/grisClaro/inferior_der.swf\">
+
+                    <param name=quality value=high>
+
+                    <param name=\"wmode\" value=\"transparent\">
+
+                    <embed src=\"fla/grisClaro/inferior_der.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"10\" height=\"10\" wmode=\"transparent\"> 
+
+                    </embed> </object>
+
+			  		</td>
+
+  						</tr>
+
+						</table>
+
+						
+
+				</td>
+
+              </tr>
+
+            </table>";
+
+	
+
+	
+
+	return $cuadro;
+
+}
+
+
+
+
+
+
+
+function verifica($id_sesion){
+
+	
+
+	  $query= "SELECT id_usuario   
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	  
+
+	//echo "$query<br>";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      if(list($id_usuario) = mysql_fetch_row($result)){
+
+	      	
+
+				return $id_usuario;			   
+
+			 }else{
+
+			 	
+
+			 	return false;
+
+			 }
+
+	
+
+}
+
+
+
+function id_usuario($id_sesion){
+
+	
+
+	  $query= "SELECT id_usuario  
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	 //echo "$query<br>";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($id_usuario) = mysql_fetch_row($result);
+
+	      
+
+	      return $id_usuario;
+
+}
+
+
+
+
+
+
+
+
+
+function id_curriculum($id_usuario){
+
+	
+
+	
+
+	  $query= "SELECT id_curriculum  
+
+	           FROM curriculum
+
+	           WHERE id_usuario='$id_usuario'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	   if( list($id_curriculum) = mysql_fetch_row($result)){
+
+
+
+	   	return $id_curriculum;
+
+	   }else{
+
+	   	 
+
+	   	return false;
+
+	   	
+
+	   }
+
+			
+
+	
+
+}
+
+
+
+function nombre($id_sesion){
+
+
+
+	$query= "SELECT nombre,apellido 
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($nombre,$apellido) = mysql_fetch_row($result);
+
+	      $nombre = $nombre ." ".$apellido;
+
+	      return $nombre;
+
+	
+
+}
+
+function telefono($id_sesion){
+
+
+
+	$query= "SELECT fono 
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($fono) = mysql_fetch_row($result);
+
+	      $nombre = $nombre ." ".$apellido;
+
+	      return $fono;
+
+	
+
+}
+
+
+
+function verifica_pass($id_sesion){
+
+
+
+	$query= "SELECT rut,password  
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($login_usr,$password) = mysql_fetch_row($result);
+
+	     
+
+		 	$login_user_md5= md5($login_usr);
+
+		  if($password==$login_user_md5){
+
+		  	return true;
+
+		  }else{
+
+		  	return false;
+
+		  }
+
+	     
+
+	
+
+}
+
+
+
+
+
+function perfil($id_sesion){
+
+
+
+if($id_sesion!=""){
+
+  $query= "SELECT id_perfil
+	           FROM  usuario
+	           WHERE session='$id_sesion'";
+			  
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+	      if(!list($id_perfil) = mysql_fetch_row($result)){
+	       $queryr= "SELECT id_perfil  
+                       FROM  usuario_perfil
+                       WHERE perfil='NB'";
+                   $resultr= mysql_query($queryr)or die ("ERROR 1 <br>$queryr");
+                   list($id_perfil) = mysql_fetch_row($resultr);
+ 
+		  }
+
+}else{
+ $queryr= "SELECT id_perfil  
+                        FROM  usuario_perfil
+                        WHERE perfil='NB'";
+                    $resultr= mysql_query($queryr)or die ("ERROR 1 <br>$queryr");
+                   list($id_perfil) = mysql_fetch_row($resultr);
+		 
+}
+
+		   return $id_perfil;	
+
+	      
+
+	
+
+}
+
+
+
+function acceso($id_sesion){
+
+	  $query= "SELECT id_perfil
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($id_perfil2) = mysql_fetch_row($result);
+
+	      
+
+	      if($id_perfil2==0){
+
+	      	$acceso = 3;
+
+	      	//Administrador
+
+	      }
+
+	      if($id_perfil2==1){
+
+	      	//Administrativo
+
+	      	$acceso = 0;
+
+	      }
+
+	      if($id_perfil2==3){
+
+	      	//Director
+
+	      	$acceso = 1;
+
+	      }
+
+	      if($id_perfil2==999){
+
+	      	//Webmaster
+
+	      	$acceso=3;
+
+	      }
+
+	      //Este lindo parche se deriva de la programacion anterior
+
+		  
+
+	       return $acceso;	
+
+}
+
+
+
+function perfil_on_line($id_perfil){
+
+  $query= "SELECT activo   
+
+           FROM  usuario_perfil
+
+           WHERE id_perfil='$id_perfil'";
+
+     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+      list($activo) = mysql_fetch_row($result);
+
+	  
+
+	  if($activo==0){
+
+	  	return false;
+
+	  }else{
+
+	  	return true;
+
+	  }
+
+
+
+}
+
+
+
+
+
+
+
+function id_usuario_perfil($id_usuario){
+
+	  $query= "SELECT id_perfil
+
+	           FROM    usuario
+
+	           WHERE id_usuario ='$id_usuario'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      if(list($id_perfil) = mysql_fetch_row($result)){
+
+		 	 return $id_perfil;	
+
+		  }else{
+
+		  
+
+		 $queryr= "SELECT id_perfil  
+
+                        FROM  usuario_perfil
+
+                        WHERE perfil='NB'";
+
+                   $resultr= mysql_query($queryr)or die ("ERROR 1 <br>$queryr");
+
+                   list($id_perfil) = mysql_fetch_row($resultr);
+
+				   
+
+		  	 return $id_perfil;
+
+		  }
+
+	      
+
+	       
+
+	      
+
+	
+
+}
+
+
+
+
+
+
+
+function nombre_usuario($id_usuario){
+
+	  $query= "SELECT nombre,paterno,materno
+
+	           FROM    usuario
+
+	           WHERE id_usuario ='$id_usuario'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      if(list($nombre,$paterno,$materno) = mysql_fetch_row($result)){
+
+		 	 return "$nombre $paterno $materno";	
+
+		  }
+
+	      
+
+	       
+
+	      
+
+	
+
+}
+
+
+
+
+
+function perfil_usuario($id_usuario, $id_perfil){
+
+	
+
+	
+
+	  $query= "SELECT nombre  
+
+	           FROM  usuario
+
+	           WHERE id_usuario='$id_usuario' and  id_perfil='$id_perfil'";
+
+	  
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    if(list($nombr) = mysql_fetch_row($result)){
+
+
+
+	    	return true;
+
+	    	
+
+	    	   
+
+			 }else{
+
+			 	
+
+			 	  $query= "SELECT count(*)  
+
+			 	           FROM  usuario_perfiles			 	           
+
+			 	           WHERE id_usuario='$id_usuario' and  id_perfil='$id_perfil'";
+
+			 
+
+			 
+
+			 	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+			 	     list($resultado) = mysql_fetch_row($result);
+
+			 	     
+
+			 	      if($resultado!=0){
+
+			 			
+
+			 	      	return true;			   
+
+			 			 }else{
+
+			 			 return false;
+
+			 			
+
+			 			 }
+
+			 }
+
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/*function objetar_contrato_cms_mail($id_user,$id_contrato){
+
+	
+
+	
+
+	  $query= "SELECT id_establecimiento
+
+	           FROM  contratos
+
+	           WHERE id_contrato='$id_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    list($establecimiento_user) = mysql_fetch_row($result);
+
+	
+
+	
+
+	  $query= "SELECT id_usuario,email
+
+	           FROM  usuario
+
+	           WHERE establecimiento='$establecimiento_user'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	   while(list($id_user,$email_user) = mysql_fetch_row($result)){
+
+	   	$nombre_user = asd;
+
+	   	
+
+	   		$query= "SELECT nombre,apellido 
+
+	           FROM  usuario
+
+	           WHERE id='$id_user'";
+
+	     $result_r= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($nombre_r,$apellido_r) = mysql_fetch_row($result_r);
+
+	      $nombre_r = $nombre_r ." ".$apellido_r;
+
+	      
+
+	      
+
+	   	
+
+	   	$destinatario = $email_user; 
+
+	    $asunto = "Se a Objetado el contrato nuevo N° $id_contrato"; 
+
+	    $cuerpo = " 
+
+	    <html> 
+
+	    <head> 
+
+	       <title>Contrato Objetado</title> 
+
+	    </head> 
+
+	    <body> 
+
+	   
+
+	    <b>Se ha Objetado su nuevo contrato N° $id_contrato</b>. Por favor ingrese a la 
+
+	    <a href=\"$home\">Intranet SIP</a> para su verificación. 
+
+	    </p> 
+
+	    </body> 
+
+	    </html> 
+
+	    "; 
+
+	    
+
+	    //para el envío en formato HTML 
+
+	    $headers = "MIME-Version: 1.0\r\n"; 
+
+	    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n"; 
+
+	    
+
+	    //dirección del remitente 
+
+	    $headers .= "From: Intranet Sip<intranet@sip.cl.com>\r\n"; 
+
+	    
+
+	    //dirección de respuesta, si queremos que sea distinta que la del remitente 
+
+	    $headers .= "Reply-To: intranet@sip.cl.com\r\n"; 
+
+	    
+
+	  
+
+	    
+
+	    cms_cms_mail($destinatario,$asunto,$cuerpo,$headers); 
+
+	   	
+
+	   }
+
+	    
+
+
+
+	  
+
+	    
+
+	
+
+	
+
+}*/
+
+
+
+/*function finalizar_contrato_cms_mail($id_user,$id_contrato){
+
+	
+
+	  $query= "SELECT id_perfil,establecimiento
+
+	           FROM  usuario
+
+	           WHERE id_usuario='$id_user'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    list($id_perfil_user,$establecimiento_user) = mysql_fetch_row($result);
+
+	    
+
+	  //3 = director  
+
+	  $query= "SELECT id_usuario,email
+
+	           FROM  usuario
+
+	           WHERE id_perfil='1' and establecimiento=$establecimiento_user";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    while (list($id_central,$email_central) = mysql_fetch_row($result)){
+
+	    	 if($email_central!=""){
+
+	    	
+
+	    	
+
+	    
+
+	    $destinatario = $email_central; 
+
+	    $asunto = "Se a Finalizado el Proceso del contrato N° $id_contrato"; 
+
+	    $cuerpo = " 
+
+	    <html> 
+
+	    <head> 
+
+	       <title>Contrato Finalizado Correctamente</title> 
+
+	    </head> 
+
+	    <body> 
+
+	   
+
+	    <b>Se ha finalizado el precedimiento de creación del contrato N° $id_contrato</b>. Por favor ingrese a la 
+
+	    <a href=\"$home\">Intranet SIP</a> para su verificación. 
+
+	    </p> 
+
+	    </body> 
+
+	    </html> 
+
+	    "; 
+
+	    
+
+	    //para el envío en formato HTML 
+
+	    $headers = "MIME-Version: 1.0\r\n"; 
+
+	    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n"; 
+
+	    
+
+	    //dirección del remitente 
+
+	    $headers .= "From: Intranet Sip<intranet@sip.cl.com>\r\n"; 
+
+	    
+
+	    //dirección de respuesta, si queremos que sea distinta que la del remitente 
+
+	    $headers .= "Reply-To: intranet@sip.cl.com\r\n"; 
+
+	    
+
+	  
+
+	    
+
+	    cms_cms_mail($destinatario,$asunto,$cuerpo,$headers); 
+
+	    }
+
+	    }
+
+	    
+
+	   
+
+	    
+
+	    
+
+	
+
+	
+
+}*/
+
+
+
+function contrato_tipo($id_contrato){
+
+
+
+ 	  $query= "SELECT id_tipo_contrato
+
+	           FROM  contratos
+
+	           WHERE id_contrato='$id_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	     list($id_tipo_contrato) = mysql_fetch_row($result);
+
+	
+
+
+
+	  $query= "SELECT tipo   
+
+	           FROM  tipos_contratos
+
+	           WHERE id='$id_tipo_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	     list($tipo) = mysql_fetch_row($result);
+
+		 
+
+	return  $tipo;
+
+}
+
+
+
+/*function contrato_name($id_tipo_contrato){
+
+	  $query= "SELECT tipo   
+
+	           FROM  tipos_contratos
+
+	           WHERE id='$id_tipo_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	     list($tipo) = mysql_fetch_row($result);
+
+	return  $tipo;
+
+}*/
+
+
+
+function nombre_comuna($id_comuna){
+
+	
+
+  $query= "SELECT comuna   
+
+	           FROM  comunas
+
+	           WHERE id='$id_comuna'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($comuna_nombre) = mysql_fetch_row($result);
+
+	      
+
+	      return $comuna_nombre;
+
+	
+
+}
+
+
+
+/*function nombre_asignatura($id_asignatura){
+
+	
+
+  $query= "SELECT asignatura  
+
+	           FROM  asignaturas 
+
+	           WHERE id='$id_asignatura'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($asignatura_nombre) = mysql_fetch_row($result);
+
+	      
+
+	      return $asignatura_nombre;
+
+	
+
+}*/
+
+
+
+function nombre_banco($id_banco){
+
+	
+
+  $query= "SELECT banco   
+
+	           FROM  bancos
+
+	           WHERE id_banco='$id_banco'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($banco_n) = mysql_fetch_row($result);
+
+	      if($banco_n!=""){
+
+		  
+
+		  $banco = $banco_n;
+
+		  }else{
+
+		  $banco = $id_banco;
+
+		  }
+
+	      return $banco;
+
+	
+
+}
+
+
+
+function nombre_isapre($id_isapre){
+
+	
+
+  $query= "SELECT isapre   
+
+	           FROM  isapre
+
+	           WHERE id_isapre='$id_isapre'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($isapre) = mysql_fetch_row($result);
+
+	      
+
+	      return $isapre;
+
+	
+
+}
+
+
+
+function nombre_afp($id_afp){
+
+	
+
+  $query= "SELECT afp   
+
+	           FROM  afp
+
+	           WHERE id_afp='$id_afp'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($afp) = mysql_fetch_row($result);
+
+	      
+
+	      return $afp;
+
+	
+
+}
+
+
+
+function tipo_anexo($id_movimiento){
+
+	
+
+  $query= "SELECT movimiento    
+
+	           FROM  tipo_movimiento
+
+	           WHERE id_movimiento ='$id_movimiento'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($movimiento) = mysql_fetch_row($result);
+
+	      
+
+	      return $movimiento;
+
+	
+
+}
+
+
+
+/*function escolaridad($id_escolaridad){
+
+	
+
+  $query= "SELECT escolaridad   
+
+	           FROM  personal_escolaridad  
+
+	           WHERE id='$id_escolaridad'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($escolaridad) = mysql_fetch_row($result);
+
+	      
+
+	      return $escolaridad;
+
+	
+
+}*/
+
+
+
+/*function establecimiento_nombre($id_establecimiento){
+
+	
+
+  $query= "SELECT establecimiento    
+
+	           FROM  establecimientos
+
+	           WHERE id='$id_establecimiento'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      if(list($establecimiento) = mysql_fetch_row($result)){
+
+	      	return $establecimiento;
+
+	      }else{
+
+	      	return $id_establecimiento;
+
+	      }
+
+	      
+
+	      
+
+	
+
+}*/
+
+function establecimiento_ctro_costo($id_establecimiento){
+
+	
+
+  $query= "SELECT ctro_costo     
+
+	           FROM  establecimientos
+
+	           WHERE id='$id_establecimiento'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      if(list($ctro_costo) = mysql_fetch_row($result)){
+
+	      	return $ctro_costo;
+
+	      }else{
+
+	      	return $id_establecimiento;
+
+	      }
+
+	      
+
+	      
+
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/*function tipo_contrato($id_tipo_contrato){
+
+	  $query= "SELECT tipo     
+
+	           FROM  tipos_contratos 
+
+	           WHERE id='$id_tipo_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_tipo_contrato;
+
+	     }
+
+	
+
+}*/
+
+
+
+function tipo_ausencia($id_tipo_ausencia){
+
+	  $query= "SELECT  tipo_ausencia  
+
+	           FROM  tipos_ausencia 
+
+	           WHERE id='$id_tipo_ausencia'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_tipo_ausencia;
+
+	     }
+
+	
+
+}
+
+
+
+function tipo_egreso($id_egreso){
+
+	  $query= "SELECT  egreso   
+
+	           FROM  tipos_egresos  
+
+	           WHERE id_egreso ='$id_egreso'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_egreso;
+
+	     }
+
+	
+
+}
+
+
+
+function tipo_motivo($id_movimiento){
+
+	  $query= "SELECT  movimiento   
+
+	           FROM  tipos_movimiento
+
+	           WHERE id_movimiento  ='$id_movimiento'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_movimiento;
+
+	     }
+
+	
+
+}
+
+
+
+function id_motivo($id_motivo){
+
+	  $query= "SELECT  reemplazo    
+
+	           FROM  tipo_reemplazo 
+
+	           WHERE id_reemplazo  ='$id_motivo'";
+
+	     $result= mysql_query($query)or die ("ERROR 1a <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $reemplazo;
+
+	     }else{
+
+	     	return $id_motivo;
+
+	     }
+
+	
+
+}
+
+
+
+function id_clase($id_clase){
+
+	  $query= "SELECT  clase    
+
+	           FROM  tipos_clases  
+
+	           WHERE id_clase  ='$id_clase'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($clase) = mysql_fetch_row($result)){
+
+	        return $clase;
+
+	     }else{
+
+	     	return $id_clase;
+
+	     }
+
+	
+
+}
+
+
+
+function tipo_cargo($id_tipo_cargo){
+
+	  $query= "SELECT cargo     
+
+	           FROM  tipos_cargos
+
+	           WHERE id='$id_tipo_cargo'";
+
+	    
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_tipo_cargo;
+
+	     }
+
+	
+
+}
+
+function ctro_cto_cargo($id_tipo_cargo){
+
+	  $query= "SELECT detalle_gasto     
+
+	           FROM  tipos_cargos
+
+	           WHERE id='$id_tipo_cargo'";
+
+	    
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_tipo_cargo;
+
+	     }
+
+	
+
+}
+
+
+
+function id_suplencia ($id_tipo_suplencia){
+
+	  $query= "SELECT tipo_suplencia   
+
+	           FROM  tipo_suplencia 
+
+	           WHERE id='$id_tipo_suplencia '";
+
+	    
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_tipo_suplencia ;
+
+	     }
+
+	
+
+}
+
+
+
+function personal_nombre($id_contrato){
+
+	
+
+	
+
+	
+
+		 $query= "SELECT id_personal,id_tipo_contrato 
+
+	             FROM  contratos
+
+	             WHERE id_contrato='$id_contrato'";
+
+
+
+	//echo $query ."<br>";	 
+
+		 $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($id_persona,$id_tipo_contrato) = mysql_fetch_row($result);
+
+	
+
+  $query= "SELECT paterno,materno,nombres    
+
+	           FROM  personal
+
+	           WHERE id='$id_persona'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($paterno,$materno,$nombres) = mysql_fetch_row($result);
+
+	      
+
+	      	$materno = $materno[0];
+
+	      	$materno .= ".";
+
+	        $nombre = "$nombres $paterno $materno";
+
+	      	$nombre = ucwords(strtolower(trim($nombre)));
+
+	       
+
+	      	return $nombre;
+
+	    
+
+	
+
+}
+
+
+
+
+
+
+
+function estado_civil($estcivil){
+
+$query= "SELECT estado_civil   
+
+               FROM  estado_civil 
+
+               WHERE id_estado_civil ='$estcivil'";
+
+         $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+       if(list($estadocivil) = mysql_fetch_row($result)){
+
+	   return $estadocivil;
+
+	   }else{
+
+	   return $estcivil;
+
+	   }
+
+	   
+
+}
+
+
+
+
+
+function personal_nombre2($id_persona){
+
+	
+
+	
+
+	
+
+	
+
+  $query= "SELECT paterno,materno,nombres    
+
+	           FROM  personal
+
+	           WHERE id='$id_persona'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($paterno,$materno,$nombres) = mysql_fetch_row($result);
+
+	      
+
+	      	$materno = $materno[0];
+
+	      	$materno .= ".";
+
+	        $nombre = "$nombres $paterno $materno";
+
+	      	$nombre = ucwords(strtolower(trim($nombre)));
+
+	       
+
+	      	return $nombre;
+
+	    
+
+	
+
+}
+
+
+
+
+
+/*function personal_establecimiento($id_persona){
+
+	
+
+	
+
+	
+
+	
+
+  $query= "SELECT establecimiento     
+
+	           FROM  personal
+
+	           WHERE id='$id_persona'";
+
+
+
+
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($establecimiento) = mysql_fetch_row($result);
+
+	     
+
+	  
+
+	      	$establecimiento = ucwords(strtolower(trim($establecimiento)));
+
+	       
+
+	      	return $establecimiento;
+
+	    
+
+	
+
+}*/
+
+
+
+
+
+
+
+
+
+
+
+function usuario_nombre($id_user){
+
+	
+
+		//$id_usuario     = id_usuario($id_sesion);
+
+	
+
+  $query= "SELECT nombre,apellido 
+
+	           FROM usuario
+
+	           WHERE id_usuario='$id_user'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($nombre,$apellido) = mysql_fetch_row($result);
+
+	     	      	
+
+	        $nombre = "$nombre $apellido";
+
+	       
+
+	      	$nombre = ucwords(strtolower(trim($nombre)));
+
+	       
+
+	      	return $nombre;
+
+	
+
+}
+
+
+
+function estado_contrato_imagen($estado){
+
+	
+
+  
+
+	if($estado=="0"){
+
+		
+
+		$imagen="<img src=\"images/bola_des.jpg\" alt=\"Creado\" border=\"0\">";
+
+		
+
+	}
+
+	
+
+	if($estado=="director"){
+
+		
+
+		$imagen="<img src=\"images/bola_des.jpg\" alt=\"En Aprobacioón por el Director\" border=\"0\">";
+
+		
+
+	}
+
+	
+
+	if($estado=="central"){
+
+		
+
+		$imagen="<img src=\"images/no.gif\" alt=\"En Aprobacioón por Central\" border=\"0\">";
+
+		
+
+	}
+
+	if($estado=="fin"){
+
+		
+
+		$imagen="<img src=\"images/bola_azul.gif\" alt=\"Proceso Finalizado Aprobado por Central\" border=\"0\">";
+
+		
+
+	}
+
+   if($estado=="cerrado"){
+
+		
+
+		$imagen="<img src=\"images/bola_azul.gif\" alt=\"$estado\" border=\"0\">";
+
+		
+
+	}
+
+	
+
+	      	return $imagen;
+
+	
+
+}
+
+
+
+
+
+function personal_rut($id_persona){
+
+	
+
+  $query= "SELECT rut,dig    
+
+	           FROM  personal
+
+	           WHERE id='$id_persona'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($rut,$dig) = mysql_fetch_row($result);
+
+	      
+
+	      $rut= "$rut-$dig";
+
+	      
+
+	       
+
+	      	return $rut;
+
+	    
+
+	
+
+}
+
+
+
+/*function personal_contrato($id_persona){
+
+	
+
+  $query= "SELECT id_contrato    
+
+	           FROM  contratos
+
+	           WHERE id_personal='$id_persona'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($id_contrato) = mysql_fetch_row($result);
+
+	      
+
+	     
+
+	      	return $id_contrato;
+
+	    
+
+	
+
+}*/
+
+
+
+function personal_cargo($id_persona){
+
+	
+
+  $query= "SELECT id_cargo    
+
+	           FROM  contratos
+
+	           WHERE id_personal='$id_persona'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      if(list($id_cargo) = mysql_fetch_row($result)){
+
+		  
+
+		  return $id_cargo;
+
+		  }else{
+
+		  
+
+		  return "S/C";
+
+		  }
+
+	      
+
+	     
+
+	      
+
+	       
+
+	      	
+
+	    
+
+	
+
+}
+
+
+
+function fechas_html($fecha){
+
+	
+
+	$fecha = explode("-",$fecha);
+
+	$anio = $fecha[0];
+
+	$mes = $fecha[1];
+
+	$dia = $fecha[2];
+	if(strlen($dia)==2){
+	 $fecha_n= "$dia-$mes-$anio";	
+	}else{
+	
+	$fecha_n= $fecha;
+	
+	}
+
+	$fecha_n= "$dia-$mes-$anio";	
+
+	return $fecha_n;
+
+	
+
+}
+
+function fechas_min_html($fecha){
+
+
+
+	$fecha2 = explode(" ",$fecha);
+
+	$fecha = $fecha2[0];
+
+	$min = $fecha2[1];
+
+
+
+	$fecha = fechas_html($fecha);		
+
+	
+
+	$fecha_n= "$fecha $min";
+  
+	return $fecha_n;
+
+	
+
+}
+
+
+
+function fechas_bd($fecha){
+
+	
+
+	$fecha = explode("-",$fecha);
+
+	$anio = $fecha[2];
+
+	$mes = $fecha[1];
+
+	$dia = $fecha[0];
+
+	if(strlen($anio)){
+	$fecha_n= "$anio-$mes-$dia";
+	}else{
+	$fecha_n= $fecha;
+	
+	}
+	
+	
+$fecha_n= "$dia-$mes-$anio";	
+	return $fecha_n;
+
+	
+
+}
+
+
+
+function fechas_min_bd($fecha){
+
+	
+
+	$fecha2 = explode(" ",$fecha);
+
+	$fecha = $fecha2[0];
+
+	$min = $fecha2[1];
+
+	
+
+	$fecha = fechas_bd($fecha);
+
+	
+
+	
+
+	
+
+	
+
+	$fecha_n= "$fecha $min";
+
+	return $fecha_n;
+
+	
+
+}
+
+
+
+function estado_personal($id_contrato){
+
+$estado_ficha= true;
+
+	
+
+	
+
+		//		
+
+		 $query= "SELECT id_personal,id_tipo_contrato 
+
+	             FROM  contratos
+
+	             WHERE id_contrato='$id_contrato'";
+
+
+
+	//echo $query ."<br>";	 
+
+		 $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($id_persona,$id_tipo_contrato) = mysql_fetch_row($result);
+
+				
+
+				$query= "SELECT paterno,materno,nombres,fechanac,estcivil,nacionalidad,telefono,domicilio,id_comuna,afp,afpafiliacion,isaprecotizacion,isapre  
+
+	                     FROM  personal
+
+	                     WHERE id='$id_persona'";
+
+//echo $query ."<br>";
+
+				
+
+				$result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($paterno,$materno,$nombres,$fechanac,$estcivil,$nacionalidad,$telefono,$domicilio,$id_comuna,$afp,$afpafiliacion,$isaprecotizacion,$isapre) = mysql_fetch_row($result);
+
+	    
+
+	      //4 = honorarios
+
+	      
+
+	     if($id_tipo_contrato!=4){
+
+	     	if($estcivil==""){$estado_ficha=false;}
+
+		    if($nacionalidad=="" or $nacionalidad=="0"){$estado_ficha=false;}	
+
+		    
+
+		   /* if($afp==""){$estado_ficha=false;} 
+
+		    if($isapre==""){$estado_ficha=false;} 
+
+		    if($isaprecotizacion==""){$estado_ficha=false;} 
+
+		    if($afpafiliacion=="0000-00-00"){$estado_ficha=false;} */
+
+	     }
+
+	      
+
+	    if($paterno=="" or $paterno=="0"){$estado_ficha=false;}
+
+		if($materno=="" or $materno=="0"){$estado_ficha=false;}
+
+		if($nombres=="" or $nombres=="0"){$estado_ficha=false;}
+
+		if($fechanac=="0000-00-00" or $fechanac==""){$estado_ficha=false;}
+
+	 
+
+		if($telefono=="" or $telefono=="0"){$estado_ficha=false;} 
+
+		if($domicilio=="" or $domicilio=="0"){$estado_ficha=false;} 
+
+		if($id_comuna=="" or $id_comuna=="0"){$estado_ficha=false;} 
+
+		
+
+		
+
+			
+
+		
+
+	
+
+		return $estado_ficha;		
+
+	      
+
+}
+
+
+
+
+
+
+
+function estado_personal_detalle($id_contrato){
+
+$estado_ficha= true;
+
+	
+
+	
+
+		//		
+
+		 $query= "SELECT id_personal,id_tipo_contrato 
+
+	             FROM  contratos
+
+	             WHERE id_contrato='$id_contrato'";
+
+
+
+	//echo $query ."<br>";	 
+
+		 $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($id_persona,$id_tipo_contrato) = mysql_fetch_row($result);
+
+				
+
+				$query= "SELECT paterno,materno,nombres,fechanac,estcivil,nacionalidad,telefono,domicilio,id_comuna,afp,afpafiliacion,isaprecotizacion,isapre  
+
+	                     FROM  personal
+
+	                     WHERE id='$id_persona'";
+
+//echo $query ."<br>";
+
+				
+
+				$result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($paterno,$materno,$nombres,$fechanac,$estcivil,$nacionalidad,$telefono,$domicilio,$id_comuna,$afp,$afpafiliacion,$isaprecotizacion,$isapre) = mysql_fetch_row($result);
+
+	    
+
+	      //4 = honorarios
+
+	    $dato="";  
+
+	     if($id_tipo_contrato!=4){
+
+	     	if($estcivil==""){$dato .=",Estado civil";}
+
+		    if($nacionalidad=="" or $nacionalidad=="0"){$dato .=",Nacionalidad";}	
+
+		   // if($afp==""){$dato .=",Afp";} 
+
+		   // if($isapre==""){$dato .=",Isapre";} 
+
+		   // if($isaprecotizacion==""){$dato .=",Isapre cotización";} 
+
+		   // if($afpafiliacion=="0000-00-00"){$dato .=",Fecha Afp Afiliación";} 
+
+	     }
+
+	      
+
+	    if($paterno=="" or $paterno=="0"){$dato .=",Apellido paterno";}
+
+		if($materno=="" or $materno=="0"){$dato .=",Apellido Materno";}
+
+		if($nombres=="" or $nombres=="0"){$dato .=",Nombres";}
+
+		if($fechanac=="0000-00-00" or $fechanac==""){$dato .=",Fecha Nacimiento";}
+
+	 
+
+		if($telefono=="" or $telefono=="0"){$dato .=",Teléfono";} 
+
+		if($domicilio=="" or $domicilio=="0"){$dato .=",Domicilio";} 
+
+		if($id_comuna=="" or $id_comuna=="0"){$dato .=",comuna";} 
+
+		
+
+		
+
+			
+
+		$dato = substr($dato,1);
+
+	
+
+		return $dato;		
+
+	      
+
+}
+
+
+
+function estado_contrato($id_contrato){
+
+$estado_contrato=true;	
+
+	 $query= "SELECT ingreso,vencimiento,id_tipo_contrato,valor_hr,valor_jornada,id_cargo,valor_extra,ump
+
+	             FROM  contratos
+
+	             WHERE id_contrato='$id_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($ingreso,$vencimiento,$id_tipo_contrato,$valor_hr,$valor_jornada,$id_cargo,$valor_extra,$ump) = mysql_fetch_row($result);
+
+	     
+
+	      $campos = mysql_num_fields($result);
+
+
+
+			$i=0;
+
+				if($ingreso=="" or $ingreso=="0"){$estado_ficha=false;}
+
+				if($vencimiento=="" or $vencimiento=="0"){$estado_ficha=false;}   
+
+				if($id_tipo_contrato=="" or $id_tipo_contrato=="0"){$estado_ficha=false;}   
+
+				if($valor_hr=="" or $valor_hr=="0"){$estado_ficha=false;}   
+
+				if($valor_jornada=="" or $valor_jornada=="0"){$estado_ficha=false;}   
+
+				if($id_cargo==""){$estado_ficha=false;}   
+
+				if($valor_extra=="" or $valor_extra=="0"){$estado_ficha=false;}   
+
+				//if($ump=="" or $ump=="0"){$estado_ficha=false;}   
+
+			
+
+			
+
+			
+
+	return $estado_contrato;
+
+}
+
+
+
+
+
+function nombre_perfil($id_perfil){
+
+	$query= "SELECT  perfil  
+
+	           FROM  usuario_perfil 
+
+	           WHERE id_perfil  ='$id_perfil'";
+
+	     $result_nom= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($perfil) = mysql_fetch_row($result_nom)){
+
+	        return $perfil;
+
+	     }else{
+
+	     	return $id_perfil;
+
+	     }
+
+	
+
+	
+
+}
+
+
+
+
+
+
+
+function nivel_perfil($id_perfil){
+
+	$nivel_perfil=0;
+
+	    $perfil = perfil_padre($id_perfil);
+
+		
+
+	    while($perfil!=false){
+
+		   $nivel_perfil++;
+
+			$perfil = perfil_padre($perfil);
+
+		//echo $perfil."  $nivel_perfil<br>";
+
+		}
+
+	//echo "$id_perfil ->  $nivel_perfil<br>";
+
+	return $nivel_perfil;
+
+	
+
+}
+
+
+
+
+
+function perfil_padre($id_perfil){
+
+	$query= "SELECT  id_perfil_padre  
+
+	           FROM  usuario_perfil_relacion  
+
+	           WHERE id_perfil_hijo  ='$id_perfil'";
+
+	     $result1= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($perfil) = mysql_fetch_row($result1)){
+
+	         return $perfil;
+
+	     }else{
+
+		 	 return false;
+
+		 }
+
+	
+
+	
+
+}
+
+
+
+
+
+function hijos_perfil($id_perfil){
+
+	
+
+	   $query= "SELECT  id_perfil_hijo  
+
+	           FROM  usuario_perfil_relacion  
+
+	           WHERE id_perfil_padre  =$id_perfil";
+
+	     $result= mysql_query($query)or die ("ERROR 1 hijos_perfil<br>$query");
+
+	    
+
+	     if(list($perfil) = mysql_fetch_row($result)){
+
+		 	return true;
+
+		 }else{
+
+		 	return false;
+
+		 }
+
+	
+
+	
+
+}
+
+
+
+
+
+function marca_perfil($id_perfil,$accion){
+
+	
+
+	   $query= "SELECT  id_perfil
+
+	            FROM  accion_perfil  
+
+	            WHERE id_perfil =$id_perfil 
+
+				AND accion = $accion";
+
+				
+
+				//echo $query."<br>";
+
+				
+
+	     $result= mysql_query($query)or die ("ERROR 1 marca_perfil <br>$query");
+
+	    
+
+	     if(!list($perfil) = mysql_fetch_row($result)){
+
+		 	$qry_insert="INSERT INTO accion_perfil(id_perfil,accion,act) 
+
+						 values ('$id_perfil','$accion','0')";
+
+           
+
+		    //echo $qry_insert." marca <br>";
+
+		    $result_insert=mysql_query($qry_insert) or die("$MSG_DIE -marca_perfil QR-Problemas al insertar $qry_insert");
+
+			
+
+			
+
+			$id_padre = perfil_padre($id_perfil);
+
+		 }
+
+	
+
+	return $id_padre;
+
+}
+
+
+
+
+
+
+
+
+
+function perfil_hijo_sin_marca($id_perfil_p,$accion){
+
+      $estado=false;
+
+	//  echo "rr $id_perfil_p<br>";
+
+	  if($id_perfil_p!=""){
+
+	  $query= "SELECT id_perfil_hijo   
+
+               FROM  usuario_perfil_relacion 
+
+               WHERE id_perfil_padre = $id_perfil_p";
+
+			 //  echo $query ."<br><br>";
+
+         $result1= mysql_query($query)or die ("ERROR 1 perfil_hijo_sin_marca <br>$query");
+
+          while (list($id_perfil_hijo) = mysql_fetch_row($result1)){
+
+    			if($id_perfil_hijo!=""){
+
+				$query= "SELECT  id_perfil
+
+	            		 FROM  accion_perfil  
+
+	            		 WHERE id_perfil =$id_perfil_hijo 
+
+						 AND accion = $accion";
+
+	    		
+
+				 $result2= mysql_query($query)or die ("ERROR 2 perfil_hijo_sin_marca <br>$query");
+
+	    
+
+	     		  if(!list($perfil) = mysql_fetch_row($result2)){
+
+		 			$estado= $id_perfil_hijo;
+
+				  }
+
+				
+
+				}
+
+					
+
+			 }
+
+	   }
+
+	   return $estado;
+
+}
+
+
+
+
+
+function marca_arbol($id_perfil_padre,$accion){
+
+	   
+
+	   $id_perfil_hijo= perfil_hijo_sin_marca($id_perfil_padre,$accion);
+
+	  
+
+	   if($id_perfil_hijo!=false){
+
+	  
+
+	  		 marca_arbol($id_perfil_hijo,$accion);
+
+	   
+
+	   }else{
+
+	 		$nivel= nivel_perfil($id_perfil_padre);
+
+				if($nivel!="0" and $id_perfil_padre!=""){
+
+				
+
+				$id_perfil_padre2 = marca_perfil($id_perfil_padre,$accion);
+
+				marca_arbol($id_perfil_padre2,$accion);
+
+				}
+
+			
+
+	   }
+
+	   
+
+}
+
+
+
+/***************************************/
+
+
+
+
+
+function des_marca_perfil($id_perfil,$accion){
+
+	
+
+	   $query= "SELECT  id_perfil
+
+	            FROM  accion_perfil  
+
+	            WHERE id_perfil =$id_perfil 
+
+				AND accion = $accion";
+
+				
+
+				//echo $query."<br>";
+
+				
+
+	     $result= mysql_query($query)or die ("ERROR 1 marca_perfil <br>$query");
+
+	    
+
+	     if(list($perfil) = mysql_fetch_row($result)){
+
+		 	
+
+			 $Sql ="DELETE FROM accion_perfil where id_perfil=$id_perfil and accion=$accion";
+
+             mysql_query($Sql)or die("$MSG_DIE -des marca_perfil QR-Problemas al borarr $Sql");
+
+		    //echo $qry_insert." marca <br>";
+
+		    
+
+			
+
+			$id_padre = perfil_padre($id_perfil);
+
+		 }
+
+	
+
+	return $id_padre;
+
+}
+
+
+
+
+
+function perfil_hijo_con_marca($id_perfil_p,$accion){
+
+      $estado=false;
+
+	//  echo "rr $id_perfil_p<br>";
+
+	  if($id_perfil_p!=""){
+
+	  $query= "SELECT id_perfil_hijo   
+
+               FROM  usuario_perfil_relacion 
+
+               WHERE id_perfil_padre = $id_perfil_p";
+
+			 //  echo $query ."<br><br>";
+
+         $result1= mysql_query($query)or die ("ERROR 1 perfil_hijo_sin_marca <br>$query");
+
+          while (list($id_perfil_hijo) = mysql_fetch_row($result1)){
+
+    			if($id_perfil_hijo!=""){
+
+				$query= "SELECT  id_perfil
+
+	            		 FROM  accion_perfil  
+
+	            		 WHERE id_perfil =$id_perfil_hijo 
+
+						 AND accion = $accion";
+
+	    		
+
+				 $result2= mysql_query($query)or die ("ERROR 2 perfil_hijo_sin_marca <br>$query");
+
+	    
+
+	     		  if(list($perfil) = mysql_fetch_row($result2)){
+
+		 			$estado= $id_perfil_hijo;
+
+				  }
+
+				
+
+				}
+
+					
+
+			 }
+
+	   }
+
+	   return $estado;
+
+}
+
+
+
+
+
+
+
+
+
+function des_marca_arbol($id_perfil_padre,$accion){
+
+		$id_perfil_hijo= perfil_hijo_con_marca($id_perfil_padre,$accion);
+
+	    
+
+	   if($id_perfil_hijo!=false){
+
+	  
+
+	  		 des_marca_arbol($id_perfil_hijo,$accion);
+
+	   
+
+	   }else{
+
+	    		
+
+			 $nivel= nivel_perfil($id_perfil_padre);
+
+				if($nivel!="0" and $id_perfil_padre!=""){
+
+				
+
+				$id_perfil_padre2 = des_marca_perfil($id_perfil_padre,$accion);
+
+				//echo "marca a $id_perfil_padre,$accion<br>";
+
+				des_marca_arbol($id_perfil_padre2,$accion);
+
+				
+
+				}
+
+			
+
+	   }
+
+	   
+
+}
+
+
+
+
+
+
+
+
+
+/***************************************/
+
+
+
+function busca_sin_marca_arbol($id_perfil_padre,$accion){
+
+		
+
+    $estado=false;
+
+	//  echo "rr $id_perfil_p<br>";
+
+	  if($id_perfil_padre!=""){
+
+	  $query= "SELECT id_perfil_hijo   
+
+               FROM  usuario_perfil_relacion 
+
+               WHERE id_perfil_padre = $id_perfil_padre";
+
+			 //  echo $query ."<br><br>";
+
+         $result1= mysql_query($query)or die ("ERROR 1 perfil_hijo_sin_marca <br>$query");
+
+          while (list($id_perfil_hijo) = mysql_fetch_row($result1) and $estado==false){
+
+    			if($id_perfil_hijo!=""){
+
+				$query= "SELECT  id_perfil
+
+	            		 FROM  accion_perfil  
+
+	            		 WHERE id_perfil =$id_perfil_hijo 
+
+						 AND accion = $accion";
+
+	    		
+
+				 $result2= mysql_query($query)or die ("ERROR 2 perfil_hijo_sin_marca <br>$query");
+
+	    
+
+	     		  if(!list($perfil) = mysql_fetch_row($result2)){
+
+		 			$estado= true;
+
+					//echo 
+
+				  }else{
+
+				  $estado = busca_sin_marca_arbol($id_perfil_hijo,$accion);
+
+				  }
+
+				
+
+				}
+
+					
+
+			 }
+
+	   }
+
+	   return $estado;
+
+	   
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function perfil_contenido($id_contenido,$id_perfil){
+
+	
+
+	    $query= "SELECT id_perfil 
+
+                 FROM  control_contenido_perfil 
+
+                 WHERE id_contenido ='$id_contenido' and id_perfil='$id_perfil'";
+
+           $result_cont= mysql_query($query)or die ("ERROR perfil_contenido <br>$query");
+
+           if(list($id_perfil_hijo) = mysql_fetch_row($result_cont)){
+
+      			return true;	
+
+			 }else{
+
+			 	return false;	
+
+			 }
+
+	  
+
+	
+
+}
+
+
+
+
+
+function perfil_hijo_no_perfiles_contenido($id_contenido,$id_perfil_padre){
+
+	$id_hij=false;
+
+	    $query= "SELECT id_perfil_hijo    
+
+                 FROM  usuario_perfil_relacion 
+
+                 WHERE id_perfil_padre ='$id_perfil_padre'";
+
+           $result2= mysql_query($query)or die ("ERROR perfil_hijo_no_perfiles_contenido <br>$query");
+
+           while(list($id_perfil_hij) = mysql_fetch_row($result2)){
+
+      				
+
+					//$perf= nombre_perfil($id_perfil_padre);
+
+					//echo "hijos $id_perfil_hij  $perf<br>";
+
+					//echo $query."<br>";
+
+					
+
+					
+
+					if(!perfil_contenido($id_contenido,$id_perfil_hij)){
+
+							//echo "perfil_hijo_no_perfiles_contenido retorna ". $id_perfil_hij."<br>";
+
+							return $id_perfil_hij;
+
+					}	   
+
+      		 }
+
+	  
+
+
+
+}
+
+
+
+function perfil_si_hijo_perfiles_contenido($id_contenido,$id_perfil_padre){
+
+	
+
+	    $query= "SELECT id_perfil_hijo    
+
+                 FROM  usuario_perfil_relacion 
+
+                 WHERE id_perfil_padre ='$id_perfil_padre'";
+
+           $result22= mysql_query($query)or die ("ERROR perfil_hijo_si_perfiles_contenido <br>$query");
+
+           while(list($id_perfil_h) = mysql_fetch_row($result22)){
+
+      				
+
+					if(perfil_contenido($id_contenido,$id_perfil_h)){
+
+					
+
+				    // echo $id_perfil_h."<br>";
+
+						$id_hij = $id_perfil_h;
+
+					}
+
+							   
+
+      		 }
+
+	  
+
+	return $id_hij;
+
+}
+
+
+
+
+
+function marca_perfil_contenido($id_contenido,$id_perfil){
+
+	//$idp=false;	
+
+	if(!perfil_contenido($id_contenido,$id_perfil)){
+
+	
+
+	$qry_insert="INSERT INTO control_contenido_perfil(id_contenido,id_perfil)  
+
+				 values ('$id_contenido','$id_perfil')";
+
+    //echo $qry_insert."<br>";            
+
+    $result_insert=mysql_query($qry_insert) or die("$MSG_DIE - QR-Problemas al insertar marca_perfil_contenido $qry_insert");
+
+	
+
+	}
+
+	$idp=perfil_padre($id_perfil);
+
+	
+
+	return $idp;
+
+}
+
+
+
+
+
+function desmarca_perfil_contenido($id_contenido,$id_perfil){
+
+	
+
+	
+
+	 $Sql ="DELETE FROM control_contenido_perfil
+
+	 		WHERE id_contenido ='$id_contenido' and id_perfil='$id_perfil'";
+
+      mysql_query($Sql)or die("$MSG_DIE - QR-Problemas al borrar desmarca_perfil_contenidos $Sql");
+
+	 
+
+	$id_padre = perfil_padre($id_perfil);
+
+	return $id_padre;
+
+	// echo "desmarca_perfil_contenido -----$id_perfil --- $id_padre<br>";
+
+}
+
+
+
+/************************/
+
+function marca_arbol_sin_perfiles_contenido($id_contenido,$id_perfil_padre,$id_perfil_orig){
+
+	
+
+	
+
+	
+
+	$id_perfil_padre2 = perfil_hijo_no_perfiles_contenido($id_contenido,$id_perfil_padre);
+
+	
+
+	$perf= nombre_perfil($id_perfil_padre);
+
+	 
+
+	   if($id_perfil_padre2!=false){
+
+	  
+
+	  		 marca_arbol_sin_perfiles_contenido($id_contenido,$id_perfil_padre2,$id_perfil_orig);
+
+	   }else{
+
+	    	 $nivel= nivel_perfil($id_perfil_padre);
+
+		
+
+			if($id_perfil_padre!=$id_perfil_orig){
+
+					$id_perfil_padre2=marca_perfil_contenido($id_contenido,$id_perfil_padre);
+
+					
+
+					marca_arbol_sin_perfiles_contenido($id_contenido,$id_perfil_padre2,$id_perfil_orig);
+
+			}else{
+
+				marca_perfil_contenido($id_contenido,$id_perfil_orig);
+
+	
+
+			}	
+
+		  }
+
+	
+
+		   
+
+}
+
+
+
+
+
+
+
+
+
+/******************/
+
+
+
+function desmarca_arbol_con_perfiles_contenido($id_contenido,$id_perfil_padre,$id_perfil_orig){
+
+	
+
+	
+
+	$id_perfil_padre2 = perfil_si_hijo_perfiles_contenido($id_contenido,$id_perfil_padre);
+
+	
+
+	$perf= nombre_perfil($id_perfil_padre);
+
+	// echo "marca 0 $perf $id_perfil_padre --> hjo $id_perfil_padre2 <br>";
+
+	  
+
+	  
+
+	   if($id_perfil_padre2!=false){
+
+	 // echo "marca 1 $id_perfil_padre2<br>";
+
+	  		 desmarca_arbol_con_perfiles_contenido($id_contenido,$id_perfil_padre2,$id_perfil_orig);
+
+	   }else{
+
+	    	
+
+			//echo "marca 2 $id_perfil_padre<br>";
+
+			 $nivel= nivel_perfil($id_perfil_padre);
+
+		
+
+			if($id_perfil_padre!=$id_perfil_orig){
+
+					$id_perfil_padre2=desmarca_perfil_contenido($id_contenido,$id_perfil_padre);
+
+					
+
+					desmarca_arbol_con_perfiles_contenido($id_contenido,$id_perfil_padre2,$id_perfil_orig);
+
+			}else{
+
+				desmarca_perfil_contenido($id_contenido,$id_perfil_padre);
+
+	
+
+			}	
+
+		  }
+
+	 
+
+}
+
+
+
+/**/
+
+
+
+
+
+
+
+
+
+/*adodb*/
+
+function menu_perfil($id_perfil,$id_accion){
+
+	
+
+$id_p="";
+
+	   $query= "SELECT  id_perfil 
+
+	           FROM  accion_perfil   
+
+	           WHERE id_perfil  =$id_perfil and accion=$id_accion";
+
+			  //echo $query;
+
+			   $result_lib= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+               list($id_p) = mysql_fetch_row($result_lib);
+
+			   
+
+			
+
+			 // $id_p = $recordSetlib->field
+
+				  if ($id_p!="") {
+
+				  
+
+				 	return true;
+
+				  }else{
+
+				   	return false;
+
+				  }  
+
+			   
+
+	     
+
+	
+
+}
+
+
+
+
+
+function grupo_perfil($id_perfil,$id_grupo){
+
+
+
+$id_p="";
+
+	   $query= "SELECT  ap.accion 
+
+	            FROM  accion_perfil ap, acciones a
+
+	            WHERE ap.id_perfil = $id_perfil 
+
+			    AND a.accion=ap.accion 
+
+			    AND a.id_grupo = $id_grupo";
+
+			  
+
+			   $result_lib= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+               list($id_p) = mysql_fetch_row($result_lib);
+
+			   
+
+
+
+
+
+				  if ($id_p!=""){
+
+				 	return true;
+
+				  }else{
+
+				   	return false;
+
+				  }  
+
+	      
+
+	
+
+}
+
+
+
+
+
+
+
+function menu_id($id_accion,$conn){
+
+	
+
+
+
+	   $query= "SELECT  descrip_php_esp  
+
+	           FROM  acciones   
+
+	           WHERE  id_acc=$id_accion";
+
+			// echo $query; 
+
+			  $recordSetlib = &$conn->Execute($query); 
+
+			  $acc = $recordSetlib->fields[0];
+
+			 
+
+	   return $acc;
+
+		   
+
+	
+
+}
+
+/**/
+
+
+
+
+
+function noticia_perfil($id_contenido,$id_usuario){
+
+	if($id_contenido!=0) {
+
+	
+
+	   $query= "SELECT id_perfil
+
+                FROM  control_contenido_perfil 
+
+                WHERE id_contenido='$id_contenido'";
+
+          $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+          list($id_perf) = mysql_fetch_row($result);
+
+		  
+
+		  if($id_perf!=0){
+
+		  
+
+		 
+
+	  $query= "SELECT u.id_perfil   
+
+               FROM  usuario u, control_contenido_perfil ccp
+
+               WHERE u.id_usuario='$id_usuario' and ccp.id_contenido=$id_contenido and ccp.id_perfil=u.id_perfil ";
+
+         $result1= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+         
+
+		// echo $query."<br>";
+
+		 if(list($id_perfil) = mysql_fetch_row($result1)){
+
+		 	$estado=true;
+
+		 
+
+		 }else{
+
+		 $estado=false;
+
+		 	  $query= "SELECT id_perfil   
+
+               		   FROM  usuario
+
+               		   WHERE id_usuario='$id_usuario'";
+
+         $result2= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+         if(list($id_perfil) = mysql_fetch_row($result2)){
+
+		 
+
+		  	   $query= "SELECT id_perfil   
+
+                        FROM  usuario_perfiles 
+
+                        WHERE id_usuario='$id_usuario'";
+
+                  $result3= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+                   while (list($id_per) = mysql_fetch_row($result3)){
+
+             			
+
+						  $query= "SELECT id_contenido   
+
+                                   FROM  control_contenido_perfil 
+
+                                   WHERE id_contenido='$id_contenido' and id_perfil=$id_perfil";
+
+								   
+
+                             $result4= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+							 
+
+                             if (list($id_cont) = mysql_fetch_row($result4)){
+
+                        			$estado=true;			   
+
+                        		 }
+
+									   
+
+             		 }
+
+			 
+
+		 }
+
+    			   
+
+    	}
+
+			  
+
+			
+
+	}else{
+
+		  $estado=true;
+
+		  }
+
+		
+
+		
+
+	return $estado;
+
+	  
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*function noticia_colegio($id_contenido,$id_usuario){
+
+$estado=false;
+
+
+
+  $query= "SELECT id_perfil  
+
+           FROM  usuario
+
+           WHERE id_usuario='$id_usuario'";
+
+     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+     list($id_perf) = mysql_fetch_row($result);
+
+	 
+
+	   $query= "SELECT id_establecimiento
+
+                FROM  control_contenido_escuela
+
+                WHERE id_contenido='$id_contenido' and id_establecimiento=0";
+
+          $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+          if(list($establ) = mysql_fetch_row($result)){
+
+		  	$estado=true;
+
+		  }else{
+
+		  
+
+		  
+
+		  
+
+		  
+
+		  
+
+		 
+
+
+
+		  $query= "SELECT u.establecimiento   
+
+                   FROM  usuario u, control_contenido_escuela cce
+
+                   WHERE id_usuario='$id_usuario' and cce.id_contenido=$id_contenido and cce.id_establecimiento=u.establecimiento";
+
+            
+
+			
+
+			 $result1= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+              if(list($id_establecimie) = mysql_fetch_row($result1)){
+
+			  $estado=true;
+
+			  }else{
+
+			  
+
+			    $query= "SELECT id_establecimiento   
+
+                         FROM  control_contenido_escuela 
+
+                         WHERE id_contenido='$id_contenido'";
+
+                   $result2= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+                    while (list($id_estbl) = mysql_fetch_row($result2)){
+
+              			 
+
+						  $query= "SELECT id_usuario   
+
+                                   FROM  usuario_establecimientos
+
+                                   WHERE id_usuario='$id_usuario' and id_establecimiento =$id_estbl";
+
+                             $result3= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+                              if (list($id_u) = mysql_fetch_row($result3)){
+
+                        			$estado=true;			   
+
+                        		 }			   
+
+              		
+
+					 }
+
+			  }
+
+		
+
+		}
+
+		
+
+	return $estado;		  
+
+	
+
+}*/
+
+
+
+
+
+
+
+/***************************************/
+
+
+
+
+
+ /* Genera nuevo ID   varchar(16)*/
+
+function new_uid()
+
+{
+
+        usleep(1);
+
+        srand((double)microtime() * 1000000);
+
+        $rand_key=rand(10,99);
+
+        $x=time();
+
+        $f=getdate($x);
+
+        $uid=sprintf("%04d%02d%02d%02d%02d%02d%02d",$f["year"],$f["mon"],$f["mday"],$f["hours"],$f["minutes"],$f["seconds"],$rand_key);
+
+        return $uid;
+
+}
+
+
+
+/* Obtiene la extension del archivo $file dado */
+
+function getext($file)
+
+{
+
+        if(strlen($file)==0) {
+
+                return "";
+
+        }
+
+        $string=str_replace("\\","/",$file);
+
+        $c=strrpos($string,'/');
+
+        if(strlen($c)>0) {
+
+                $string=substr($string,$c+1);
+
+                if(strlen($string)==0)
+
+                        return "";
+
+        }
+
+        $a=strrpos($string,'.');
+
+        if(strlen($a)==0) {
+
+                return "";
+
+        }
+
+        return substr($string,$a+1);
+
+}
+
+ 
+
+
+
+/* retorna la edad en annos con $fecha_nac como referencia en formato
+
+  AAAAMMDD */
+
+function get_age($fecha_nac)
+
+{
+
+//$fa: fecha_actual
+
+        $x=time();
+
+        $fa=getdate($x);
+
+        $fnac[2]=substr($fecha_nac,0,4);
+
+        $fnac[1]=substr($fecha_nac,4,2);
+
+        $fnac[0]=substr($fecha_nac,6);
+
+        switch ($fnac[1]) {
+
+                case "01":
+
+                        $mes=1;
+
+                        break;
+
+                case "02":
+
+                        $mes=2;
+
+                        break;
+
+                case "03":
+
+                        $mes=3;
+
+                        break;
+
+                case "04":
+
+                        $mes=4;
+
+                        break;
+
+                case "05":
+
+                        $mes=5;
+
+                        break;
+
+                case "06":
+
+                        $mes=6;
+
+                        break;
+
+                case "07":
+
+                        $mes=7;
+
+                        break;
+
+                case "08":
+
+                        $mes=8;
+
+                        break;
+
+                case "09":
+
+                        $mes=9;
+
+                        break;
+
+                case "10":
+
+                        $mes=10;
+
+                        break;
+
+                case "11":
+
+                        $mes=11;
+
+                        break;
+
+                case "12":
+
+                        $mes=12;
+
+                        break;
+
+        }
+
+        $edad=$fa[year] - $fnac[2];
+
+        if ($fa["mon"] < $mes) {
+
+                $edad--;
+
+        }
+
+        if ($fa["mon"] == $fnac[1]) {
+
+                if ($fa["mday"] < $fnac[0]) {
+
+                        $edad--;
+
+                }
+
+        }
+
+        return $edad;
+
+}
+
+
+
+  
+
+function br2nl($data) {
+
+   return preg_replace( '!<br.*>!iU', "\n", $data );
+
+}
+
+	  
+
+
+
+
+
+function espar($numero) { 
+
+   // Lista todos os algarismos existentes, e seus respectivos tipos (impar ou par) 
+
+   $tipo = array( 
+
+      "0" => "0", 
+
+      "1" => "1", 
+
+      "2" => "0", 
+
+      "3" => "1", 
+
+      "4" => "0", 
+
+      "5" => "1", 
+
+      "6" => "0", 
+
+      "7" => "1", 
+
+      "8" => "0", 
+
+      "9" => "1" 
+
+   ); 
+
+
+
+   // Pega o último número de uma string 
+
+   $ultimo = substr($numero, "-1"); 
+
+
+
+   // Faz a verificação 
+
+   $resposta = $tipo[$ultimo]; 
+
+    
+
+   // Retorna "impar" ou "par" 
+
+   return $resposta; 
+
+}
+
+	
+
+/*MAILLIG*/	
+
+function fechacorta($id)
+
+{
+
+        $anno= substr($id,0,4);
+
+        $mes = substr($id,4,2);
+
+        $dia = substr($id,6,2);
+
+        return $dia."/".$mes."/".$anno;
+
+}
+
+
+
+
+
+
+
+/* Obtiene la hora de creacion de un UID. (el UID se pasa como parametro) */
+
+function hora($id)
+
+{
+
+        $hrs=substr($id,8,2);
+
+        $min=substr($id,10,2);
+
+        return $hrs.":".$min;
+
+
+
+}
+
+
+
+/* Idem que la anterior, pero ademas se muestran los segundos */
+
+
+
+function hora_completa($id)
+
+{
+
+        $hrs=substr($id,8,2);
+
+        $min=substr($id,10,2);
+
+        $seg=substr($id,12,2);
+
+        return $hrs.":".$min.":".$seg;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function fecha_num($id)
+
+{
+
+ $anio=substr($id,0,4);
+
+ $mes=substr($id,4,2);
+
+ $dia =substr($id,6,2);
+
+ return $dia."-".$mes."-".$anio;
+
+}
+
+/*fin Mailing*/
+
+
+
+
+
+
+
+
+
+function contenido_colegio($id_contenido,$id_establecimiento)
+
+{
+
+ 
+
+  /* $query= "SELECT id_establecimiento
+
+            FROM  control_contenido_escuela 
+
+            WHERE id_contenido='$id_contenido'  and id_establecimiento=$id_establecimiento";
+
+      $result= mysql_query($query)or die ("contenido_colegio ERROR 1 <br>$query");
+
+      if(list($id) = mysql_fetch_row($result)){
+
+ 			return true; 
+
+ 		 }else{
+
+		 	return false;
+
+		 }*/
+
+ 
+
+ 
+
+
+
+}
+
+
+
+
+
+function contenido_perfil($id_contenido,$id_perfil)
+
+{
+
+ 
+
+   $query= "SELECT id_perfil
+
+            FROM  control_contenido_perfil
+
+            WHERE id_contenido='$id_contenido' and id_perfil=$id_perfil";
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+      if(list($id) = mysql_fetch_row($result)){
+
+ 			return true; 
+
+ 		 }else{
+
+		 	return false;
+
+		 }
+
+ 
+
+ 
+
+
+
+}
+
+
+
+//carpeta/archivo.jpg
+
+function resize($file,$tamanio,$destino) {
+
+		
+
+		if($tamanio==""){
+
+			$tamanio = 700; 
+
+		}
+
+		
+
+		$imagen_original="$destino/$file";
+
+		
+
+		$source = imagecreatefromjpeg($imagen_original);  
+
+   		   
+
+      	$imageX = imagesx($source);
+
+		
+
+		if($imageX>$tamanio){
+
+		
+
+		
+
+     	$imageY = imagesy($source);    
+
+   	    $thumbY = (int)(($tamanio*$imageY) / $imageX );        
+
+   	    $dest  = imagecreatetruecolor($tamanio, $thumbY);
+
+   	    imagecopyresampled ($dest, $source, 0, 0, 0, 0, $tamanio, $thumbY, $imageX, $imageY);        
+
+   	   	
+
+		unlink($imagen_original);
+
+		
+
+		ImageJpeg($dest, $imagen_original, 80);
+
+		
+
+		ImageDestroy($source);
+
+		ImageDestroy($dest);
+
+		
+
+		}
+
+		
+
+		
+
+ }
+
+
+
+
+
+function caracteres_html($texto){
+
+      $texto = htmlentities($texto, ENT_NOQUOTES, 'UTF-8'); // Convertir caracteres especiales a entidades
+
+      $texto = htmlspecialchars_decode($texto, ENT_NOQUOTES); // Dejar <, & y > como estaban
+
+      return $texto;
+
+}
+
+ 
+
+ 
+
+function acentos($texto)
+
+{
+
+ $texto = str_replace("á","&aacute;",$texto);
+
+ $texto = str_replace("é","&eacute;",$texto);
+
+ $texto = str_replace("í","&iacute;",$texto);
+
+ $texto = str_replace("ó","&oacute;",$texto);
+
+ $texto = str_replace("ú","&uacute;",$texto);
+
+ $texto = str_replace("ñ","&ntilde;",$texto);
+
+ $texto = str_replace("Á","&Aacute;",$texto);
+
+ $texto = str_replace("É","&Eacute;",$texto);
+
+ $texto = str_replace("Í","&Iacute;",$texto);
+
+ $texto = str_replace("Ó","&Oacute;",$texto);
+
+ $texto = str_replace("Ú","&Uacute;",$texto);
+
+ return $texto;
+
+
+
+}
+
+
+
+function acentos_inverso($texto)
+
+{
+
+ $texto = str_replace("&aacute;","á",$texto);
+
+ $texto = str_replace("&eacute;","é",$texto);
+
+ $texto = str_replace("&iacute;","í",$texto);
+
+ $texto = str_replace("&oacute;","ó",$texto);
+
+ $texto = str_replace("&uacute;","ú",$texto);
+
+ $texto = str_replace("&ntilde;","ñ",$texto);
+
+ 
+
+ return $texto;
+
+
+
+}
+
+
+
+function traduce_accion($accion)
+
+{
+
+
+
+if($accion!=""){
+
+
+
+//$accion = str_replace("_"," ",$accion);
+if(!is_numeric($accion)){
+$accion= titulo_url($accion);
+
+
+
+
+   $query= "SELECT accion    
+
+            FROM  acciones
+
+            WHERE descrip_url='$accion' ";
+
+    
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	list($acc) = mysql_fetch_row($result);
+
+	  if($acc!=""){
+
+	 	 $accion=$acc;
+
+	  }else{
+
+	  	$acc=$accion;
+
+	  }
+
+	}else{
+	
+	$acc=$accion;
+	}  
+
+ 
+
+ 
+
+return $acc;
+
+}
+
+}
+
+
+
+
+
+
+
+function accion_id_acc($accion)
+
+{
+
+
+
+
+
+
+
+   $query= "SELECT accion    
+
+            FROM  acciones
+
+            WHERE id_acc='$accion' ";
+
+    
+
+	//echo "$query<br>";
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	list($acc) = mysql_fetch_row($result);
+
+	 
+
+	  
+
+ 
+
+	return $acc;
+
+
+
+}
+
+
+
+
+
+function id_acc($accion)
+
+{
+
+   $query= "SELECT id_acc    
+            FROM  acciones
+            WHERE accion='$accion' ";
+    
+	//echo "$query<br>";
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+	list($acc) = mysql_fetch_row($result);
+	 
+	
+return $acc;
+
+}
+
+
+
+
+
+
+
+
+
+
+function accion_palabra($accion){
+
+		$query= "SELECT descrip_url,id_tipo    
+           FROM  acciones
+           WHERE accion='$accion'";
+		   
+     $result_acc= mysql_query($query)or die ("ERROR 1 <br>$query");
+     list($accion_txt,$id_tipo_cont) = mysql_fetch_row($result_acc);
+	
+	// $accion_txt = str_replace(" ","_",$accion_txt);
+	  $accion =strtolower($accion_txt);
+	  return $accion;
+	
+}
+
+
+
+function texto_to_url($texto){
+
+	$texto =str_replace(" ","_",$texto);
+
+	$texto = strtolower($texto);
+
+	$texto =urlencode($texto);
+
+	return $texto;
+
+}
+
+
+
+function texto_to_id_noticia($texto){
+
+	
+
+	 // $texto =str_replace("_"," ",$texto);
+
+	$texto = titulo_url($texto);
+
+	$query= "SELECT id_noticia  
+
+	           FROM  noticias
+
+	           WHERE titulo_url='$texto'";
+
+			 //  echo $query;
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    list($id_noticia) = mysql_fetch_row($result);
+
+	return $id_noticia;    
+
+	    
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function traduce_grupo($grupo)
+
+{
+
+   $query= "SELECT id_grupo      
+
+            FROM  accion_grupo 
+
+            WHERE grupo='$grupo'";
+
+    
+
+	//echo $query;
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+      list($id_grupo) = mysql_fetch_row($result);
+
+ 
+
+ return $id_grupo;
+
+
+
+}
+
+
+
+function accion_grupo($acc)
+
+{
+
+
+
+if($acc==""){
+
+$acc=5;
+
+}
+
+   $query= "SELECT id_grupo      
+
+            FROM  acciones 
+
+            WHERE accion='$acc'";
+
+    
+
+	
+
+	
+
+	
+
+	//echo $query;
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+      list($id_grupo) = mysql_fetch_row($result);
+
+ 
+
+ return $id_grupo;
+
+
+
+}
+
+
+
+function grupo_nombre($id_grupo)
+
+{
+
+   $query= "SELECT grupo      
+
+            FROM  accion_grupo
+
+            WHERE id_grupo='$id_grupo'";
+
+    
+
+	//echo $query;
+
+	  $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+      list($grupo_nom) = mysql_fetch_row($result);
+
+ 
+
+ return $grupo_nom;
+
+
+
+}
+
+
+
+  function cliente($id_cliente){
+
+  
+
+    $query= "SELECT cliente
+
+             FROM  clientes
+
+             WHERE id_cliente='$id_cliente'";
+
+       $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+        list($cliente) = mysql_fetch_row($result);
+
+		
+
+		return $cliente;
+
+  }
+
+
+
+ 
+
+ 
+
+ function generaRegion()
+
+{
+
+	$consulta=mysql_query("SELECT id_region, region FROM regiones");
+
+	
+
+	
+
+	// Voy imprimiendo el primer select compuesto por los paises
+
+	$select_regiones = "<select name='id_region' id='id_region' onChange='cargaContenido(this.id)'>";
+
+	$select_regiones .= "<option value='0'>Seleccione Regi&oacute;n</option>";
+
+	while($registro=mysql_fetch_row($consulta))
+
+	{
+
+		$select_regiones .= "<option value='".$registro[0]."'>".$registro[1]."</option>";
+
+	}
+
+	$select_regiones .= "</select>";
+
+	
+
+	return $select_regiones;
+
+	
+
+}
+
+
+
+function generaRegion1($id_region2)
+
+{
+
+	$consulta=mysql_query("SELECT id_region, region FROM regiones");
+
+	
+
+	
+
+	// Voy imprimiendo el primer select compuesto por los paises
+
+	$select_regiones = "<select name='id_region' id='id_region' onChange='cargaContenido(this.id)'>";
+
+	$select_regiones .= "<option value='0'>Seleccione Regi&oacute;n</option>";
+
+	while($registro=mysql_fetch_row($consulta))
+
+	{
+
+		if($id_region2==$registro[0]){
+
+			$select_regiones .= "<option value='".$registro[0]."' selected>".$registro[1]."</option>";
+
+		
+
+		}else{
+
+				$select_regiones .= "<option value='".$registro[0]."'>".$registro[1]."</option>";
+
+		}
+
+		
+
+		
+
+	}
+
+	$select_regiones .= "</select>";
+
+	
+
+	return $select_regiones;
+
+	
+
+}
+
+
+
+
+
+function html_banner($id_templates_banner){
+
+	
+
+	      	
+
+	      	 $query= "SELECT html   
+
+	           FROM  templates_acciones
+
+	           WHERE id_templates=$id_templates_banner";
+
+	//echo "$query<br>";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	     list($html_banner) = mysql_fetch_row($result);
+
+	   
+
+			 
+
+	
+
+	 
+
+	return $html_banner;
+
+}
+
+
+
+
+
+
+
+
+
+function cambio_texto($texto)
+
+{
+
+$n_texto=ereg_replace("á","&#225;",$texto);
+
+$n_texto=ereg_replace("é","&#233;",$n_texto);
+
+$n_texto=ereg_replace("í","&#237;",$n_texto);
+
+$n_texto=ereg_replace("ó","&#243;",$n_texto);
+
+$n_texto=ereg_replace("ú","&#250;",$n_texto);
+
+
+
+$n_texto=ereg_replace("Á","&#193;",$n_texto);
+
+$n_texto=ereg_replace("É","&#201;",$n_texto);
+
+$n_texto=ereg_replace("Í","&#205;",$n_texto);
+
+$n_texto=ereg_replace("Ó","&#211;",$n_texto);
+
+$n_texto=ereg_replace("Ú","&#218;",$n_texto);
+
+
+
+$n_texto=ereg_replace("ñ", "&#241;", $n_texto);
+
+
+
+$n_texto=ereg_replace("Ñ", "&#209;", $n_texto);
+
+
+
+$n_texto=ereg_replace("¿", "&#191;", $n_texto);
+$n_texto=ereg_replace("°", "&ordm;", $n_texto);
+
+
+
+
+
+return $n_texto;
+
+}
+
+
+
+
+
+function vuelve_cambio_texto($texto)
+
+{
+
+$n_texto=ereg_replace("&#225;","á",$texto);
+
+$n_texto=ereg_replace("&#233;","é",$n_texto);
+
+$n_texto=ereg_replace("&#237;","í",$n_texto);
+
+$n_texto=ereg_replace("&#243;","ó",$n_texto);
+
+$n_texto=ereg_replace("&#250;","ú",$n_texto);
+
+
+
+$n_texto=ereg_replace("&#193;","Á",$n_texto);
+
+$n_texto=ereg_replace("&#201;","É",$n_texto);
+
+$n_texto=ereg_replace("&#205;","Í",$n_texto);
+
+$n_texto=ereg_replace("&#211;","Ó",$n_texto);
+
+$n_texto=ereg_replace("&#218;","Ú",$n_texto);
+
+
+
+$n_texto=ereg_replace("&#241;","ñ",$n_texto);
+
+
+
+$n_texto=ereg_replace("&#209;","Ñ",$n_texto);
+
+
+
+$n_texto=ereg_replace("&#191;","¿",$n_texto);
+
+
+
+
+
+return $n_texto;
+
+}
+
+
+
+
+
+
+
+
+
+ 
+
+	 
+
+function Paginacion($t,$p,$link){
+
+     if($p=="")$p=1;
+
+    
+
+	 if($p>=1 || $p<=$t){
+
+        $o = 5;
+
+        if($t>1){
+
+          // Iniciamos la variable
+
+          $a = "";
+
+          // Link Primera Pagina)
+
+          if($p>2){
+
+            $ln = str_replace('{P}','1',$link);
+
+           $a .= '<li>'.$ln.'<< </a></li>';
+
+         }
+
+         // Link Pagina Anterior
+
+         if($p>1){
+
+           $ln = str_replace('{P}',($p-1),$link);
+
+           $a .= '<li>'.$ln.'< </a></li>';
+
+         }
+
+         $offset = $p-$o;
+
+         $offset_init = ($p-($o+2));
+
+         if($p>4){
+
+           for($i=$offset_init;$i<=($offset+1);$i++){
+
+             if($i>0){
+
+               $ln = str_replace('{P}',$i,$link);
+
+               $a .= '<li>'.$ln.$i.'</a></li>';
+
+             }
+
+           }
+
+           $a .= '<li> ... </li>';  
+
+           for($i=$p;$i<($p+4);$i++){
+
+             if($i<=$t){
+
+               if($i==$p){
+
+                 $a .= '<li><span class="esta">'.$i.'</span></li>';
+
+               }else{
+
+                 $ln = str_replace('{P}',$i,$link);
+
+                 $a .= '<li>'.$ln.$i.'</a></li>';
+
+               }
+
+             }
+
+           } 
+
+         }else{
+
+           for($i=1;$i<($p+4);$i++){
+
+             if($i<=$t){
+
+               // Esta Pagina
+
+              if($i==$p){
+
+                 $a .= '<li><span class="esta">'.$i.'</span></li>';
+
+               }else{
+
+                 $ln = str_replace('{P}',$i,$link);
+
+                 $a .= '<li>'.$ln.$i.'</a></li>';
+
+               }
+
+             }
+
+           }
+
+         }
+
+         // Link Pagina Siguiente
+
+         if($p<$t){
+
+           $ln = str_replace('{P}',($p+1),$link);
+
+           $a .= '<li>'.$ln.' ></a></li>';
+
+         }
+
+         // Link Ultima Pagina
+
+         if($p<($t-2)){
+
+           $ln = str_replace('{P}','1',$link);
+
+           $a .= '<li>'.$ln.' >> </a></li>';
+
+         }
+
+       }
+
+	   
+
+	   
+
+	   $a = "
+
+	   <style type=\"text/css\">
+
+
+
+/*Credits: Dynamic Drive CSS Library */
+
+/*URL: http://www.dynamicdrive.com/style/ */
+
+
+
+.pagination{
+
+padding: 2px;
+
+text-align: center;
+
+}
+
+
+
+.pagination ul{
+
+margin: 0;
+
+padding: 0;
+
+text-align: center; /*Set to \"right\" to right align pagination interface*/
+
+font-size: 16px;
+
+}
+
+
+
+.pagination li{
+
+list-style-type: none;
+
+display: inline;
+
+padding-bottom: 1px;
+
+}
+
+
+
+.pagination a, .pagination a:visited{
+
+padding: 0 5px;
+
+border: 1px solid #9aafe5;
+
+text-decoration: none; 
+
+color: #2e6ab1;
+
+}
+
+
+
+.pagination a:hover, .pagination a:active{
+
+border: 1px solid #2b66a5;
+
+color: #000;
+
+background-color: #FFFF80;
+
+}
+
+
+
+.pagination a.currentpage{
+
+background-color: #2e6ab1;
+
+color: #FFF !important;
+
+border-color: #2b66a5;
+
+font-weight: bold;
+
+cursor: default;
+
+}
+
+
+
+.pagination a.disablelink, .pagination a.disablelink:hover{
+
+background-color: white;
+
+cursor: default;
+
+color: #929292;
+
+border-color: #929292;
+
+font-weight: normal !important;
+
+}
+
+
+
+.pagination a.prevnext{
+
+font-weight: bold;
+
+}
+
+
+
+</style>
+
+	   
+
+	   <div class=\"pagination\" > $a</div>";
+
+	   
+
+       return $a;
+
+     }
+
+   }
+
+
+
+   
+
+//CORP
+
+
+
+
+
+
+
+
+
+
+
+function personal_establecimiento($id_persona){
+
+	
+
+	
+
+  $query= "SELECT establecimiento     
+
+	           FROM  personal
+
+	           WHERE id='$id_persona'";
+
+
+
+
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($establecimiento) = mysql_fetch_row($result);
+
+	     
+
+	  
+
+	      	$establecimiento = ucwords(strtolower(trim($establecimiento)));
+
+	       
+
+	      	return $establecimiento;
+
+	      	
+
+}
+
+
+
+
+
+function verifica_bloqueo($id_acc){
+
+	
+
+	  $query= "SELECT estado   
+
+	           FROM  modulos_bloqueo 
+
+	           WHERE accion='$id_acc'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($estado) = mysql_fetch_row($result);
+
+		  
+
+		  return $estado;
+
+		  
+
+}
+
+
+
+
+
+function contrato_name($id_tipo_contrato){
+
+	  $query= "SELECT tipo   
+
+	           FROM  tipos_contratos
+
+	           WHERE id='$id_tipo_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	     list($tipo) = mysql_fetch_row($result);
+
+	return  $tipo;
+
+}
+
+
+
+function nombre_asignatura($id_asignatura){
+
+	
+
+  $query= "SELECT asignatura  
+
+	           FROM  asignaturas 
+
+	           WHERE id='$id_asignatura'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($asignatura_nombre) = mysql_fetch_row($result);
+
+	      
+
+	      return $asignatura_nombre;
+
+}
+
+
+
+function tipo_contrato($id_tipo_contrato){
+
+	  $query= "SELECT tipo     
+
+	           FROM  tipos_contratos 
+
+	           WHERE id='$id_tipo_contrato'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	    
+
+	     if(list($tipo) = mysql_fetch_row($result)){
+
+	        return $tipo;
+
+	     }else{
+
+	     	return $id_tipo_contrato;
+
+	     }
+
+	
+
+}
+
+
+
+
+
+function establecimiento_nombre($id_establecimiento){
+
+	
+
+  $query= "SELECT establecimiento    
+
+	           FROM  establecimientos
+
+	           WHERE id='$id_establecimiento'";
+
+
+
+ 
+
+      $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      if(list($establecimiento) = mysql_fetch_row($result)){
+
+	      	return $establecimiento;
+
+	      }else{
+
+	      	return $id_establecimiento;
+
+	      }
+
+
+
+}
+
+
+
+function escolaridad($id_escolaridad){
+
+	
+
+  $query= "SELECT escolaridad   
+
+	           FROM  personal_escolaridad  
+
+	           WHERE id='$id_escolaridad'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($escolaridad) = mysql_fetch_row($result);
+
+	      
+
+	      return $escolaridad;
+
+	
+
+}
+
+
+
+function id_establecimiento($id_sesion){
+
+	  $query= "SELECT establecimiento
+
+	           FROM  usuario
+
+	           WHERE session='$id_sesion'";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($id_establecimiento) = mysql_fetch_row($result);
+
+	      
+
+	       return $id_establecimiento;	
+
+	      
+
+	
+
+}
+
+function establecimiento($id_sesion){
+
+	  $query= "SELECT establecimientos.establecimiento
+	           FROM   establecimientos, usuario
+	           WHERE usuario.session='$id_sesion' and usuario.establecimiento=establecimientos.id";
+
+	     $result= mysql_query($query)or die ("ERROR 1 <br>$query");
+
+	      list($establecimiento) = mysql_fetch_row($result);
+
+	      
+
+	       return $establecimiento;	
+
+	      
+
+	
+
+}
+
+function sumaDiasHabiles($fecha_inicio,$cantidad_dias){
+	
+		$dias = 0;
+		//echo "<br> fx fecha_inicio: ".$fecha_inicio;
+		//echo "<br>cantidad_dias: ".$cantidad_dias;
+		while ($dias < $cantidad_dias){
+			
+			$fecha_inicio = suma_fechas(fechas_html($fecha_inicio),1);
+			$fecha_inicio = fechas_bd($fecha_inicio);
+			//echo "<br> fecha_inicio : ".$fecha_inicio;
+			
+			//validar que el dia no sea sab, dom ni fest
+			
+			  //validar si es sab o dom
+			 $aFecha = split("-",$fecha_inicio);
+			 $num = date("w", mktime(0, 0, 0, $aFecha[1],$aFecha[2], $aFecha[0]));
+			 //echo "<br>num ".$num ;
+			 if (($num!=6)&&($num!=0))
+			 {
+				 //validar si es festivo
+				 $query= "SELECT count(*)  as cantidad 
+							FROM  no_habil 
+							WHERE no_habil ='$fecha_inicio' ";
+				 $result= mysql_query($query)or die ("ERROR $php <br>$query<br>".mysql_error());
+				 
+				 list($cantidad) = mysql_fetch_row($result);
+				 /*if($cantidad>0){
+				 	echo "<br>cons: ".$query;
+				 	echo "<br>******* feriado fecha_inicio : ".$fecha_inicio;
+				 }
+				 */
+				 if(($cantidad==0)){
+					$dias ++;
+					//echo "<br>dias:".$dias."  fecha_inicio : ".$fecha_inicio;
+				 }
+			}
+			
+		}
+		return $fecha_inicio;
+	
+}
+
+function buscarCodigo($aEntidad,$id_entidad){
+  
+  		$encontrado=0;
+  		for($i=0;$i<=count($aEntidad);$i++){
+			if ($id_entidad == $aEntidad[$i]){
+				$encontrado=1;
+			}
+		}
+		return $encontrado;
+  	
+}
+
+
+function calculaDiasHabiles($fecha_termino){
+	//calcula la cantidad de dias habiles entre la fecha actual y la fecha de termino
+		$dias = 1;
+		$fecha_movil = date('Y-m-d');
+		
+		if ($fecha_termino > $fecha_movil){
+			$sumando = 1;	
+			
+		}
+		else{
+			$sumando = -1;
+			
+		}
+		
+		//echo "<br> fx fecha_movil: ".$fecha_movil;
+		//echo "<br>cantidad_dias: ".$cantidad_dias;
+		
+		while ($fecha_movil != $fecha_termino){
+		
+			$fecha_movil = suma_fechas(fechas_html($fecha_movil),$sumando);
+			
+			/************************************/
+			$fecha_movil = fechas_bd($fecha_movil);
+			//echo "<br> fecha_inicio : ".$fecha_movil;
+			
+			//validar que el dia no sea sab, dom ni fest
+			
+			  //validar si es sab o dom
+			 $aFecha = split("-",$fecha_movil);
+			 $num = date("w", mktime(0, 0, 0, $aFecha[1],$aFecha[2], $aFecha[0]));
+			 //echo "<br>num ".$num ;
+			 if (($num!=6)&&($num!=0))
+			 {
+				 //validar si es festivo
+				 $query= "SELECT count(*)  as cantidad 
+							FROM  no_habil 
+							WHERE no_habil ='$fecha_movil' ";
+				 $result= mysql_query($query)or die ("ERROR $php <br>$query<br>".mysql_error());
+				// echo $query;
+				 list($cantidad) = mysql_fetch_row($result);
+				 /*if($cantidad>0){
+				 	echo "<br>cons: ".$query;
+				 	echo "<br>******* feriado fecha_inicio : ".$fecha_inicio;
+				 }
+				 */
+				 if(($cantidad==0)){
+					$dias ++;
+					//echo "<br>dias:".$dias."  fecha_inicio : ".$fecha_inicio;
+				 }
+			}
+			/************************************/
+
+		
+		}
+		
+		return $dias * $sumando;
+	
+}
+
+function calculaDiasHabilesEntreFechas($fecha_inicio,$fecha_termino){
+	//calcula la cantidad de dias habiles entre dos fechas
+		$dias = 0;
+		$fecha_movil = $fecha_inicio;
+		if ($fecha_termino > $fecha_movil){
+			$sumando = 1;	
+			
+		}
+		else{
+			$sumando = -1;
+			
+		}
+		
+		//echo "<br>sumando :".$sumando;
+		
+		//echo "<br> fx fecha_movil: ".$fecha_movil;
+		//echo "<br>cantidad_dias: ".$dias;
+		while ($fecha_movil != $fecha_termino){
+		
+			$fecha_movil = suma_fechas(fechas_html($fecha_movil),$sumando);
+			
+			/************************************/
+			$fecha_movil = fechas_bd($fecha_movil);
+			//echo "<br> fecha_movil : ".$fecha_movil;
+			
+			//validar que el dia no sea sab, dom ni fest
+			
+			  //validar si es sab o dom
+			 $aFecha = split("-",$fecha_movil);
+			 $num = date("w", mktime(0, 0, 0, $aFecha[1],$aFecha[2], $aFecha[0]));
+			 //echo "<br>num ".$num ;
+			 if (($num!=6)&&($num!=0))
+			 {
+				 //validar si es festivo
+				 $query= "SELECT count(*)  as cantidad 
+							FROM  no_habil 
+							WHERE no_habil ='$fecha_movil' ";
+				 $result= mysql_query($query)or die ("ERROR $php <br>$query<br>".mysql_error());
+				 
+				 list($cantidad) = mysql_fetch_row($result);
+				 /*if($cantidad>0){
+				 	echo "<br>cons: ".$query;
+				 	echo "<br>******* feriado fecha_inicio : ".$fecha_inicio;
+				 }
+				 */
+				 if(($cantidad==0)){
+					$dias ++;
+					//echo "<br>dias:".$dias."  fecha_inicio : ".$fecha_inicio;
+				 }
+			}
+			/************************************/
+
+		
+		}
+
+		return ($dias * $sumando);
+	
+}
+
+//FIN CORP  
+
+
+function elimina_ultimo_caracter($texto){
+
+$texto = substr ($texto, 0, strlen($texto) - 1);
+
+return $texto;
+}
+
+
+
+
+
+?>

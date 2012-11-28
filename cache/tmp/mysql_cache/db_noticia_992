@@ -1,0 +1,23 @@
+a:1:{i:0;a:2:{i:0;s:1151:"<h2>Como Ingresar una Solicitud</h2>
+<div class="banner_home">
+<h3>Ingreso con usuario</h3>
+<ul>
+    <li class="izquierda tiempo">
+    <h4>5 minutos solo la primera vez</h4>
+    Inscribirse como usuario es un proceso breve que s&oacute;lo se realiza una vez.</li>
+    <li class="especiales">
+    <h4>Funcionalidades Avanzadas</h4>
+    Puedes realizar la rectificaci&oacute;n y desistimiento&nbsp;de solicitudes en l&iacute;nea.&nbsp;</li>
+    <li class="izquierda seguimiento">
+    <h4>Revisa el avance de solicitudes</h4>
+    Puedes conocer en l&iacute;nea el proceso y los cambios de estado de tu solicitud.</li>
+    <li class="historial">
+    <h4>Historial de consultas</h4>
+    Como usuario, puedes consultar en l&iacute;nea la totalidad de solicitudes realizadas y las respuestas recibidas a cada una de ellas.</li>
+</ul>
+<div class="clearfloat">&nbsp;</div>
+<div class="accion"><a href="index.php?accion=Registro">Reg&iacute;strese ahora</a></div>
+</div>
+<div class="centrado_home">o</div>
+<div class="banner_home centrado_home"><a href="index.php?accion=consultas-web" class="sin_usuario">Ingrese su solicitud sin crear usuario</a></div>
+&nbsp;";i:1;s:2:"98";}}

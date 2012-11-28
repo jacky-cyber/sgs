@@ -1,0 +1,9 @@
+Rut;$rut-$dig;Establecimiento;$establecimiento_n
+Apellidos;$paterno $materno;Nombres;$nombres
+FechadeNacimento;$fechanac
+EstadoCivil;$estcivil;Nacinalidad;$nacionalidad
+Titulo;$titulo;Escolaridad;$escolaridad
+Universidad;$universidad;Especialidad;$especialidad
+TeléfonoCelular;$celular;TeléfonoFijo;$telefono
+Domicilio;$domicilio;Comuna;$comuna
+Banco;$banco;CtaCte;$ctacte

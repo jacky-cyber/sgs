@@ -1,0 +1,72 @@
+.textos {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	
+	
+}
+
+
+.textos_rojo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FF0000;
+	
+	
+}
+
+
+
+.textosBold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;	
+	
+}
+
+H1 {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: medium;
+	font-weight: bold;
+}
+
+H2 {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: medium;
+	font-weight: bold;
+}
+
+#destacado {
+	background-color: #f2f2f2;
+	padding: 6px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+#destacadofin {
+	background-color: #0000FF;
+	padding: 6px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+#boton {
+	background-color: #003366;
+	padding: 6px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	border: 4px solid #FFFFFF;
+}
+#boton2 {
+	background-color: #999999;
+	padding: 6px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	border: 4px solid #FFFFFF;
+}

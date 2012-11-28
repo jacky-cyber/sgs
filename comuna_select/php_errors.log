@@ -1,0 +1,2 @@
+[17-Nov-2010 12:30:01] PHP Fatal error:  Call to undefined function configuracion_cms() in /var/www/sgs/lib/seguridad.inc.php on line 35
+[17-Nov-2010 12:31:47] PHP Fatal error:  Call to undefined function configuracion_cms() in /var/www/sgs/lib/seguridad.inc.php on line 35

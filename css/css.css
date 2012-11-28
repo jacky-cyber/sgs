@@ -1,0 +1,33 @@
+* {
+	margin:0;
+	padding:0;	
+}
+
+body {
+	margin:50px;
+	font: 13px/14px "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+}
+
+a {
+	color:#666;
+}
+
+a:hover {
+	text-decoration:none;
+}
+
+ul, li {
+	margin:10px;
+}
+
+pre {
+	width:450px;
+	background-color:#0C1021;
+	padding:20px;
+	margin:25px 0px;
+}
+
+code {
+	color:#7D93B8;
+	font: 12px/13px Monaco, Courier, monospace;;
+}

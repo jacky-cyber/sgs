@@ -1,0 +1,236 @@
+
+
+.quick-action {
+  -moz-transition: color 0.2s ease-in-out 0s;
+  background-color: #FDFDFD;
+  background-image: -moz-linear-gradient(center top , #FEFEFE, #F3F3F3);
+  border: 1px solid #D6D6D6;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 0 1px 2px rgba(100, 100, 100, 0.1), 0 1px 0 #FFFFFF inset;
+  color: #999999;
+  display: block;
+  height: 50px;
+  padding: 10px 0;
+  text-align: center;
+  text-shadow: 0 1px 0 #FFFFFF;
+}
+.icon.attach {
+    background-image: url("../img/icons/attach.png");
+}
+.quick-action span {
+    -moz-transition: opacity 0.2s ease-in-out 0s;
+    margin: 0 auto 3px;
+    opacity: 0.4;
+}
+
+.quick-action:hover {
+    color: #666666;
+    text-decoration:none;
+}
+.quick-action span {
+    -moz-transition: opacity 0.2s ease-in-out 0s;
+    margin: 0 auto 3px;
+    opacity: 0.4;
+}
+.quick-action:hover span {
+    opacity: 0.7;
+}
+.icon {
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+
+.icon {
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: block;
+    height: 30px;
+    width: 30px;
+}
+.icon.adress_book {
+    background-image: url("../img/icons/adress_book.png");
+}
+.icon.attach {
+    background-image: url("../img/icons/attach.png");
+}
+.icon.book {
+    background-image: url("../img/icons/book.png");
+}
+.icon.calendar {
+    background-image: url("../img/icons/calendar.png");
+}
+.icon.camera {
+    background-image: url("../img/icons/camera.png");
+}
+.icon.charts {
+    background-image: url("../img/icons/charts.png");
+}
+.icon.chat {
+    background-image: url("../img/icons/chat.png");
+}
+.icon.check {
+    background-image: url("../img/icons/check.png");
+}
+.icon.clock {
+    background-image: url("../img/icons/clock.png");
+}
+.icon.cloud {
+    background-image: url("../img/icons/cloud.png");
+}
+.icon.cogwheel {
+    background-image: url("../img/icons/cogwheel.png");
+}
+.icon.cogwheels {
+    background-image: url("../img/icons/cogwheels.png");
+}
+.icon.compass {
+    background-image: url("../img/icons/compass.png");
+}
+.icon.conversation {
+    background-image: url("../img/icons/conversation.png");
+}
+.icon.edit {
+    background-image: url("../img/icons/edit.png");
+}
+.icon.file {
+    background-image: url("../img/icons/file.png");
+}
+.icon.film {
+    background-image: url("../img/icons/film.png");
+}
+.icon.girl {
+    background-image: url("../img/icons/girl.png");
+}
+.icon.group {
+    background-image: url("../img/icons/group.png");
+}
+.icon.headphones {
+    background-image: url("../img/icons/headphones.png");
+}
+.icon.history {
+    background-image: url("../img/icons/history.png");
+}
+.icon.home {
+    background-image: url("../img/icons/home.png");
+}
+.icon.inbox {
+    background-image: url("../img/icons/inbox.png");
+}
+.icon.leaf {
+    background-image: url("../img/icons/leaf.png");
+}
+.icon.music {
+    background-image: url("../img/icons/music.png");
+}
+.icon.new_window {
+    background-image: url("../img/icons/new_window.png");
+}
+.icon.notes {
+    background-image: url("../img/icons/notes.png");
+}
+.icon.pencil {
+    background-image: url("../img/icons/pencil.png");
+}
+.icon.picture {
+    background-image: url("../img/icons/picture.png");
+}
+.icon.pie_chart {
+    background-image: url("../img/icons/pie_chart.png");
+}
+.icon.shield {
+    background-image: url("../img/icons/shield.png");
+}
+.icon.signal {
+    background-image: url("../img/icons/signal.png");
+}
+.icon.stats {
+    background-image: url("../img/icons/stats.png");
+}
+.icon.tag {
+    background-image: url("../img/icons/tag.png");
+}
+.icon.tint {
+    background-image: url("../img/icons/tint.png");
+}
+.icon.user {
+    background-image: url("../img/icons/user.png");
+}
+.icon.user_add {
+    background-image: url("../img/icons/user_add.png");
+}
+.icon.user_remove {
+    background-image: url("../img/icons/user_remove.png");
+}
+.icon.users {
+    background-image: url("../img/icons/users.png");
+}
+.icon.warning_sign {
+    background-image: url("../img/icons/warning_sign.png");
+}
+.icon.order{
+    background-image: url("../img/icons/glyphicons_114_list.png");
+}
+.icon.plus{
+    background-image: url("../img/icons/glyphicons_190_circle_plus.png");
+}
+.icon.search{
+    background-image: url("../img/icons/glyphicons_051_eye_open.png");
+}
+.icon.export{
+    background-image: url("../img/icons/glyphicons_090_table.png");
+}
+.icon.help{
+    background-image: url("../img/icons/glyphicons_194_circle_question_mark.png");
+}
+
+
+.news-item-registros {
+    text-align: right;
+    vertical-align: middle;
+    width: 75px;
+    text-align : center;
+    padding-top:20px;
+}
+.news-item-reg_num {
+    color: #888888;
+    display: block;
+    font-size: 24px;
+    margin-bottom: 0.25em;
+     font-style: normal;
+}
+
+.news-item-reg_text {
+   color: #4A515B;
+    display: block;
+    font-size: 12px;
+   
+    font-weight: 600;
+    
+}
+.span-icono {
+  width: 80px;
+    font-style: italic;
+}
+.well-fondo-icono {
+  background-color: #F5F5F5;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 4px 4px 4px 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+  margin-bottom: 20px;
+  min-height: 20px;
+  padding: 13px;
+}
+
+.label_menu {
+  top:12px;
+  border-radius: 2px 2px 2px 2px;
+  color: #FFFFFF;
+  font-size: 9px;
+  line-height: 11px;
+  text-align: center;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+}

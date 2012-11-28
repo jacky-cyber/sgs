@@ -1,0 +1,68 @@
+div#post-18 div.entrytext p
+{
+	margin: 10px 0px;
+}
+
+div#post-18 div.entrytext div
+{
+	margin-left: 15px;
+}
+
+div#post-18 div.entrytext div#myShare
+{
+        margin-left: 0px;
+}
+
+div#description div
+{
+	margin-left: 15px;
+}
+
+div#post-18 div.entrytext div#myOnPageContent
+{
+	padding-bottom: 5px;
+}
+
+div#post-18 div.entrytext div.credits
+{
+	padding-bottom:10px;
+}
+
+div#post-18 div.entrytext div.download
+{
+	line-height:120%
+}
+
+div#post-18 div.entrytext div.download h2
+{
+	margin-bottom:10px;
+}
+
+div#post-18 div.entrytext pre
+{
+	display:block;
+	overflow:auto;
+	background-color:#FFFAFA;
+	border: solid 1px #cccccc;
+	margin-left: 10px;
+	padding: 5px;
+}
+
+div#post-18 div.entrytext img
+{
+	border:none;
+}
+
+div#post-18 div.entrytext h2
+{
+	font-size:1.4em;
+	font-weight:bold;
+	margin:15px 0px 0px 0px;
+}
+
+div#post-18 div.entrytext h3
+{
+	font-size:1.2em;
+	font-weight:bold;
+	margin:5px 0px 5px 15px;
+}

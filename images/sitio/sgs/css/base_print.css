@@ -1,0 +1,73 @@
+
+
+	
+.datos_sgs_print td.alt {
+  background: none repeat scroll 0 0 #EFEFEF;
+  font-weight: bold;
+  text-align: left;
+}
+
+.datos_sgs_print td {
+background:none repeat scroll 0 0 #FBFBFB;
+padding:4px 4px 4px 6px;
+
+}
+
+.datos_sgs_print td {
+border:1px solid #B9D0CD;
+text-align : left;
+}
+.datos_sgs_print td.centro {
+
+text-align : center;
+}
+
+.datos_sgs_print th {
+/*background:url("../../../../images/background-tabla.png") repeat scroll 0 0 transparent;*/
+background: url(../images/line-top.jpg) repeat scroll left top;
+color:#13456A;
+font-size:12px;
+font-weight:bold;
+padding:7px 4px 2px 4px;
+border:1px solid #B9D0CD;
+
+}
+
+
+caption, th {
+text-align:left;
+
+}
+
+.datos_sgs_print table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 12px;
+  margin-left: 0;
+
+}
+
+
+.datos_sgs_print caption {
+color:13456A;
+font-size: 0.9em;
+
+font-style:italic;
+margin:4px 0 -17px;
+padding-right:10px;
+text-align:right;
+}
+
+.mensaje {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 10px;
+  font-style: italic;
+  margin: 8px;
+  padding: 0 5px 0 2px;
+  text-align: right;
+}
+.comprobante {
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 12px;
+  text-align: right;
+}

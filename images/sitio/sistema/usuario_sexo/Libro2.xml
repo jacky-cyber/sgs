@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transaccion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<usuario_sexo>
+		<id_sexo>1</id_sexo>
+		<sexo>Masculino</sexo>
+	</usuario_sexo>
+	<usuario_sexo>
+		<id_sexo>2</id_sexo>
+		<sexo>Femenino2</sexo>
+	</usuario_sexo>
+	<usuario_sexo>
+		<id_sexo>3</id_sexo>
+		<sexo>otros</sexo>
+	</usuario_sexo>
+	<usuario_sexo>
+		<id_sexo>4</id_sexo>
+		<sexo>otros2</sexo>
+	</usuario_sexo>
+	<usuario_sexo>
+		<id_sexo>5</id_sexo>
+		<sexo>otros4</sexo>
+	</usuario_sexo>
+</transaccion>

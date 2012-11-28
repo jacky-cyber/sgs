@@ -1,0 +1,58 @@
+[07-Oct-2004 10:26:33] PHP Warning:  mysql_connect(): Access denied for user: 'danahe_danahemai@localhost' (Using password: YES) in /home/danaheza/public_html/mailing/lib/connect_db.inc on line 7
+[07-Oct-2004 17:24:17] PHP Warning:  mysql_connect(): Access denied for user: 'danahe_danahemai@localhost' (Using password: YES) in /home/danaheza/public_html/mailing/lib/connect_db.inc on line 7
+[07-Oct-2004 17:25:48] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_mails.php on line 12
+[07-Oct-2004 17:25:58] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[07-Oct-2004 17:25:58] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 115
+[07-Oct-2004 17:26:53] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[07-Oct-2004 17:26:53] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 115
+[07-Oct-2004 17:42:51] PHP Parse error:  parse error, unexpected '$' in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 94
+[07-Oct-2004 17:42:59] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[07-Oct-2004 17:43:01] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[07-Oct-2004 17:43:07] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[07-Oct-2004 17:50:43] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[07-Oct-2004 17:51:15] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[07-Oct-2004 17:51:15] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 115
+[07-Oct-2004 18:09:53] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[08-Oct-2004 12:07:28] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[08-Oct-2004 12:07:35] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[08-Oct-2004 12:07:43] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[08-Oct-2004 12:07:49] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[09-Oct-2004 15:17:35] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[10-Oct-2004 20:02:01] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[10-Oct-2004 20:02:19] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[10-Oct-2004 20:02:40] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[10-Oct-2004 22:24:54] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/ver_estados.php on line 8
+[10-Oct-2004 22:25:59] PHP Fatal error:  Call to undefined function:  mysql_num_row() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 56
+[10-Oct-2004 22:52:02] PHP Fatal error:  Call to undefined function:  mysql_fetch_rows() in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 19
+[10-Oct-2004 22:52:55] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 57
+[10-Oct-2004 22:52:55] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 116
+[10-Oct-2004 22:53:09] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 57
+[10-Oct-2004 22:53:09] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 116
+[10-Oct-2004 22:53:16] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 57
+[10-Oct-2004 22:53:16] PHP Warning:  mysql_fetch_row(): supplied argument is not a valid MySQL result resource in /home/danaheza/public_html/mailing/admin/listar_usuarios.php on line 116
+[11-Oct-2004 14:34:37] PHP Warning:  fopen(): Unable to access bases/amigos extranjeros.csv in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[11-Oct-2004 14:34:37] PHP Warning:  fopen(bases/amigos extranjeros.csv): failed to open stream: No such file or directory in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[11-Oct-2004 14:34:37] PHP Warning:  fgets(): supplied argument is not a valid stream resource in /home/danaheza/public_html/mailing/admin/importa_user.php on line 11
+[11-Oct-2004 21:39:43] PHP Warning:  fopen(): Unable to access bases/Viaje Egipto 2005.csv in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[11-Oct-2004 21:39:43] PHP Warning:  fopen(bases/Viaje Egipto 2005.csv): failed to open stream: No such file or directory in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[11-Oct-2004 21:39:43] PHP Warning:  fgets(): supplied argument is not a valid stream resource in /home/danaheza/public_html/mailing/admin/importa_user.php on line 11
+[11-Oct-2004 21:40:51] PHP Warning:  fopen(): Unable to access bases/Viaje Egipto 2005.csv in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[11-Oct-2004 21:40:51] PHP Warning:  fopen(bases/Viaje Egipto 2005.csv): failed to open stream: No such file or directory in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[11-Oct-2004 21:40:51] PHP Warning:  fgets(): supplied argument is not a valid stream resource in /home/danaheza/public_html/mailing/admin/importa_user.php on line 11
+[12-Oct-2004 03:06:03] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/danaheza/public_html/mailing/admin/actualizar_estado.php:9) in /home/danaheza/public_html/mailing/admin/actualizar_estado.php on line 10
+[19-Oct-2004 01:41:27] PHP Warning:  fopen(): Unable to access bases/BASE NUEVA FINAL.csv in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[19-Oct-2004 01:41:27] PHP Warning:  fopen(bases/BASE NUEVA FINAL.csv): failed to open stream: No such file or directory in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[19-Oct-2004 01:41:27] PHP Warning:  fgets(): supplied argument is not a valid stream resource in /home/danaheza/public_html/mailing/admin/importa_user.php on line 11
+[19-Oct-2004 01:54:06] PHP Warning:  fopen(): Unable to access bases/CLASES DE PERCUSION.csv in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[19-Oct-2004 01:54:06] PHP Warning:  fopen(bases/CLASES DE PERCUSION.csv): failed to open stream: No such file or directory in /home/danaheza/public_html/mailing/admin/importa_user.php on line 8
+[19-Oct-2004 01:54:06] PHP Warning:  fgets(): supplied argument is not a valid stream resource in /home/danaheza/public_html/mailing/admin/importa_user.php on line 11
+[27-Dec-2004 03:09:16] PHP Warning:  unlink(../images/mail/): Is a directory in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 23
+[27-Dec-2004 03:09:16] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/danaheza/public_html/mailing/admin/borrar_mails2.php:23) in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 36
+[27-Mar-2005 23:31:21] PHP Warning:  unlink(../images/mail/): Is a directory in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 23
+[27-Mar-2005 23:31:21] PHP Warning:  unlink(../images/mail/): Is a directory in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 23
+[27-Mar-2005 23:31:21] PHP Warning:  unlink(../images/mail/): Is a directory in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 23
+[27-Mar-2005 23:31:21] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/danaheza/public_html/mailing/admin/borrar_mails2.php:23) in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 36
+[28-Mar-2005 01:16:53] PHP Warning:  unlink(../images/mail/): Is a directory in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 23
+[28-Mar-2005 01:16:53] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/danaheza/public_html/mailing/admin/borrar_mails2.php:23) in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 36
+[28-Mar-2005 01:31:42] PHP Warning:  unlink(../images/mail/): Is a directory in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 23
+[28-Mar-2005 01:31:42] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/danaheza/public_html/mailing/admin/borrar_mails2.php:23) in /home/danaheza/public_html/mailing/admin/borrar_mails2.php on line 36

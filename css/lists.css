@@ -1,0 +1,55 @@
+
+
+ul.sortableList {
+	list-style-type: none;
+	
+	margin: 0px;
+	width: 400px;
+	font-size:10px;
+    font-family:Verdana,Helvetica;
+    color:#000;
+	text-align: justify;
+	   
+          
+}
+ul.sortableList li {
+	cursor: move;
+	padding: 2px 2px;
+	margin: 2px 0px;
+	border: 1px solid #000000;
+	background-color: #E8F8FF;
+}
+
+div#divContainer {
+	border: 1px solid #F0FBFF;
+	width: 400px;
+}
+
+div#divContainer div {
+	border: 1px solid #000000;
+	margin: 5px;
+	padding: 2px;
+	cursor: move;
+}
+
+div#imageContainer {
+	margin-left: 75px;
+}
+
+div#imageContainer img {
+	cursor: move;
+	display: block;
+	margin: 5px 0px;
+	border: 1px solid #000000;
+}
+
+div#imageFloatContainer {
+	width: 600px;
+	border: 1px solid #000000;
+}
+
+div#imageFloatContainer img {
+	float: left;
+	margin: 10px;
+	border: 1px solid #000000;
+}

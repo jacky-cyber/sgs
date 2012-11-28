@@ -1,0 +1,182 @@
+
+<script type="text/javascript" language="javascript" src="js/jquery/listado_auto/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#listado').dataTable( {
+							"bServerSide": true,
+							"bProcessing": true,
+							"sAjaxSource": "?accion=$accion&act=6&axj=1",
+							"sPaginationType": "full_numbers",
+							"bAutoWidth": false,
+							"aoColumnDefs": [{ "bSortable": false, "aTargets": [ 2,3,4,6 ] }], 
+							"aaSorting": [[ 1, "desc" ]],
+							"aoColumns": [ 
+								/* Folio */   null,
+								/* Fecha Solicitud */  null,
+								/* Fecha Finalizacion */ { "bSearchable": false, "bVisible":    true },
+								/* responsable */ { "bSearchable": false, "bVisible":    false },
+								/* Plazo */  { "bSearchable": false },
+								/* Estado */ { "bSearchable": false, "bVisible":    false },
+								/* Ver */   { "bSearchable": false }
+								],
+							"oLanguage": {
+								"sSearch_help": "<br><div class='msg_search'>Buscar : Folio, Fecha Ingreso</div >"
+								},
+		
+						} );
+					
+				
+					
+		
+					} );
+					
+				$.fn.dataTableExt.afnFiltering.push(
+					function( oSettings, aData, iDataIndex ) {
+						return true;
+					}
+				);
+		
+				$(document).ready(function() {
+					/* Initialise datatables */
+					var oTable = $('#listado').dataTable();
+					
+					/* Add event listeners to the two range filtering inputs */
+				
+					
+					$('.combo').change( function() { 
+						
+						oTable = $('#listado').dataTable();
+						oTable.fnDestroy();
+						
+						$('#listado').dataTable( {
+									"bServerSide": true,
+									"fnServerData": function ( sSource, aoData, fnCallback ) {
+											aoData.push( { "name": "mis_solicitudes", "value": $id_usuario } );
+											aoData.push( { "name": "id_responsable", "value": $('#id_responsable_filtro').val() } );
+											
+											aoData.push( { "name": "tipo_filtro", "value": $('#tipo_filtro').val() } );
+											$.getJSON( sSource, aoData, function (json) {fnCallback(json)} );
+										},
+									"bProcessing": true,
+									"sAjaxSource": "?accion=$accion&act=6&axj=1",
+									"sPaginationType": "full_numbers",
+									"bAutoWidth": false,
+									"aoColumnDefs": [{ "bSortable": false, "aTargets": [ 2,3,4,6 ] }], 
+									"aaSorting": [[ 1, "desc" ]],
+									"aoColumns": [ 
+										/* Folio */   null,
+										/* Fecha inicio */  null,
+										/* Fecha estimada de  termino */ { "bSearchable": false, "bVisible":    true },
+										/* fecha de termino */ { "bSearchable": false, "bVisible":    false },
+										/* Plazo */  { "bSearchable": false },
+										/* estapa */ { "bSearchable": false, "bVisible":    false },
+										/* Estado */   { "bSearchable": false }
+										],
+									"oLanguage": {
+										"sSearch_help": "<br><div class='msg_search'>Buscar : Folio, Fecha Ingreso, Estado, Nombre Responsable</div >"
+										},
+				
+								} );
+									
+					//oTable.fnDraw(); 
+					
+					} );
+					
+					
+					$('#mis_solicitudes').click( function() { 
+						
+						oTable = $('#listado').dataTable();
+						oTable.fnDestroy();
+						
+						$('#listado').dataTable( {
+									"bServerSide": true,
+									"fnServerData": function ( sSource, aoData, fnCallback ) {
+											aoData.push( { "name": "id_responsable", "value": $('#id_responsable_filtro').val() } );
+											
+											aoData.push( { "name": "tipo_filtro", "value": $('#tipo_filtro').val() } );
+											$.getJSON( sSource, aoData, function (json) {fnCallback(json)} );
+										},
+									"bProcessing": true,
+									"sAjaxSource": "?accion=$accion&act=6&axj=1",
+									"sPaginationType": "full_numbers",
+									"bAutoWidth": false,
+									"aoColumnDefs": [{ "bSortable": false, "aTargets": [ 2,3,4,6 ] }], 
+									"aaSorting": [[ 1, "desc" ]],
+									"aoColumns": [ 
+										/* Folio */   null,
+										/* Fecha inicio */  null,
+										/* Fecha estimada de  termino */ { "bSearchable": false, "bVisible":    true },
+										/* fecha de termino */ { "bSearchable": false, "bVisible":    false },
+										/* Plazo */  { "bSearchable": false },
+										/* estapa */ { "bSearchable": false, "bVisible":    false },
+										/* Estado */   { "bSearchable": false }
+										],
+									"oLanguage": {
+										"sSearch_help": "<br><div class='msg_search'>Buscar : Folio, Fecha Ingreso, Estado, Nombre Responsable</div >"
+										},
+				
+								} );
+									
+					//oTable.fnDraw(); 
+					
+					} );					
+					
+					
+					
+					
+					
+					
+					
+					
+				} );
+		
+		
+				</script><br>
+						
+					
+<div id="container">
+					<div id="dynamic">
+					
+		 
+         <table width="100%"  cellpadding="0" cellspacing="0" border="0" class="display" id="listado"  >
+        
+			
+			
+			<thead>
+						
+				<tr>
+					<th>Folio</th>
+					<th>Fecha Ingreso</th>
+					<th>Fecha estimada de t&eacute;rmino</th>
+					<th>Fecha de t&eacute;rmino</th>
+					<th>Plazo</th>
+					<th>Etapa</th>
+					<th>Estado</th>
+					
+					
+				</tr>
+				
+			</thead>
+			
+			<tbody>
+			
+				<tr>
+					<td colspan="7" class="dataTables_empty"></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>Folio</th>
+					<th>Fecha Ingreso</th>
+					<th>Fecha estimada de t&eacute;rmino</th>
+					<th>Fecha de t&eacute;rmino</th>
+					<th>Plazo</th>
+					<th>Etapa</th>
+					<th>Estado</th>
+				</tr>
+			</tfoot>
+		</table>
+				
+	</div>	
+	</div>
+

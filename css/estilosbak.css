@@ -1,0 +1,165 @@
+
+body {
+	font-family:  Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color: #656565;
+	text-align: justify;
+
+}
+input {
+	FONT-SIZE: 11px;
+	COLOR: #000000;
+	FONT-FAMILY: Arial, Helvetica, sans-serif;
+	BACKGROUND-COLOR: #f0f0f0;
+	border: 1px solid #000000;
+}
+td {
+	font-family:  Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+
+}
+.cabeza {
+	font-weight: bold;
+	background-color: #2d528e;
+        font-family:  Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        font-style: normal;
+        color: #FFFFFF;
+
+}
+.texnormal {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color: #656565;
+	text-align: justify;
+
+}
+.links {
+	color: #93B326;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+
+}
+a {
+
+	color: #f4b409;
+	font-size: 11px;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: normal;
+}
+a:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color: #f4b409;
+	text-decoration: underline;
+}
+.links2:hover {
+	color: #f4b409;
+	text-decoration: underline;
+	font-style: normal;
+}
+.linksnones {
+
+	color: #CCCCCC;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+}
+.texnormalboldblanco {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	color: #FFFFFF;
+	text-align: justify;
+	font-weight: bold;
+
+}
+.texnormalbold {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	color: #999999;
+	text-align: justify;
+	font-weight: bold;
+
+}
+.texnormalboldmora2 {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	color: #ad8ad0;
+	text-align: justify;
+	font-weight: bold;
+}
+.texnormalbold2 {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	color: #ababab;
+	text-align: justify;
+	font-weight: bold;
+}
+.pulldown {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFFFFF;
+	background-color: #ababab;
+
+}
+.texnormalbold3 {
+
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	color: #ababab;
+	text-align: right;
+	font-weight: bold;
+}
+.boxes {
+	border: 1px inset #ababab;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666666;
+
+}
+.texcursos {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	color: #2D528E;
+	text-align: justify;
+	font-weight: bold;
+}
+.titulocursos {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-style: normal;
+	color: #2D528E;
+	text-align: justify;
+	font-weight: bold;
+}
+.linea1 {
+	border: 1px solid #2D528E;
+}
+.textablas {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color: #2D528E;
+	text-align: justify;
+	font-weight: bold;
+}
+

@@ -1,0 +1,72 @@
+//.details {float:right; padding-top:12px}
+//.details div {float:left; margin-left:15px; font-size:12px}
+.tinytable { 
+font-family: Arial,Tahoma,sans-serif;
+font-style: normal;
+font-variant: normal;
+font-size: 11px;
+
+}
+
+.tinytable th {
+
+font-family: Arial,Tahoma,sans-serif;
+
+font-style: normal;
+
+font-variant: normal;
+
+font-weight: bold;
+
+font-size: 11px;
+
+line-height: normal;
+
+font-size-adjust: none;
+
+font-stretch: normal;
+
+-x-system-font: none;
+
+color: #ffffff;
+
+padding-top: 15px;
+
+padding-right: 5px;
+
+
+
+padding-left: 5px;
+
+background-color: #4a5154;
+}
+.tinytable td {
+
+padding-top: 15px;
+
+padding-right: 6px;
+
+padding-bottom: 15px;
+
+padding-left: 6px;
+
+border-bottom-width: 1px;
+
+border-bottom-style: solid;
+
+border-bottom-color: #cdcdcd;
+}
+.tinytable th h3 {font-size:12px; }
+//.tinytable td {padding:4px 6px 6px; border-bottom:1px solid #c6d5e1; border-right:1px solid #c6d5e1}
+//.tinytable .head h3 {background:url(images/sort.gif) 7px center no-repeat; cursor:pointer; padding-left:18px}
+//.tinytable .desc, .sortable .asc {background:url(images/header-selected-bg.gif)}
+.tinytable .desc h3 {background:url(images/desc.gif) 7px center no-repeat; cursor:pointer; padding-left:18px}
+.tinytable .asc h3 {background:url(images/asc.gif) 7px  center no-repeat; cursor:pointer; padding-left:18px}
+//.tinytable .head:hover, .tinytable .desc:hover, .tinytable .asc:hover {color:#fff}
+//.tinytable .evenrow td {background:#fff}
+//.tinytable .oddrow td {background:#ecf2f6} //cebra
+//.tinytable td.evenselected {background:#ecf2f6} //marca la columna seleccionada en orden
+//.tinytable td.oddselected {background:#dce6ee}
+.tinytable tfoot {background:#fff; font-weight:bold}
+.tinytable tfoot td {padding:6px 8px 8px}
+

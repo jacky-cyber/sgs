@@ -1,0 +1,2 @@
+[28-Sep-2010 17:32:44] PHP Deprecated:  Function session_register() is deprecated in /var/www/sgs/lib/lib.inc.php on line 10
+[28-Sep-2010 17:41:17] PHP Deprecated:  Function session_register() is deprecated in /var/www/sgs/lib/lib.inc.php on line 15

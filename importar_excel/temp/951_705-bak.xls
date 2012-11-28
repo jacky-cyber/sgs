@@ -1,0 +1,1012 @@
+
+<HTML>
+<HEAD>
+<meta http-equiv="Expires" content="-1">
+
+          <meta http-equiv="Cache-Control" content="no-cache">
+
+<title>Base de Datos Estadísticos - Banco Central de Chile</title>
+
+<STYLE TYPE="text/css">  
+
+ div          {visibility: visible}
+
+ A            {COLOR: #00019f; TEXT-DECORATION: none}
+ A:link       {COLOR: #00019f}
+ A:visited    {COLOR: #400080}
+ A:hover      {COLOR: #0000ff; TEXT-DECORATION: underline}
+ A:active     {COLOR: #0000ff}
+
+ body         {font-family: verdana, arial, helvetica, sans-serif; font-size: 8pt}
+ input        {font-family: verdana, arial, helvetica, sans-serif; font-size: 8pt}
+ select       {font-family: verdana, arial, helvetica, sans-serif; font-size: 8pt}  
+ table        {font-family: verdana, arial, helvetica, sans-serif; font-size: 8pt}  
+ textarea     {font-family: verdana, arial, helvetica, sans-serif; font-size: 8pt}
+    
+ .BDE         {font-family: "Verdana"; font-size:16pt;}
+ .titulo      {font-family: "Verdana"; font-size:12pt; font-weight: bold;}
+ .subtitulo   {font-family: "Verdana"; font-size:10pt;}
+ .detalle     {font-family: "Verdana"; font-size: 8pt;}
+ .cifra       {font-family: "Verdana"; font-size: 7pt;}
+ .letraChica  {font-family: "Arial"  ; font-size: 7pt;}
+ .linkPortada {font-family: "Tahoma" ; font-size:10pt;}
+ .nounderline A {text-decoration:none}
+
+ .tv          {font-family: "Times new roman"; font-size: 8pt; color: #000000; }
+    
+ #arial8      {font-family: "Arial"  ; font-size:8pt}
+ #verdana8    {font-family: "Verdana"; font-size:8pt}
+
+</STYLE>
+
+<script language=javascript>
+function fPasarSesion (prmASP)
+{
+ document.formASP.action=prmASP;
+ if (prmASP.indexOf('?') == -1)
+    if (document.formASP.inSesionFormato.value=="Excel")
+		document.formASP.action=document.formASP.action+"?a="+escape(Math.random());
+// Se agrega la instrucción siguiente para guardar el valor de la propiedad action 
+// con que se submitió el form
+
+ /*
+   FUA: Dejé esto como comentario porque se estaba cayendo.
+   
+        (módulo interno, opción Estado de las series, click sobre un número,
+         alega que document.formASP.inSesionActionUltimaPagina es nulo o no
+         es un objeto)
+   
+        Atte., FMM
+  */  
+ if (document.formASP.inSesionActionUltimaPagina)          
+     document.formASP.inSesionActionUltimaPagina.value=document.formASP.action;
+
+ document.formASP.method="POST";
+ document.formASP.submit();
+ return;
+}
+</SCRIPT>
+
+</HEAD>
+<body  bgcolor="#FFFFFF" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<form name="formASP">
+<input type=hidden name=inSesionAccion value='' ><input type=hidden name=inSesionAncla value='' ><input type=hidden name=inSesionAno value='2010' ><input type=hidden name=inSesionASP value='951_455.ASP' ><input type=hidden name=inSesionActionUltimaPagina value='951_705.asp?f=D&s=UF&idioma=E&sep=coma&a=0.5065551904488554&crec=n' ><input type=hidden name=inSesionBuscar value='' ><input type=hidden name=inSesionCapitulo value='' ><input type=hidden name=inSesionCuadro value='' ><input type=hidden name=inSesionCuadroM03 value='' ><input type=hidden name=inSesionDia value='' ><input type=hidden name=inSesionFormato value='' ><input type=hidden name=inSesionFrecuencia value='D' ><input type=hidden name=inSesionGrafico value='' ><input type=hidden name=inSesionIdioma value='E' ><input type=hidden name=inSesionInicio  value='5/7/2010 12:54:13 PM' ><input type=hidden name=inSesionIP value='163.247.57.10' ><input type=hidden name=inSesionMes value='' ><input type=hidden name=inSesionNavegador value='Microsoft Internet Explorer' ><input type=hidden name=inSesionPaginaAnterior value='951_portada' ><input type=hidden name=inSesionPeriodicidad value='' ><input type=hidden name=inSesionPeriodo value='todos' ><input type=hidden name=inSesionSeparador value='' ><input type=hidden name=inSesionSerie value='UF' ><input type=hidden name=inSesionArregloNavegacion value='951_portada.asp?idioma=E%%%%%Portada####951_455.asp?f=D&s=UF&LlamadaPortada=SI%%%%%Serie' ><input type=hidden name=inSesionArregloHistory value='951_portada.asp?idioma=E####951_455.asp?f=D&s=UF&LlamadaPortada=SI' ><script language=javascript>formASP.inSesionASP.value   ="951_705.ASP";</script>
+
+<script language=javascript>document.formASP.inSesionNavegador.value=navigator.appName;</script>
+
+<table border=0 align=left cellspacing=0 cellpadding=0><tr><td colspan=14 valign=bottom align=left><b>Unidad de Fomento</b><BR>(Pesos)</td></tr></table>
+<BR>
+
+<table><tr><td colspan=10 align=left><font class=subtitulo><b>Año &nbsp; 2010</b></font></td></tr>
+<BR><BR>
+<TABLE>
+<TR><TD align=right><b>Fecha</b></TD>
+    <TD align=right><b>Año</b></TD>
+    <TD align=right><b>Mes</b></TD>
+    <TD align=right><b>Día</b></TD>
+    <TD align=right><b>Valor</b></TD>
+</TR>
+
+       <TR><TD align=right>2010-1-1</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>1</TD>
+           <TD align=right>20939,49</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-2</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>2</TD>
+           <TD align=right>20936,11</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-3</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>3</TD>
+           <TD align=right>20932,72</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-4</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>4</TD>
+           <TD align=right>20929,34</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-5</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>5</TD>
+           <TD align=right>20925,95</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-6</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>6</TD>
+           <TD align=right>20922,57</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-7</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>7</TD>
+           <TD align=right>20919,19</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-8</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>8</TD>
+           <TD align=right>20915,80</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-9</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>9</TD>
+           <TD align=right>20912,42</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-10</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>10</TD>
+           <TD align=right>20910,39</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-11</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>11</TD>
+           <TD align=right>20908,37</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-12</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>12</TD>
+           <TD align=right>20906,34</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-13</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>13</TD>
+           <TD align=right>20904,31</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-14</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>14</TD>
+           <TD align=right>20902,29</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-15</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>15</TD>
+           <TD align=right>20900,26</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-16</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>16</TD>
+           <TD align=right>20898,24</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-17</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>17</TD>
+           <TD align=right>20896,21</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-18</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>18</TD>
+           <TD align=right>20894,19</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-19</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>19</TD>
+           <TD align=right>20892,16</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-20</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>20</TD>
+           <TD align=right>20890,14</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-21</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>21</TD>
+           <TD align=right>20888,11</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-22</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>22</TD>
+           <TD align=right>20886,09</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-23</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>23</TD>
+           <TD align=right>20884,06</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-24</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>24</TD>
+           <TD align=right>20882,04</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-25</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>25</TD>
+           <TD align=right>20880,02</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-26</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>26</TD>
+           <TD align=right>20877,99</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-27</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>27</TD>
+           <TD align=right>20875,97</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-28</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>28</TD>
+           <TD align=right>20873,95</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-29</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>29</TD>
+           <TD align=right>20871,92</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-30</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>30</TD>
+           <TD align=right>20869,90</TD>
+       </TR>
+
+       <TR><TD align=right>2010-1-31</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>1</TD>
+           <TD align=right>31</TD>
+           <TD align=right>20867,88</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-1</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>1</TD>
+           <TD align=right>20865,85</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-2</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>2</TD>
+           <TD align=right>20863,83</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-3</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>3</TD>
+           <TD align=right>20861,81</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-4</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>4</TD>
+           <TD align=right>20859,79</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-5</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>5</TD>
+           <TD align=right>20857,77</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-6</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>6</TD>
+           <TD align=right>20855,75</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-7</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>7</TD>
+           <TD align=right>20853,72</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-8</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>8</TD>
+           <TD align=right>20851,70</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-9</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>9</TD>
+           <TD align=right>20849,68</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-10</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>10</TD>
+           <TD align=right>20853,39</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-11</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>11</TD>
+           <TD align=right>20857,11</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-12</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>12</TD>
+           <TD align=right>20860,82</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-13</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>13</TD>
+           <TD align=right>20864,54</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-14</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>14</TD>
+           <TD align=right>20868,26</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-15</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>15</TD>
+           <TD align=right>20871,98</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-16</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>16</TD>
+           <TD align=right>20875,69</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-17</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>17</TD>
+           <TD align=right>20879,41</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-18</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>18</TD>
+           <TD align=right>20883,13</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-19</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>19</TD>
+           <TD align=right>20886,85</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-20</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>20</TD>
+           <TD align=right>20890,57</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-21</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>21</TD>
+           <TD align=right>20894,29</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-22</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>22</TD>
+           <TD align=right>20898,02</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-23</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>23</TD>
+           <TD align=right>20901,74</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-24</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>24</TD>
+           <TD align=right>20905,46</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-25</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>25</TD>
+           <TD align=right>20909,19</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-26</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>26</TD>
+           <TD align=right>20912,91</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-27</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>27</TD>
+           <TD align=right>20916,64</TD>
+       </TR>
+
+       <TR><TD align=right>2010-2-28</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>2</TD>
+           <TD align=right>28</TD>
+           <TD align=right>20920,36</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-1</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>1</TD>
+           <TD align=right>20924,09</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-2</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>2</TD>
+           <TD align=right>20927,82</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-3</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>3</TD>
+           <TD align=right>20931,55</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-4</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>4</TD>
+           <TD align=right>20935,27</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-5</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>5</TD>
+           <TD align=right>20939,00</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-6</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>6</TD>
+           <TD align=right>20942,73</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-7</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>7</TD>
+           <TD align=right>20946,46</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-8</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>8</TD>
+           <TD align=right>20950,20</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-9</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>9</TD>
+           <TD align=right>20953,93</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-10</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>10</TD>
+           <TD align=right>20955,95</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-11</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>11</TD>
+           <TD align=right>20957,98</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-12</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>12</TD>
+           <TD align=right>20960,01</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-13</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>13</TD>
+           <TD align=right>20962,03</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-14</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>14</TD>
+           <TD align=right>20964,06</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-15</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>15</TD>
+           <TD align=right>20966,08</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-16</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>16</TD>
+           <TD align=right>20968,11</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-17</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>17</TD>
+           <TD align=right>20970,13</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-18</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>18</TD>
+           <TD align=right>20972,16</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-19</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>19</TD>
+           <TD align=right>20974,19</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-20</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>20</TD>
+           <TD align=right>20976,21</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-21</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>21</TD>
+           <TD align=right>20978,24</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-22</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>22</TD>
+           <TD align=right>20980,27</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-23</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>23</TD>
+           <TD align=right>20982,30</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-24</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>24</TD>
+           <TD align=right>20984,32</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-25</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>25</TD>
+           <TD align=right>20986,35</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-26</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>26</TD>
+           <TD align=right>20988,38</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-27</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>27</TD>
+           <TD align=right>20990,41</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-28</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>28</TD>
+           <TD align=right>20992,44</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-29</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>29</TD>
+           <TD align=right>20994,46</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-30</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>30</TD>
+           <TD align=right>20996,49</TD>
+       </TR>
+
+       <TR><TD align=right>2010-3-31</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>3</TD>
+           <TD align=right>31</TD>
+           <TD align=right>20998,52</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-1</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>1</TD>
+           <TD align=right>21000,55</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-2</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>2</TD>
+           <TD align=right>21002,58</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-3</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>3</TD>
+           <TD align=right>21004,61</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-4</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>4</TD>
+           <TD align=right>21006,64</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-5</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>5</TD>
+           <TD align=right>21008,67</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-6</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>6</TD>
+           <TD align=right>21010,70</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-7</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>7</TD>
+           <TD align=right>21012,73</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-8</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>8</TD>
+           <TD align=right>21014,76</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-9</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>9</TD>
+           <TD align=right>21016,79</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-10</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>10</TD>
+           <TD align=right>21017,49</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-11</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>11</TD>
+           <TD align=right>21018,19</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-12</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>12</TD>
+           <TD align=right>21018,89</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-13</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>13</TD>
+           <TD align=right>21019,59</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-14</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>14</TD>
+           <TD align=right>21020,29</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-15</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>15</TD>
+           <TD align=right>21020,99</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-16</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>16</TD>
+           <TD align=right>21021,69</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-17</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>17</TD>
+           <TD align=right>21022,39</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-18</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>18</TD>
+           <TD align=right>21023,09</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-19</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>19</TD>
+           <TD align=right>21023,79</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-20</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>20</TD>
+           <TD align=right>21024,49</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-21</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>21</TD>
+           <TD align=right>21025,19</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-22</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>22</TD>
+           <TD align=right>21025,89</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-23</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>23</TD>
+           <TD align=right>21026,60</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-24</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>24</TD>
+           <TD align=right>21027,30</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-25</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>25</TD>
+           <TD align=right>21028,00</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-26</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>26</TD>
+           <TD align=right>21028,70</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-27</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>27</TD>
+           <TD align=right>21029,40</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-28</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>28</TD>
+           <TD align=right>21030,10</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-29</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>29</TD>
+           <TD align=right>21030,80</TD>
+       </TR>
+
+       <TR><TD align=right>2010-4-30</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>4</TD>
+           <TD align=right>30</TD>
+           <TD align=right>21031,50</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-1</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>1</TD>
+           <TD align=right>21032,20</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-2</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>2</TD>
+           <TD align=right>21032,90</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-3</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>3</TD>
+           <TD align=right>21033,60</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-4</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>4</TD>
+           <TD align=right>21034,30</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-5</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>5</TD>
+           <TD align=right>21035,00</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-6</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>6</TD>
+           <TD align=right>21035,70</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-7</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>7</TD>
+           <TD align=right>21036,41</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-8</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>8</TD>
+           <TD align=right>21037,11</TD>
+       </TR>
+
+       <TR><TD align=right>2010-5-9</TD>
+           <TD align=right>2010</TD>
+           <TD align=right>5</TD>
+           <TD align=right>9</TD>
+           <TD align=right>21037,81</TD>
+       </TR>
+
+</TABLE>
+
+<BR><BR>
+</form>
+<BR>
+
+  <BR>
+  <TABLE BORDER=0 cellpadding=2>
+<TR><TD valign=top align=right>*</TD><TD colspan=10>Desde agosto de 1977 se fija diariamente.</TD></TR>
+  </TABLE>
+
+ <TABLE BORDER=0 cellpadding=2>
+ <TR><TD colspan=11>
+ 
+  </TD></TR>
+  </TABLE>
+
+</BODY>
+</html>
+
