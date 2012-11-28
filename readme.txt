@@ -1,4 +1,23 @@
+Sistema de Gestión de Solicitudes de Transparencia (Ley Nº20.285)
+=================================================================
+Nota de Ciudadano Inteligente
+----------------------------
+Esta aplicación fue desarrollada por la unidad de [Modernización y Gobierno Digital del Ministerio Secretaría General de la Presidencia del Gobierno de Chile](http://www.modernizacion.gob.cl/) y este repositorio es una copia de este código y tiene por objetivo aportar algunas mejoras.
+
+Resumen
+-------
+Sistema de Gestión de solicitudes de la Ley N°20.285 (Transparencia) Permite el ingreso electrónico de solicitudes por parte de los ciudadanos y el ingreso de solicitudes en papel (carta y formularios).
+
+Ambiente: Ambiente Web
+Tipo: Atención Ciudadana
+Estado de desarrollo: Producción / Estable
+Licencia: Libre
+Sistema operativo: Independiente del SO
+Usuario objetivo: Desarrolladores
+
+
 Instalación de Sistema de Gestión de Solicitudes (1.2)
+------------------------------------------------------
 
 Importante: Al momento de instalar el software, se enviará un correo electrónico de manera automática a la Comisión de Probidad y Transparencia, notificando sobre una nueva instalación.
 
