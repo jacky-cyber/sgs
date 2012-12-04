@@ -1,5 +1,7 @@
-#config_files
+#config files
 lib/connect_db.inc.php
 
-#cache files
+#temp files
 cache/tmp/*
+.DS_Store
+._*
